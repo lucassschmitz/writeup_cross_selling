@@ -1,14 +1,238 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
 
-\title{IO_finance}
-\author{Lucas Schmitz}
-\date{January 2026}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
 
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{references.bib}
 \begin{document}
 
-\maketitle
 
 \section{Introduction}
+ 
+
+\subsection{Motivation}
+
+
+\begin{itemize}
+    \item \textbf{Cross-selling: } the increase on the probability of buying an additional time given by the first purchase. 
+    \item  The economic effects of cross-selling on welfare are not well understood. 
+    \item The effects are ambiguous (see Klemperer 1995), 
+    
+\end{itemize}
+ 
+\subsection{This research}
+
+
+\section{Literature}
+
+\begin{itemize}
+    \item Empirical literature 
+    \begin{itemize}
+    \item Basten and Juelsrud (2023) \textcite{basten_cross_2023}
+    1. documetns cross-selling, consumers that already have a deposit account at a bank are more likely to take out  a loan from the same bank than comparable household,
+    2. disentangle demand and supply complementarities, where the former refers to the household switching cost and the later to information obtained by the firm. They find that existing depositors pay a risk-adjusted loan premium, moreover they do not find evidence of better screening, providing evidence more consistent with the demand complementarities story. 
+    3. tehy try to disentangle two sources of demand complementarities: unobserved persistent preferences and inactions. They use consumer moving between locations to identify them and find that stickiness seems to be the main driver. 
+    
+
+    \item \textcite{qi__big_2024} finds profits of non-loan products cross-subsidize loans, specifically non-loan products are more profitable than loans and when there is an exogenous shock to the profitability of non-loan products, banks decrease loan supply presumably due to the decrease in cross-subsidization incentives. 
+\end{itemize}
+
+    \item Theoretical literature 
+    
+    \begin{itemize}
+        \item Add-ons: Ellison 
+
+        Ellison (2005) and Ellison and Ellison (2009) study add-ons. The setting is a duopoly where each firm sells a low and high quality product. The prices for the low quality product are public, but to learn about the high quality prices the consumer has to visit the firm at a cost $s$. 
+        Consumers type is two-dimensional, they are horizontally differentiated a la Hotelling and they also differ in their marginal utility of income. 
+
+
+        The difference with add ons is that an add on can only be purchased if the main product is purchased, while in cross-selling the products can be purchased independently. Although if enough people buy them together we can still use this type of models (e.g. loan and loan-penalties or loan insurance. )
+
+
+        \item Switching costs: Klemperer 
+        \item Relationship learning: \textcite{sharpe_}Sharpe, von Thadden 
+        \item Relationship banking with market power: Rajan and Petersen (1995). They study a two-period model where there are high type and low type borrowers, and there is moral hazard. \footnote{In the model the high type borrowers can choose a risky project which is socially inefficient.} They find that 1) higher market power allos more firms to borrow, this is because the first period is used to screen borrowers and the second period to extract rents. More market power increases payoffs of the second stage, therefore increase
+        
+        \item Stiglitz and Weiss (1981) is  a paper that argues that in the credit market the prices do not necessarily clear the market since a higher interest rate selects riskier borrowers, leading to adverse selection. 
+        \item Dube et al. (2009) has a structural paper where consumers each period consume a good, and there is path dependence given by switching costs. They are able to identify the role of switching costs and persistent heterogeneity in preferences. 
+    \end{itemize}
+
+
+
+
+
+
+\end{itemize}
+
+
+
+
+
+
+\section{Setting and Data}
+
+\subsection{Data}
+
+\textcolor{red}{what data sources could we have access to? }
+
+
+
+\section{Empirical Evidence}
+
+
+
+
+\section{Model}
+ 
+
+
+     \begin{itemize}
+        \item Multi-product firms and multiple period 
+        \item Switching costs: there is a large literature on switching costs (e.g. Klemperer 1995 and Farrell and Klemperer 2007), but they mostly study the case of two firms, the challenge is to extend this to an oligopoly setting. 
+        
+        \item Relationship learning: firms learn about consumer risk type
+    \end{itemize}
+
+
+
+    \subsection{Model 1}
+    Consider the simplest model of multi-product firms with switching costs, we assume that there are two periods and two products. For example one can think that initially a consumer opens a checking account (product 1) and later on she may take a loan (product 2). We denote the period/product by  $t = 1,2$. 
+
+    There are $J$ firms, indexed by $j$. 
+
+    \paragraph{Consumer problem}
+
+    The per period utility of the consumer is given by: 
+
+    \begin{equation}
+        u_{ijt} = \beta_t - \alpha p_{ijt} + \xi_{ijt} + \epsilon_{ijt} 
+    \end{equation}
+    where $\beta_t$ is the valuation for the product, $p_{ijt}$ is the price and $\xi_{ijt}$ is a demand shock. 
+
+    If the consumer buys from differnt firm in each period, she incurs a switching cost $s$. Denote by $j_t$ the firm chosen in period $t$, then the total utility across both periods is given by:
+
+    \begin{equation}
+        U_i(j_1, j_2) = u_{ij_11} + u_{ij_22} - s \cdot  \mathbb{I}(j_1 \neq j_2)
+    \end{equation}
+    and the optimal choice is given by: 
+    \begin{equation}
+        (j_1^*, j_2^*) = \arg \max_{j_1, j_2} U_i(j_1, j_2)
+    \end{equation}
+
+    %Denote by $D_{j1}(p_1) = \Pr(j_1^* = j; p_1)$ and $D_{j2}(p_1, p_2) = \Pr(j_2^* = j; p_1, p_2)$  the demand functions for period 1 and period 2 respectively.
+
+
+    Denote by $D_{1j}(p_1) = \Pr(j_1^* = j; p_1)$ and $D_{2j}(j_1, p_2)  = \Pr(j_2^* = j; j_1, p_2)$  the demand functions for period 1 and period 2 respectively.
+
+    Then:  
+
+    \begin{equation}
+        D_{2j}(j_1, p_2) =  
+        \begin{cases}
+            \frac{\exp (\delta_{ijt})}{\exp (\delta_{ijt})+ \sum_{j' \neq j}\exp (\delta_{ijt} -\alpha s)} &; j= j_1 \\
+            \frac{\exp (\delta_{ijt} - \alpha s)}{\exp (\delta_{ij_1t})+ \sum_{j' \neq j_1}\exp (\delta_{ijt} -\alpha s)} &; j \neq j_1
+        \end{cases}    
+    \end{equation}
+
+    Denote by $p_2(p_1)$ the vector of prices in period 2 given the prices in period 1 and by $S_2(p_2;j_1)$ the surplus function of period 2 given the prices and the firm chosen in period 1. Then in the firt period the consumer maximizes: 
+
+    \begin{equation}
+        \max_{j_1} u_{ij_11} +  S_2(p_2(p_1);j_1) 
+    \end{equation}
+
+    where $p_2(p_1)$ will be determined in equilibrium. 
+
+
+    \paragraph{Firm problem}
+
+    In the second period the firm chooses prices $p_{j2}(j_1)$ taking as given the firm chosen in period 1, to maximize profits:
+
+    \begin{equation}
+        \max_{p} D_{2j}(j_1, (p, p_{-j2}^*(j_1)))(p-c_2) 
+    \end{equation}
+
+
+    In the first period each firm chooses $p_{j1}$ according to:  
+
+    \begin{equation}
+        \max_{p_{j1}} D_{1j}((p_{j1}, p_{-j1}^*)) (p_{j1} - c_1) + \sum_{j_1} D_{2j}(j_1, (p_{2}^*(j_1))) (p_{j2}^*(j_1) - c_2) 
+    \end{equation}
+
+    This model is essentially the same as Dube et al. (2009), but in a two-period setting. 
+
+
+    \subsection{Model 2}
+
+
+\subsection{Model 3}
+
+Another model that could be used is an extension of \textcite{allen_search_2019} where one could extend the model to include a first stage where firms compete for customers. 
+
+\subsection{Model 4}
+
+Another possibility is to just model the switching costs like Egan and coauthors where the borrower is inattentive with certain probability. 
+
+
+If one combines the Sharpe-von Thadden model which is able to solve for the second stage with a model of inattention the model would be quite simple to solve and would provide an insight into information assymetries and switching costs. 
+
+
+
 
 \end{document}
