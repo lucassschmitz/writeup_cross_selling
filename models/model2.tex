@@ -60,19 +60,167 @@
 \usetikzlibrary{shapes.geometric, arrows, positioning}
 
 
-\addbibresource{references.bib}
+\addbibresource{../references.bib}
 \begin{document}
 
  
 
+
+\section{Model}
+
+We extend \textcite{sharpe_asymmetric_1990} by introducing switching costs, following the equilibrium characterization of \textcite{von_thadden_asymmetric_2004}.
+
+\subsection{Setup}
+
+A continuum of firms seek financing for two sequential projects with fixed investment $I^t$, $t=1,2$. Each project returns $R \cdot I^t$ with probability $p_q$ and 0 otherwise, where $q \in \{L,H\}$ denotes firm quality with $p_L < p_H$. The proportion of high-quality firms is $\theta \in (0,1)$. Firms do not know their own quality.
+
+Risk-neutral banks compete \`{a} la Bertrand with unlimited funds at rate $\bar{r}$. Banks initially do not know firm quality, but a bank financing the first project (the \emph{inside bank}) perfectly observes the outcome $\gamma \in \{S, F\}$ (success or failure). Outside banks observe nothing ($\phi = 0$).
+
+\textbf{Switching cost.} If a firm switches to an outside bank in period 2, it incurs cost $\lambda \geq 0$. Thus, facing inside offer $r_i$ and outside offer $r_o$, the firm switches iff $r_o + \lambda < r_i$.
+
+\subsection{Timing}
+
+\noindent\textbf{Period 1:} Banks offer rates $r_j^1$. The firm borrows, invests, and repays $(1+r^1)I^1$ iff $\gamma = S$.
+
+\noindent\textbf{Period 2:} The inside bank offers $r_i(\gamma)$; outside banks offer $r_o$. The firm chooses, paying $r_i$ if staying or $r_o + \lambda$ if switching. The project realizes and is repaid if successful.
+
+\noindent\textbf{Assumptions:} No long-term contracts; limited liability; if indifferent, the firm stays.
+
+\subsection{Benchmark Rates}
+
+Define success probabilities:
+\begin{align*}
+p &= \theta p_H + (1-\theta)p_L, \\
+p(S) &= \frac{\theta p_H^2 + (1-\theta)p_L^2}{p}, \qquad
+p(F) = \frac{\theta (1-p_H)p_H + (1-\theta)(1-p_L)p_L}{1-p},
+\end{align*}
+satisfying $p(S) > p > p(F)$. The zero-profit rates are:
+\[
+1 + r_S = \frac{1+\bar{r}}{p(S)}, \qquad 1 + r_p = \frac{1+\bar{r}}{p}, \qquad 1 + r_F = \frac{1+\bar{r}}{p(F)},
+\]
+with $r_S < r_p < r_F$. We assume $(1+r_F)I^2 \leq R \cdot I^2$.
+
+
+\subsection{Results}
+
+Let $H_i^\gamma$, $\gamma\in\{S,F\}$,
+denote the cumulative distribution function of the equilibrium mixed strategy of the inside
+bank given its information $\gamma$, and let $H_o$ denote the c.d.f.\ of the equilibrium mixed
+strategy of the outside bank. 
+
+
  
 
-    \subsection{Model 2}
+%\paragraph{Proposition 2}
+%The Bayesian game between the inside and one outside bank in stage 4 of the dynamic bank competition game with $\phi = 0$ has a unique mixed-strategy equilibrium. The inside bank's equilibrium strategy is to offer $r(F) = r_F$ with certainty and is an atomless distribution on 
 
-    A possibility is to extend the Sharpe-von Thadden model to add switching costs. The model abstracts away from product differentiation. 
 
 
-    We adapt the proof ot 
+\begin{prop} \label{prop:equilibrium}
+The bidding game in stage 4 has a unique mixed-strategy equilibrium. The equilibrium strategies are characterized as follows:
+
+\begin{enumerate}
+    \item \textbf{The Inside Bank:}
+    \begin{itemize}
+        \item For $F$-firms, the inside bank plays a pure strategy, offering $r_i^F = r_F + \lambda$ with probability 1.
+        \item For $S$-firms, the inside bank randomizes according to an atomless cumulative distribution function $H_i^S$ on the interval $[r_p + \lambda, r_F + \lambda]$, given by:
+        \[
+        H_i^S(r) = \frac{(r - \lambda) - r_p}{p(S)(1 + r - \lambda) - (1 + \bar{r})}
+        \]
+    \end{itemize}
+
+    \item \textbf{The Outside Bank:}
+    \begin{itemize}
+        \item The outside bank randomizes over the interval $[r_p, r_F]$.
+        \item The distribution $H_o$ is continuous on $[r_p, r_F)$ but has a mass point (atom) at the upper bound $r_F$.
+        \item For $r \in [r_p, r_F)$, the cumulative distribution function is:
+        \[
+        H_o(r) = \frac{p(S)(r - r_p)}{p(S)(1 + r + \lambda) - (1 + \bar{r})}
+        \]
+        \item The size of the atom at $r_F$ is $1 - \lim_{r \nearrow r_F} H_o(r)= 1-  \frac{p(S)(r_F - r_p)}{p(S)(1 + r_F + \lambda) - (1 + \bar{r})} =1-  \frac{p(S)(1+ \lambda + r_p)- (1+\bar{r})}{p(S)(1 + r_F + \lambda) - (1 + \bar{r})}  $.
+    \end{itemize}
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+    The proof is provided in Appendix~\ref{sec:eq_proof}.
+\end{proof}
+
+
+\begin{prop}[Equilibrium Profits]
+In the unique mixed-strategy equilibrium, the expected profits are:
+
+\begin{enumerate}
+    \item \textbf{Outside Bank:}
+    The outside bank earns zero expected profit:
+    \[
+    \Pi_o = 0.
+    \]
+
+    \item \textbf{Inside Bank:}
+    The inside bank's expected profits differ by firm type:
+    \begin{itemize}
+        \item \textbf{On $S$-firms:} The inside bank earns a profit equal to the informational rent plus the value of the switching cost:
+        \[
+        \Pi_i^S = p(S)(r_p - r_S + \lambda).
+        \]
+        \item \textbf{On $F$-firms:} The inside bank earns a profit solely from extracting the switching cost when the outsider bids at the cap $r_F$:
+        \[
+        \Pi_i^F = p(F)\lambda \left( \frac{\lambda + r_p - r_S}{\lambda + r_F - r_S} \right).
+        \]
+    \end{itemize}
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+    The proof is provided in Appendix~\ref{sec:expected_profits}
+\end{proof}
+
+\subsection{Equilibrium Switching Probabilities}
+
+In this section, we calculate the probability that a firm switches from the inside bank to the outside bank in equilibrium. A switch occurs if the outside bank offers a rate $r_o$ such that $r_o + \lambda < r_i$, where $r_i$ is the rate offered by the inside bank.
+
+\paragraph{1. Switching Probability for $F$-firms}
+The inside bank plays a pure strategy for $F$-firms, setting $r_i^F = r_F + \lambda$. Thus, an $F$-firm switches if and only if the outside bank's offer satisfies:
+\[
+r_o + \lambda < r_F + \lambda \implies r_o < r_F.
+\]
+The outside bank plays a mixed strategy on $[r_p, r_F]$ with an atom at $r_F$. The probability of offering strictly less than $r_F$ is $H_o(r_F^-)$. Using the expression from Eq.~(A.12) and the limit derived in Proposition 2:
+\[
+\text{Prob}(\text{Switch} \mid F) = H_o(r_F^-) = \frac{\lambda + r_p - r_S}{\lambda + r_F - r_S}.
+\]
+This represents the probability that the outside bank does \textit{not} play the atom at the top.
+
+\paragraph{2. Switching Probability for $S$-firms}
+For $S$-firms, the inside bank randomizes over $[r_p+\lambda, r_F+\lambda]$. A switch occurs if $r_o < r_i - \lambda$. Let $\tilde{r}_i = r_i - \lambda$ be the effective inside rate, which is distributed according to $F_i(r) = H_i^S(r+\lambda)$ on $[r_p, r_F]$.
+The probability of switching is:
+\[
+\text{Prob}(\text{Switch} \mid S) = \int_{r_p}^{r_F} H_o(r) \, dF_i(r).
+\]
+Substituting the equilibrium distributions $H_o(r)$ and $F_i(r)$:
+\[
+\text{Prob}(\text{Switch} \mid S) = \int_{r_p}^{r_F} \left( \frac{p(S)(r-r_p)}{p(S)(1+r+\lambda) - (1+\bar{r})} \right) d \left( \frac{r-r_p}{p(S)(1+r) - (1+\bar{r})} \right).
+\]
+This integral captures the interaction between the two mixed strategies. Since the outside bank bids more aggressively (lower rates) than the inside bank's effective rate (due to the atom $r_F$), $S$-firms are retained with higher probability than $F$-firms.
+
+\paragraph{3. Aggregate Switching Probability}
+The total probability of observing a switch in equilibrium is the weighted average of the type-specific probabilities:
+\[
+\text{Prob}(\text{Switch}) = p \cdot \text{Prob}(\text{Switch} \mid S) + (1-p) \cdot \text{Prob}(\text{Switch} \mid F).
+\]
+where $p$ is the prior probability of the firm being type $S$.
+
+
+
+\section{Appendix} \label{sec:appendix}
+
+\subsection{Equilibrium proof} \label{sec:eq_proof}
+
+
+
+
+Before starting the proof, we define some notation. 
+
 
 
 Let $H_i^\gamma$, $\gamma\in\{S,F\}$,
@@ -81,7 +229,6 @@ bank given its information $\gamma$, and let $H_o$ denote the c.d.f.\ of the equ
 strategy of the outside bank. As usual, $H_i^\gamma$ and $H_o$ are weakly monotone and
 continuous from the right, i.e., $H(\hat r)=\Pr(r\le \hat r)$ for each of the three mixed strategies.
 Define $H(r^-)=\lim_{t\uparrow r} H(t)$. Finally, let
-
 
 
 
@@ -113,28 +260,29 @@ p\bigl(1-H_i^S(r+\lambda)\bigr)\bigl[p(S)(1+r)-(1+\bar r)\bigr] \notag\\
 
 For what follows it is useful to define $\hat \ell_o = \ell_o + \lambda$, $\hat u_o = u_o + \lambda$ and $\hat H_o$ the c.d.f. of the interest rates offered by the outside bank plus $\lambda$. 
 
-\paragraph{Step 1}
+
+\subsubsection*{Step 1}
 $\ell_i^\gamma \ge r_\gamma$ for $\gamma\in\{S,F\}$.
 
 \emph{Proof.} Otherwise profits would be negative. 
 
-\paragraph{Step 2}
+\subsubsection*{Step 2}
 $\ell_o \ge r_p$.
 
 \emph{Proof.} we know $r_f> r_p$, using step 1 $\ell_i^f \geq r_f> r_p$ hence any offer $r<r_p$ attracts at best both groups and at worse only the failures. Given that the cost is at best the pooling cost, the outside bank will not make offers lower than the pooling cost. 
 
-\paragraph{Step 3}
+\subsubsection*{Step 3}
 $\ell_i^S \ge r_p+ \lambda$.
 
 \emph{Proof.} Follows from Step~2. Any offer, by the inside bank, lower than that could be raised slightly without decreasing the probability of winning. 
 
-\paragraph{Step 4}
+\subsubsection*{Step 4}
 $\hat u_o \geq u_i^S $.
 
 \emph{Proof.} Suppose $\hat u_o < u_i^S $, then the inside bank makes zero expected profits on all offers $r(s) \in (\hat u_0, u_i^s]$, however by step 3 the inside bank makes strictly positive profits on the S-firm. 
 
 
-\paragraph{Step 5}
+\subsubsection*{Step 5}
 $H_i^S$ is continuous on $[\ell_i^S,u_i^S)$.
 
 \emph{Proof.} 
@@ -158,7 +306,7 @@ the inside bank makes strictly positive profits on the $F$-firm.
 
 
 \medskip
-\paragraph{Step 6} $u_i^S \ge \ell_i^F$.
+\subsubsection*{Step 6} $u_i^S \ge \ell_i^F$.
 
 \emph{Proof.} 
 Suppose that $u_i^S < \ell_i^F$. This implies that the inside bank never makes an offer
@@ -207,41 +355,19 @@ N_\varepsilon\Big[
 \]
 where the second term now tends to $0$ for $\varepsilon\to0$ by Step~5.
 
-% \medskip
-% \noindent\textbf{Step 7} $u_i^F \le \hat u_o$.
-%
-% \emph{Proof.} 
-% Suppose that $u_i^F>\hat u_o$.
-%
-% Then the inside bank when setting $r \in (\hat u_o, u_i^F]$ never sells, making zero profit. Thus by the indifference principle, the inside bank makes zero expected profits on the F-firms. 
-% By Steps~4 and~6, $\ell_i^F\ge \hat u_o$.\footnote{By Steps~4($\hat u_o \geq u_i^S $) and~6( $u_i^S \ge \ell_i^F$), hence  $ \hat u_o\ge\ell_i^F$} 
-% This and the zero expected profits imply $\ell_i^F=r_F$.
-%
-% Consider the following deviation from $\hat H_o$: let $\varepsilon>0$ be given and small.
-% Let $L_\varepsilon$ be the mass of $\hat H_o$ on $[\hat u_o-\varepsilon,\hat u_o]$. Consider the case where the outisde bank concentrates all the remaining mass $L_\varepsilon$ on $\tfrac12(r_F+u_i^F)=:\alpha$. Given that $\alpha > r_f$ the firm makes a profit if chosen and since $\alpha < u_i^F$, there is a probability that the firm is chosen. Hence the firm makes strictly positive profits. 
-%
-% The expected net gain from this deviation is not smaller than
-% \[
-% L_\varepsilon\Big[
-% (1-p)\bigl(1-H_i^F(\alpha)\bigr)p(F)(\alpha-r_F)
-% - \underbrace{p\bigl(1-H_i^S(r_F-\varepsilon)\bigr)}_{\rightarrow 0 \text{\ for\ } \varepsilon \to 0 \text{\ by step 5}}
-% \big(p(S)(1+r_F)-(1+\bar r)\big)
-% \Big],
-% \]
-%  
-% Intuitively, since mass is taken away below $r_F$, the outside bank only gains if
-% $\gamma=F$.
  
-
 
  
 \medskip
-\paragraph{Step 7.} $u_i^F \le \hat{u}_o$.
+\subsubsection*{Step 7.} $u_i^F \le \hat{u}_o$.
 
 \emph{Proof.} 
 Suppose that $u_i^F > \hat{u}_o$.
 Then, for any offer $r \in (\hat{u}_o, u_i^F]$, the inside bank loses the $F$-firm with probability 1 (since $r > u_o + \lambda \ge r_o + \lambda$). Consequently, the inside bank makes zero profit on these offers.
-For this to be an equilibrium strategy, the inside bank must make zero expected profit on the $F$-firm everywhere in its support, which implies its lower bound must be the break-even rate, $\ell_i^F = r_F$\footnote{If  $\ell_i^F < r_F$ the firm makes losses and if $\ell_i^F > r_F$ given that the bank makes zero profits on the F-firms it means that it never lends, meaning that $\ell_i^F > \hat u_o$ but from step 2 $l_o \geq r_p$ hence the inside bank could offer $r_p$ and make a profit on the F-firms. }.
+
+Given that, from step 4 $u_i^s \leq \hat u_o$, the outsider when setting $u_o$ gets only F-firms.  Since the inside firm makes zero profits then $\hat u_o \leq r_F$, if this was not the case then there is a $\varepsilon > 0$ such that $r_F + \varepsilon < u_o + \lambda$ and the insider can sell at a profit. But if $\hat u_o \leq  r_F$ then the outside firms makes a loss when selling at the upper range, hence actually  $\hat u_o >   r_F$ and then the insider has to be making a profit with the F-firms. 
+
+%For this to be an equilibrium strategy, the inside bank must make zero expected profit on the $F$-firm everywhere in its support, which implies its lower bound must be the break-even rate, $\ell_i^F = r_F$\footnote{If  $\ell_i^F < r_F$ the firm makes losses and if $\ell_i^F > r_F$ given that the bank makes zero profits on the F-firms it means that it never lends, meaning that $\ell_i^F > \hat u_o$ but from step 2 $l_o \geq r_p$ hence the inside bank could offer $r_p$ and make a profit on the F-firms. }.
 
 However, this leads to a contradiction because the inside bank has a strategy available that guarantees strictly positive profits on the $F$-firm.
 Specifically, from Step~2 we know $\ell_o \ge r_p$. Thus, the outside bank never offers a rate below $r_p$.
@@ -249,39 +375,49 @@ The inside bank can offer a fixed rate $r^* = r_F + \varepsilon$. Provided that 
 By offering $r^*$, the inside bank retains the $F$-firm with probability 1 against any outside offer. Since the margin $\varepsilon$ is positive, the expected profit is strictly positive.
 Thus, the condition $P_i^F=0$ is impossible, and the assumption $u_i^F > \hat{u}_o$ must be false.
 
+\medskip 
+
+
+\subsubsection*{Step 8 (equivalent to step 9 in the original proof).} $u_o = r_F$ and $u_i^S = r_F + \lambda$.
+
+\noindent\textbf{Proof.}
+First, we prove $u_o \le r_F$ by contradiction. 
+Suppose $u_o > r_F$. 
+Since the upper bound is above the break-even rate, the outside bank must make strictly positive expected profits in equilibrium ($P_o > 0$).
+From Steps~4 and~7, we know that the inside bank's supports satisfy $u_i^S \le \hat{u}_o$ and $u_i^F \le \hat{u}_o$.
+Thus, at the outsider's maximum bid $u_o$, the switching condition $r_i > u_o + \lambda$ is never met (except possibly via ties).
+Standard undercutting arguments imply that the inside bank cannot have atoms at $\hat{u}_o$. Therefore, an outside bid of $u_o$ wins with probability zero.
+Consequently, the profit at the top is zero: $P_o(u_o) = 0$.
+In a mixed strategy equilibrium, all strategies in the support must yield the same expected profit. Thus, $P_o(u_o)=0$ implies $P_o(r)=0$ for all $r$, contradicting the condition that $P_o > 0$.
+Therefore, the assumption $u_o > r_F$ must be false. We conclude $u_o \le r_F$.
+
+Second, we prove $u_o \ge r_F$. 
+Suppose $u_o < r_F$.
+Consider the profit at the upper bound $u_o$. Since $u_i^S \le \hat{u}_o$, the inside bank retains $S$-firms against the bid $u_o$ with probability 1. Thus, the outsider wins no $S$-firms at this price.
+The only firms the outsider can possibly win at $u_o$ are $F$-firms. However, since $u_o < r_F$, winning an $F$-firm yields a strictly negative profit ($u_o - r_F < 0$).
+Thus, the expected profit at $u_o$ is non-positive. Since the outside bank can guarantee zero profit by not participating, it cannot be optimal to set an upper bound $u_o < r_F$ that yields losses.
+Therefore, $u_o \ge r_F$.
+
+Combining these results, we have $u_o = r_F$.
+
+
+Finally, we establish $u_i^S = r_F + \lambda$.
+From Step~4, we have $u_i^S \le \hat{u}_o = r_F + \lambda$.
+Suppose for contradiction that $u_i^S < r_F + \lambda$. Then there exists a range of outside bids $r_o \in (u_i^S - \lambda, r_F]$ such that $r_o + \lambda > u_i^S$.
+For any such bid $r_o$:
+\begin{itemize}
+    \item The outsider wins zero $S$-firms, because the inside bank always offers $r_i(S) \le u_i^S < r_o + \lambda$.
+    \item The outsider might win $F$-firms (if the insider bids high enough), but since the price is $r_o \le r_F$, winning \textit{only} $F$-firms yields non-positive profit ($r_o - r_F \le 0$).
+\end{itemize}
+Thus, bids in this range yield non-positive expected profit. Since the equilibrium profit is non-negative, including these dominated strategies in the support is suboptimal. A rational outsider would lower $u_o$ to eliminate these bids. Therefore, there can be no gap, and we must have $u_i^S = r_F + \lambda$.
+
+ 
+ 
+\medskip
 
 
 
-
-
-% \noindent\textbf{Step 7, original.} $u_i^F \le u_o$.
-% 
-% \emph{Proof.} 
-% Suppose that $u_i^F>u_o$.
-% 
-% Then the inside bank when setting $r \in (u_0, u_i^F]$ never sells, making zero profit. Thus by the indifference principle, the outside bank makes zero expected profits on the F-firms.
-% By Steps~4 and~6, $\ell_i^F\ge u_o$.
-% This and the zero expected profits imply $\ell_i^F=r_F$.
-% 
-% Consider the following deviation from $H_o$: let $\varepsilon>0$ be given and small.
-% Let $L_\varepsilon$ be the mass of $H_o$ on $[u_o-\varepsilon,u_o]$. Consider the case where the outisde bank concentrates all the remaining mass $L_\varepsilon$ on $\tfrac12(r_F+u_i^F)=:\alpha$. Given that $\alpha > r_f$ the firm makes a profit if chosen and since $\alpha < u_i^F$, there is a probability that the firm is chosen. Hence the firm makes strictly positive profits.
-% 
-% The expected net gain from this deviation is not smaller than
-% \[
-% L_\varepsilon\Big[
-% (1-p)\bigl(1-H_i^F(\alpha)\bigr)p(F)(\alpha-r_F)
-% - \underbrace{p\bigl(1-H_i^S(r_F-\varepsilon)\bigr)}{\rightarrow 0 \text{for} \varepsilon \to 0 \text{by step 5}}
-% \big(p(S)(1+r_F)-(1+\bar r)\big)
-% \Big],
-% \]
-%  
-% Intuitively, since mass is taken away below $r_F$, the outside bank only gains if
-% $\gamma=F$.
-
-
-\vspace{3cm}
-
-\noindent\textbf{Step 8.} $u_i^F = r_F + \lambda$.
+\subsubsection*{Step 9 (equivalent to step 8 in the original proof).} $u_i^F = r_F + \lambda$.
 
 \noindent\textbf{Proof.}
 Clearly, $u_i^F \ge r_F$.\footnote{The inside bank will not charge below the break-even cost $r_F$ as this guarantees a loss.}
@@ -316,7 +452,7 @@ Thus, the assumption $u_i^F > r_F + \lambda$ must be false, implying $u_i^F \le 
 
 Finally, to prove that $u_i^F < r_F + \lambda$ is not true, we use proof by contradiction. 
 Suppose that $u_i^F < r_F + \lambda$. 
-Using the fact shown in Step~9 that $u_o = r_F$ and $u_i^S = r_F + \lambda$, this assumption implies $u_i^F < u_o + \lambda$.
+Using the fact shown in Step~8, we have that $u_o = r_F$ and $u_i^S = r_F + \lambda$, this assumption implies $u_i^F < u_o + \lambda$.
 Consider the outside bank's expected profit for bids in the gap interval $r_o \in (u_i^F - \lambda, u_o]$.
 \begin{itemize}
     \item \textbf{F-firms:} The outsider wins zero $F$-firms. Since the inside bank stops bidding for $F$-firms at $u_i^F$, the switching condition $r_i > r_o + \lambda$ requires $r_i > u_i^F$, which occurs with probability 0.
@@ -328,81 +464,17 @@ This creates a contradiction: profits cannot be strictly positive just below $u_
 Therefore, the gap cannot exist, and we must have $u_i^F = r_F + \lambda$.
 
 
-% \medskip
-% \noindent\textbf{Step 8. original} $u_i^F=r_F$.
-%
-% \noindent\textbf{Proof.}
-% Clearly, $u_i^F\ge r_F$.\footnote{If $u_i^F < r_F$ the firm looses money on the F-firms, and if $u_i^F > r_F$ then } Suppose that $u_i^F>r_F$. Since the outside bank can obtain
-% strictly positive expected profits by choosing
-% $r=\tfrac12(r_F+u_i^F)$, it must make strictly positive profits also with $H_o$.
-% By Step~7, $u_o>u_i^F$ and by assumption $u_i^F > r_F$hence $u_o> r_F$ ; hence, also $H_i^F$ must make strictly positive expected profits\footnote{Since the insider knows the type can always bid in $u_0- \varepsilon$ and win in some cases a positive profit. }.
-% By Steps~4 and~7\footnote{By step 4 and 7 $u_0$ is higher than any bid made by the insider, hence always looses. Given that profits in $u_0$ are 0 then they are in the whole support. Note that this is because strategies have no atoms at the top because of undercutting. }, then,
-% \[
-% P_o(u_o)=0
-% \;\Rightarrow\;\footnotemark
-% H_o(u_o^-)=1 
-% \;\Rightarrow\;\footnotemark
-% P_i^S(u_o)=P_i^F(u_o)=0
-% \Rightarrow\;\footnotemark
-% H_i^S(u_o^-)=H_i^F(u_o^-)=1
-% \;\Rightarrow\;\footnotemark
-% P_o(u_o^-)=0,
-% \]
-% \footnotetext{Given that profits are strictly positive for $H_o$ and that at the top there are profits, there is no probability of playing $u_o$, by indifference among elements in the support.}
-% \footnotetext{Given that the outsider always plays lower than $u_o$, when the insider plays $u_o$ it never sells, hence profits are 0. }
-% \footnotetext{Given that with $u_o$ the insider makes zero profits and that he makes positive profits with other bids, then $u_o$ cannot be in the support of the insider. }
-% \footnotetext{The outside makes zero porfits because never sells at that price. }
-% which is a contradiction to the finding that $H_o$ makes strictly positive expected profits.
-% Step~8 implies that $r_i(F)=r_F$ with probability~1; in particular, the inside bank makes zero expected profits on the $F$-firm.
+\medskip
 
- . 
-\noindent\textbf{Step 9.} $u_o = r_F$ and $u_i^S = r_F + \lambda$.
+
+
+
+
+
+\subsubsection*{Step 10.} The outside bank makes zero expected profits.
 
 \noindent\textbf{Proof.}
-First, we prove $u_o \le r_F$ by contradiction. 
-Suppose $u_o > r_F$. 
-Since the upper bound is above the break-even rate, the outside bank must make strictly positive expected profits in equilibrium ($P_o > 0$).
-From Steps~4 and~7, we know that the inside bank's supports satisfy $u_i^S \le \hat{u}_o$ and $u_i^F \le \hat{u}_o$.
-Thus, at the outsider's maximum bid $u_o$, the switching condition $r_i > u_o + \lambda$ is never met (except possibly via ties).
-Standard undercutting arguments imply that the inside bank cannot have atoms at $\hat{u}_o$. Therefore, an outside bid of $u_o$ wins with probability zero.
-Consequently, the profit at the top is zero: $P_o(u_o) = 0$.
-In a mixed strategy equilibrium, all strategies in the support must yield the same expected profit. Thus, $P_o(u_o)=0$ implies $P_o(r)=0$ for all $r$, contradicting the condition that $P_o > 0$.
-Therefore, the assumption $u_o > r_F$ must be false. We conclude $u_o \le r_F$.
-
-Second, we prove $u_o \ge r_F$. 
-Suppose $u_o < r_F$.
-Consider the profit at the upper bound $u_o$. Since $u_i^S \le \hat{u}_o$, the inside bank retains $S$-firms against the bid $u_o$ with probability 1. Thus, the outsider wins no $S$-firms at this price.
-The only firms the outsider can possibly win at $u_o$ are $F$-firms. However, since $u_o < r_F$, winning an $F$-firm yields a strictly negative profit ($u_o - r_F < 0$).
-Thus, the expected profit at $u_o$ is non-positive. Since the outside bank can guarantee zero profit by not participating, it cannot be optimal to set an upper bound $u_o < r_F$ that yields losses.
-Therefore, $u_o \ge r_F$.
-
-Combining these results, we have $u_o = r_F$.
-
-
-Finally, we establish $u_i^S = r_F + \lambda$.
-From Step~4, we have $u_i^S \le \hat{u}_o = r_F + \lambda$.
-Suppose for contradiction that $u_i^S < r_F + \lambda$. Then there exists a range of outside bids $r_o \in (u_i^S - \lambda, r_F]$ such that $r_o + \lambda > u_i^S$.
-For any such bid $r_o$:
-\begin{itemize}
-    \item The outsider wins zero $S$-firms, because the inside bank always offers $r_i(S) \le u_i^S < r_o + \lambda$.
-    \item The outsider might win $F$-firms (if the insider bids high enough), but since the price is $r_o \le r_F$, winning \textit{only} $F$-firms yields non-positive profit ($r_o - r_F \le 0$).
-\end{itemize}
-Thus, bids in this range yield non-positive expected profit. Since the equilibrium profit is non-negative, including these dominated strategies in the support is suboptimal. A rational outsider would lower $u_o$ to eliminate these bids. Therefore, there can be no gap, and we must have $u_i^S = r_F + \lambda$.
-
-
-%\medskip
-%\noindent\textbf{Step 9.original} $u_o=u_i^S=r_F$.
-
-%\noindent\textbf{Proof.} Suppose that $u_o>r_F$. Then choosing $r_i(F)=\tfrac12(r_F+u_o)$ with probability~1 would yield the inside bank strictly positive expected profits on the $F$-firm\footnote{In step 8 was shown that it makes zero profit on the F-firm}.
-
-%The equality for $u_i^S$ follows from Steps~4 ($u_o \geq u_i^s$) and~6 ($u_i^s \geq \ell_i^F$), which imply that  $u_o \geq u_i^s \geq \ell_i^F$. We can use the part 1 of this same step to replace $u_o$ with $r_F$ to get $r_F \geq u_i^s \geq \ell_i^F$, moreover from step 8 we know that the F-strategy is only a point of mass: $ \ell_i^F = u_i^F = r_F$ hence $u_i^s = r_F$.
-
- 
-
-\paragraph{Step 10.} The outside bank makes zero expected profits.
-
-\noindent\textbf{Proof.}
-By Steps 8 and 9 we have  $u_o = r_F$ and  $u_i^S = u_i^F = r_F + \lambda$.
+By Steps 9 and 8 we have  $u_o = r_F$ and  $u_i^S = u_i^F = r_F + \lambda$.
 Since the inside bank's strategies $H_i^S$ and $H_i^F$ have no atoms at the top of the support (due to standard undercutting arguments), we have:
 \[
 \lim_{r \nearrow r_F} H_i^S(r+\lambda) = H_i^S(r_F + \lambda) = 1
@@ -418,27 +490,10 @@ Substituting these limits into the outside bank's profit function (Eq.~A.6) as $
 \end{align*}
 Since $H_o$ is an equilibrium mixed strategy, the expected profit $P_o(r)$ must be constant for all $r$ in the active support $[\ell_o, u_o)$. Therefore, $P_o(r) = 0$ for all $r$ in the support.
 
+ 
 
-%\medskip
-%\paragraph{Step 10.original}
-%The outside bank makes zero expected profits.
-
-%\noindent\textbf{Proof.}
-%By Steps~8 and~9\footnote{When playing $u_o=r_F$ the outside bank receives the F-firms and makes zero profits, hence it makes zero profits in the whole support.}, Eq.~(A.6) simplifies to
-%\begin{equation}
-%P_o(r)
-%=
-%p\bigl(1-H_i^S(r)\bigr)\bigl[p(S)(1+r)-(1+\bar r)\bigr]
-%+(1-p)\bigl[p(F)(1+r)-(1+\bar r)\bigr],
-%\tag{A.8}
-%\end{equation}
-%on $[\ell_o,u_o)$. By Step~5, $P_o$ is continuous on $[\ell_o,u_o)$, and by %Step~9 we have
-%$P_o(u_o^-)=0$.
-
-
-\vspace{3cm}
 \medskip
-\noindent\textbf{Step 11.} $\ell_o = r_p$ and $\ell_i^S = r_p + \lambda$.
+\subsubsection*{Step 11.} $\ell_o = r_p$ and $\ell_i^S = r_p + \lambda$.
 
 \noindent\textbf{Proof.}
 First, we show that the lower bounds satisfy $\ell_i^S = \ell_o + \lambda$.
@@ -459,15 +514,141 @@ However, Step~10 established that the equilibrium profit $P_o$ is zero.
 This contradiction implies $\ell_o = r_p$.
 It immediately follows that $\ell_i^S = r_p + \lambda$.
 
+ 
 
-\medskip
-\noindent\textbf{Step 11.original} $\ell_o=\ell_i^S=r_p$.
+
+\medskip 
+
+\subsubsection*{Step 12.} $H_{o}$ is continuous on $[r_{p},r_{F})$.\footnote{\textcolor{red}{this proof was not checked thoroughly}}
+
+\noindent\textbf{Proof.} Suppose that $H_{o}$ has an atom at some $\hat{r} \in [r_{p},r_{F})$, i.e., $H_{o}(\hat{r}^-) < H_{o}(\hat{r})$.
+Then, for the inside bank, the expected profit function $P_i^S(r)$ would jump upward at $r = \hat{r} + \lambda$.
+Specifically, because of the atom at $\hat{r}$, $P_{i}^{S}(\hat{r} + \lambda) > P_{i}^{S}(r)$ for $r$ in a left-neighborhood of $\hat{r} + \lambda$.
+Consequently, the inside bank would not play strategies in a small interval just below $\hat{r} + \lambda$.
+This implies $H_{i}^{S}$ is constant on some interval $(\hat{r} + \lambda - \varepsilon, \hat{r} + \lambda)$.
+Substituting this into the outside bank's profit function (Eq.~A.6), since $H_i^S(r+\lambda)$ is constant for $r \in (\hat{r}-\varepsilon, \hat{r})$, $P_o(r)$ is strictly increasing in this interval (as the markup $(1+r)$ increases while the probability of winning remains fixed).
+Since $P_o$ is strictly increasing on $(\hat{r}-\varepsilon, \hat{r})$, the outside bank would not put mass on the lower part of this interval, pushing the mass up to $\hat{r}$.
+However, if $P_o$ is strictly increasing up to $\hat{r}$, then $P_o(\hat{r}^-) < P_o(\hat{r})$ (assuming continuity of distributions elsewhere). But if $H_o$ has an atom at $\hat{r}$, standard indifference arguments usually require $P_o$ to be constant or flat.
+More formally, if $H_i^S$ is constant near $\hat{r}+\lambda$, the outside bank has an incentive to bid slightly higher (up to $\hat{r}$) to capture the higher margin without losing market share. This contradicts the equilibrium requirement that players are indifferent over the support.
+Thus, $H_{o}$ can have no mass on $\hat{r}$.
+
+
+\medskip 
+
+\subsubsection*{Step 13.} $H_{i}^{S}$ is strictly increasing on $[r_p + \lambda, r_F + \lambda]$ and $H_{o}$ is strictly increasing on $[r_{p}, r_{F})$. \footnote{\textcolor{red}{this proof was not checked thoroughly}}
 
 \noindent\textbf{Proof.}
-It is impossible that $\ell_o>\ell_i^S$, because then the inside bank would make strictly
-higher profits if it placed the mass of $[\ell_i^S,\ell_o]$ on $\ell_o$.
-By a similar argument for the outside bank, $\ell_o<\ell_i^S$ is impossible.
-Finally, if $\ell_o>r_p$, the outside bank would make strictly positive expected profits,
-contradicting Step~10.
+Suppose that $H_{i}^{S}$ is constant on some interval $[\alpha, \beta] \subset [r_p + \lambda, r_F + \lambda]$. Let $[a, b] \supseteq [\alpha, \beta]$ be the maximal such interval.
+By Step~5 and the definition of $\ell_i^S = r_p + \lambda$, we must have $a > r_p + \lambda$.
+Since $H_i^S(r)$ is constant for $r \in [a, b]$, the term $H_i^S(r_o+\lambda)$ in the outside bank's profit function (Eq.~A.6) is constant for outside offers $r_o \in [a-\lambda, b-\lambda]$.
+Consequently, $P_o(r_o)$ is strictly increasing on $[a-\lambda, b-\lambda]$ (as the markup increases while the winning probability is constant).
+Therefore, the outside bank will place no mass on $[a-\lambda, b-\lambda)$ (it would prefer the upper endpoint).
+Thus, $H_o$ is constant on $[a-\lambda, b-\lambda)$.
+Now consider the inside bank's profit $P_i^S(r_i)$ for $r_i \in [a, b)$. Since $H_o$ is constant on $[a-\lambda, b-\lambda)$, the term $H_o((r_i-\lambda)^-)$ is constant.
+This implies $P_i^S$ is strictly increasing on $[a, b]$, so the inside bank would not put mass on $[a, b]$.
+This contradicts the definition of $[a, b]$ as a "flat" spot in the cumulative distribution (which implies no mass), unless the interval extends all the way to a boundary where the logic changes. However, gaps in support are ruled out by standard "no gap" arguments (if there is a gap, the lower bound of the upper segment is suboptimal).
+
+
+\medskip 
+
+
+\subsubsection*{Step 14 (not in the original proof)} $u_i^F = \ell_i^F = r_F + \lambda$. 
+
+\noindent\textbf{Proof.} 
+
+From equation (A.5) we have that: 
+
+\begin{align}
+    P_i^S(r) &= (1 - H_o(r-\lambda)^-)[p(S)(1+r) - (1+\bar{r})] \\
+    P_i^F(r) &= (1 - H_o(r-\lambda)^-)[p(F)(1+r) - (1+\bar{r})].
+\end{align}
+
+note that from Step 13 we know that $H_i^S$ is strictly increasing on $[r_p + \lambda, r_F + \lambda]$, which means that $P_i^S(r)$ is constant on this interval. Hence for any $r$ in this interval, we have: 
+
+\begin{align}
+    P_i^F(r) &= (1 - H_o(r-\lambda)^-)\frac{[p(S)(1+r) - (1+\bar{r})]}{[p(S)(1+r) - (1+\bar{r})]}[p(F)(1+r) - (1+\bar{r})] \notag \\
+    &= \frac{P_i^S(r) }{[p(S)(1+r) - (1+\bar{r})]}[p(F)(1+r) - (1+\bar{r})] %\notag \\ 
+    =P_i^S(r) \frac{ [p(F)(1+r) - (1+\bar{r})]}{[p(S)(1+r) - (1+\bar{r})]}
+\end{align}
+the first term of the right hand side is constant in $r$ as established before. The second term is increasing in $r$ given $p(S)> p(F)$, which just means that the success of the project is greater if the first period project was good than if it was bad.   \footnote{
+\begin{align}
+    P_i^F(r) =P_i^S(r) \frac{ [p(F)(1+r) - (1+\bar{r})]}{[p(S)(1+r) - (1+\bar{r})]} \notag 
+\end{align}
+hence, using the fact that $P_i^S(r)$ is constant in $r$ we have that: 
+\begin{align}
+  \frac{dP_i^F(r)}{dr} =P_i^S(r) \frac{d}{dr}\frac{ [p(F)(1+r) - (1+\bar{r})]}{[p(S)(1+r) - (1+\bar{r})]} \implies % \notag \\ 
+  \frac{dP_i^F(r)}{dr} =P_i^S(r) \frac{d}{dr}\frac{(1+\bar{r})\cdot [p(S)-p(F)]}{[p(S)(1+r) - (1+\bar{r})]^2} \notag
+\end{align}}
+Given that $P_i^F(r)$ is increasing in $r$ over the support $[r_p + \lambda, r_F + \lambda]$, the inside bank maximizes its profit on $F$-firms by placing all probability mass at the upper bound of the support. Hence, we have that $u_i^F = \ell_i^F = r_F + \lambda$.\footnote{Later on we will see that the outside firm actually makes positive profits from the F-firms because the outside firm plays $r_F$ with positive probability mass.}
+
+\vspace{3cm}
+
+
+
+The last step has completed the characterization of the mixed strategies, because it implies that $P_{i}^{S}$ and $P_{o}$ are constant on their respective supports. Specifically, $P_o(r)$ is constant on $[r_p, r_F)$ and $P_i^S(r)$ is constant on $[r_p+\lambda, r_F+\lambda]$.
+By the continuity of $H_{o}$ on $[r_{p}, r_{F})$ and $H_{i}^{S}$ on $[r_{p}+\lambda, r_F+\lambda)$, we obtain therefore from Eqs. (A.5) and (A.6) for the outside rate $r \in [r_{p}, r_{F})$:
+\begin{align}
+(1-H_{o}(r))[p(S)(1+r+\lambda)-(1+\bar{r})] &= c, \tag{A.9}\\
+p(1-H_{i}^{S}(r+\lambda))[p(S)(1+r)-(1+\bar{r})] + (1-p)[p(F)(1+r)-(1+\bar{r})] &= 0. \tag{A.10}
+\end{align}
+Note that in Eq.~(A.10), we use the fact that $H_i^F(r+\lambda)=0$ for $r < r_F$ (as the insider places the $F$-firm mass at $r_F+\lambda$).
+
+The constant $c$ in Eq.~(A.9) can be determined by substituting the lower bound $r=r_{p}$ (where $H_o(r_p)=0$) into Eq.~(A.9):
+\[ c = p(S)(1+r_{p}+\lambda)-(1+\bar{r}) = p(S)(r_{p}+\lambda - r_{S}). \]
+Straightforward manipulations of Eqs.~(A.9) and (A.10) then yield the equilibrium distributions:
+\begin{align}
+H_{i}^{S}(r+\lambda) &= \frac{r-r_{p}}{p(S)(1+r)-(1+\bar{r})}, \tag{A.11}\\
+H_{o}(r) &= \frac{p(S)(r-r_{p})}{p(S)(1+r+\lambda)-(1+\bar{r})}. \tag{A.12}
+\end{align}
+for $r \in [r_{p}, r_{F})$.
+One easily checks that $\lim_{r \to r_F} H_{i}^{S}(r+\lambda) = 1$ (using the standard Sharpe identity $\frac{r_F-r_p}{p(S)(r_F-r_S)}=1$ ), hence, $H_{i}^{S}$ is continuous on its domain.
+On the other hand, Eq.~(A.12) shows that $H_{o}(r_F^-) < 1$. Specifically, the denominator contains the term $+\lambda$, keeping the value strictly below 1. Thus, $H_{o}$ has a mass point (atom) at the upper bound $r_F$.
+
+This identifies a unique mixed strategy profile. Because both players randomize over the intervals $[r_{p}, r_{F}]$ (outsider) and $[r_{p}+\lambda, r_{F}+\lambda]$ (insider), there are no profitable deviations from these strategies for either player. Proposition 2 is therefore proved.
+
+\newpage
+
+\subsection{Calculation of expected profits}\label{sec:expected_profits}
+
+\textbf{1. Outside Bank:}
+From Step~10, we established that $P_o(r) = 0$, in section \ref{sec:eq_proof},  for all $r$ in the support. Thus, the total expected profit is zero.
+
+\textbf{2. Inside Bank ($S$-firms):}
+The inside bank is indifferent among all strategies in its support $[r_p+\lambda, r_F+\lambda]$. We calculate the profit at the lower bound $r = r_p + \lambda$.
+At this price, the inside bank wins with probability 1 (since the outsider never bids below $r_p$). The profit is:
+\[
+\Pi_i^S = P_i^S(r_p+\lambda) = 1 \cdot [p(S)(1 + r_p + \lambda) - (1+\bar{r})].
+\]
+Using the definition $1+r_S = \frac{1+\bar{r}}{p(S)}$, we substitute $(1+\bar{r}) = p(S)(1+r_S)$:
+\[
+\Pi_i^S = p(S)(1 + r_p + \lambda) - p(S)(1+r_S) = p(S)(r_p - r_S + \lambda).
+\]
+
+\textbf{3. Inside Bank ($F$-firms):}
+The inside bank plays the pure strategy $r = r_F + \lambda$. It wins only when the outside bank plays its atom at $r_F$.
+The probability of winning is the size of the outsider's atom: $\alpha = 1 - H_o(r_F^-)$.
+From Eq.~(A.12), we have:
+\[
+H_o(r_F^-) = \frac{p(S)(r_F - r_p)}{p(S)(1+r_F+\lambda) - (1+\bar{r})}.
+\]
+Substituting $(1+\bar{r}) = p(S)(1+r_S)$, the denominator becomes $p(S)(r_F - r_S + \lambda)$. Thus:
+\[
+H_o(r_F^-) = \frac{r_F - r_p}{r_F - r_S + \lambda}.
+\]
+The probability of winning is:
+\[
+\alpha = 1 - \frac{r_F - r_p}{r_F - r_S + \lambda} = \frac{(r_F - r_S + \lambda) - (r_F - r_p)}{r_F - r_S + \lambda} = \frac{\lambda + r_p - r_S}{\lambda + r_F - r_S}.
+\]
+The profit margin at $r_F+\lambda$ is:
+\[
+\text{Margin} = p(F)(1 + r_F + \lambda) - (1+\bar{r}).
+\]
+Using $1+r_F = \frac{1+\bar{r}}{p(F)}$, this simplifies to:
+\[
+\text{Margin} = p(F)\left(\frac{1+\bar{r}}{p(F)} + \lambda\right) - (1+\bar{r}) = p(F)\lambda.
+\]
+Therefore, $\Pi_i^F = \alpha \cdot \text{Margin} = p(F)\lambda \left( \frac{\lambda + r_p - r_S}{\lambda + r_F - r_S} \right)$.
+
+
 
 \end{document}

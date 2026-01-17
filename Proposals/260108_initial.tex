@@ -46,7 +46,7 @@
 \newcommand{\cmark}{\ding{51}}
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \renewcommand{\thetable}{\Roman{table}}
-\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=1in,rmargin=.9in,nomarginpar}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
 \makeatletter
 \DeclareTextSymbolDefault{\textquotedbl}{T1}
 \theoremstyle{plain}
@@ -71,59 +71,111 @@
 
 
 \begin{document}
- 
-\title{{\Large Cross-selling financial products}}
-\author{Lucas Schmitz\thanks{Yale University \texttt{lucas.schmitz@yale.edu}}} 
+
+
+%\title{{\Large Cross-selling financial products}}
+%\author{Lucas Schmitz\thanks{Yale University \texttt{lucas.schmitz@yale.edu}}} 
+%\date{}
+%\maketitle
+
+
+{\makeatletter
+\renewcommand{\@maketitle}{%
+  \vspace*{-1cm}% Adjust this value (negative moves up)
+  \begin{center}%
+    {\Large \@title \par}%
+    \vskip 1em%
+    {\normalsize \@author \par}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\title{Cross-selling financial products}
+\author{Lucas Schmitz\thanks{Yale University \texttt{lucas.schmitz@yale.edu}}}
 \date{}
 \maketitle
-
+}
 
 
 % cross-selling has not been studied and is used by banks 
-The majority of empirical research on retail banking focuses on the sale of a single banking product (e.g. \textcite{cuesta_price_2018,crawford_asymmetric_2018}, ). But cross-selling is a common practice used by banks (\textcite{qi_big_2024}). 
+Most empirical work on retail banking focuses on the sale of a single banking product in isolation (e.g. \textcite{cuesta_price_2018,crawford_asymmetric_2018,allen_search_2019}).  However,  cross-selling - the practice of selling an additional product to an existing customer - is commonly used by banks (\cite{qi_big_2024}). \footnote{
+Cross-selling differs from bundling because the products are purchased separately and at different times.
+%Cross-selling is different from bundling since 1) the two products can be bought separately and 2) the products are bought in different periods.
+Cross-selling refers to the practice of selling product B to a consumer already using product A. Cross-selling is similar to relationship banking, the practice of a consumer buying multiple products from the same bank over time, but the difference is that cross-selling requires the products to be different, relationship banking can involve the same product (e.g. multiple loans).}
+
+% Economics forces. 
+%There are at least three reasons why consumers are more likely to buy  additional products from their existing bank.
+Three primary economic forces drive cross-selling.
+First, there are switching costs (\cite{klemperer_competition_1995}), for example consumers might find it costly to get a mortgage from a different bank than the one where they have their checking account.
+In this case, the incumbent bank has market power when selling the additional product, since switching to another provider would be costly for the customer.
+Second, consumers might have persistent unobserved preferences for certain banks (\cite{dube_switching_2009,egan_dynamic_2025}). 
+Since the customer already buys from the bank, they likely have a strong preference for it, increasing the probability of purchasing additional products there.
+%If so, given that the customer is already buying for the bank one expects it to have a particularly high preference for that bank, making it more likely to buy the additional product from the same bank.
+These two factors are demand-side reasons for cross-selling. A third reason is that banks might have informational advantages when selling to existing customers (\cite{sharpe_asymmetric_1990,petersen_benefits_1994,petersen_effect_1995}). By selling the first product to a customer; the bank might learn about the customer type, for example its creditworthiness, which creates an informational asymmetry with the other banks. This asymmetry is a form of supply-side reason for cross-selling. 
+
+% ambiguity of welfare effects. 
+
+The effects of cross-selling on welfare are ambiguous. They depend on the underlying reasons 
+and the particular parameters of the model.
+%For example, switching costs create market power for the firms on the group of existing consumers, but at the same time they create more competition for new consumers since firms have incentives to lower prices to attract them. 
+For example, switching costs grant firms market power over existing consumers. However, they also intensify competition for new consumers, since firms have incentives to lower prices to attract them. 
+For example, \textcite{dube_switching_2009} finds that when switching costs are small, the pro-competitive effect dominates.  %Similarly with asymmetric information, the welfare effects depend on the parameters of the model. 
+Similarly,  the welfare effects of asymmetric information depend on model parameters. 
 
 
 % why is it important to study cross-selling? 
 
-% 
+Understanding the reasons behind cross-selling is also important for policy design. For example, if the main reason is persistent unobserved preferences, then there is little scope for policy intervention. However,  if the main reason is informational advantages, there is scope for open banking policies where consumers can share their data across banks.
 
-% plan 
+\subsection*{This research}
+%This project aims to use a dynamic structural model of demand and supply of banking services, where banks are multi-product firms, to answer the following research questions: 
+This project uses a dynamic structural model of demand and supply for banking services, where banks are multi-product firms, to answer the following research questions: 
 
-Do individuals buy multiple products from a single firm? 
+\begin{itemize}
+   
+    \item What are the welfare effects of cross-selling relative to product-level pricing?  Specifically, what is the impact on equilibrium mark-ups? 
+    
+    Prior work shows that the effects of switching costs on markups are ambiguous (\cite{dube_switching_2009,brown_endogenous_2024,mackay_consumer_2024}) and the same with information asymmetries (\cite{foley_effects_2020}). 
+    
+    
+    Both effects create locked-in consumers, increasing firm market power. However, they also create dynamic 
+    incentives to lower prices for new consumers in order to capture future rents. \textcite{dube_switching_2009}, for instance, shows that small switching costs can increase welfare.
+    
+    \item What is the relative importance of switching costs, persistent unobserved preferences and information asymmetries in driving cross-selling? 
+    The regulatory implications of each force differ; thus, effective competition policy requires identifying which factors are most important.
 
 
-\subsection*{Motivation }\label{sec:motivation}
 
- 
+    %%% check switching costs. 
 
-
-
- 
- 
-\subsection*{Literature }
-
-There is a literature that studies cross-selling in banking, see \textcite{qi_big_2024, basten_cross_2023}
+\end{itemize} 
 
 
 \subsection*{Model}
 
+To incorporate the different economic forces behind cross-selling we plan to extend the model of dynamic discrete choice of differentiated products of \textcite{dube_switching_2009} by allowing firms to be multi-product firms and by allowing information asymmetries like in \textcite{sharpe_asymmetric_1990}. 
+
+The main challenge would be to separately identify the three effects being studies: switching costs, peristent unobserved heterogeneity and information asymmetries. 
  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Data}
 
-DESCRIBE THE CMF DATA 
-
-\subsection*{Research questions}
-Some possible research questions are: 
-\begin{itemize}
-   
-    \item What are the welfare effects of cross-selling relative to the case where firms price at the product level?  
+We plan to use data from the Chilean financial regulator (CMF). The data contains a sample of fixed-term deposits, credit card, installment consumer loans, and mortgages.\footnote{The corresponding codes in the database are: fixed term deposits is D04,credit card credit and installment consumer loans are D04 and mortgages is D10.}
+Previous studies using this data include \textcite{cuesta_price_2018,foley_effects_2020,liberman_equilibrium_2018}.
 
 
+\subsection*{Literature }
+Recent empirical studies document cross-selling in banking (\textcite{qi_big_2024,basten_cross-selling_2023}). 
+This literature documents the existence of cross-selling but does not measure the economic forces behind it. 
 
-\end{itemize} 
+A large literature  studies the informational asymmetries arising from repeated bank-customer interactions (\cite{sharpe_asymmetric_1990,petersen_benefits_1994,petersen_effect_1995,foley_effects_2020}). Our contribution would be to use a structural model to quantity the economic forces behind cross-selling.
 
+This project contributes to both literatures by using a model to quantify  the relative importance of switching costs, preferences, and information asymmetries, and by measuring the welfare effects of cross-selling.
+
+
+%\printbibliography
 
 \end{document}

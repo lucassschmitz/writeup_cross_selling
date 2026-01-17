@@ -1,0 +1,196 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{references.bib}
+\begin{document}
+
+
+\section{Introduction}
+
+This document compiles questions asked by professors or others and the ideal answer we should provide to them. 
+
+\begin{enumerate}
+    \item \textbf{[Phil Haile] if there is a credit bureau, why are there any informational asymmetries among banks? }
+    
+    Credit bureaus include the following information: 
+    \begin{itemize}
+        \item Canada
+        
+        Factors that can affect you credit score are[\href{https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score/credit-report-score-basics.html}{source}]: 
+        \begin{itemize}
+            \item for how long you've had creit 
+            \item how long each credit has been in your report
+            \item if you carry a balance on your credit cards
+            \item if you regularly miss payments
+            \item the amount of your outstanding debts
+            \item being close to, at or above your credit limit
+            \item the number of recent credit applications
+            \item the type of credit you’re using
+            \item if your debts have been sent to a collection agency
+            \item any record of insolvency or bankruptcy
+        \end{itemize}
+
+
+        \item Chile
+        
+        The Chilean system is a negative-only system (Turner, 2010, pages 7 and 8) since it reports delinquencies but does not report moderately late payments (30+ days) or payments in a timely fashion. 
+        
+        Boletin de Informaciones Comerciales (BIC) contains only delinquencies \footnote{l BIC recopila, procesa, edita y publica protestos y morosidades a nivel nacional, registrando también la regularización -por parte de las personas naturales o jurídicas- de sus obligaciones de pagos, lo que se conoce como "Aclaraciones".\href{https://www.cmfchile.cl/portal/principal/613/w3-article-27659}{source}}
+
+        \item UK 
+        \item USA: credit reporting is regulated by the Fair Credit Reporting Act (FCRA). There are four national credit reporting agencies(CRAs): Equifax, Experian, Transunion and innovis. 
+        Information included in your credit report is[\href{https://www.experian.com/blogs/ask-experian/what-is-not-included-in-your-credit-report/}{source}]: 
+        \begin{itemize}
+            \item Personal identifying information: This includes your name and aliases (other names you've used), date of birth, Social Security number, current and past home addresses, phone numbers and possibly current and past employers.
+            \item Credit and loan accounts: This includes mortgages, auto loans, personal loans, student loans, credit cards and lines of credit.
+            The CFBP specifies that it includes the credit limit or amount, account balance, account payment history, the date the account was opened and closed, and the name of the creditor. \href{https://www.consumerfinance.gov/ask-cfpb/what-is-a-credit-report-en-309/}{source}
+
+            \item Public records: Chapter 7 bankruptcies within the past 10 years; Chapter 13 bankruptcies within the past seven years.
+            \item Soft \& Hard Inquiries: Any companies that have asked to view your credit report.
+        \end{itemize}
+
+        Information that is not in your report is [\href{https://www.experian.com/blogs/ask-experian/what-is-not-included-in-your-credit-report/}{source}]
+        \begin{itemize}
+            \item Saving or checking account balances 
+            \item Investments 
+            \item Records of purchase transactions 
+            \item Income \footnote{In my personal experience, when opening a new credit card income is self-reporrted, hence it might not be as reliable as other information.}
+            \item Marital status
+        \end{itemize}
+
+
+
+    \end{itemize}
+    
+    Open banking policies mandate sharing the following information: 
+    \begin{itemize}
+        \item Chile 
+        \item UK 
+    \end{itemize}
+
+    Hence the source of asymmetric information is: 
+
+    Possible sources:
+    \begin{itemize}
+        \item Frequency of updating: CRA's typically receive montly updates on credit account, while the home bank might have daily information on transactions.
+        \item banks pay credit bureaus to access data 
+        \item the credit score does not include transactions, , income, etc.  With open banking the bank can observe all your spending items, which can allow them to corroborate your income, determine how much you spend on rent, determine if you have any assets\footnote{For example the payment of car insurance probably means that the consumer has a car, or a monthly payment received from another person might mean that has a second property that is being rented. }, etc. 
+        \item The credit score also does not include overdrafts and cash buffers (account balances), home banks obvserve the freuqency and duratin of consumers exceeding their limit. They also observe failed payments and declined transactions.
+        \item Related to the above, the home bank also when observing overdrafts and high foreign transaction fees can infer the profitability of the consumer. Banks make money from add-ons which are not shared by credit bureaus.  
+        \item In the particular case of Chile since the credit reports were quite limited (only included negative information), the open banking system aims to share also positive information. 
+        \item Finallly there is soft information gathered by the bank from in person meetings, conversations, and a qualitative assessment of the consumer. For example any health issues, employment situation, etc. 
+        \item In the US, banks can only check your credit score if you already have an account with them or if they are going to send you a pre-approved offer. But one can forbid the pre-approved offer checks (\href{https://www.experian.com/blogs/ask-experian/can-someone-run-a-credit-check-without-my-permission/}{source}). For example I did it, hence in this case the asymmetry of information is even greater. 
+        In Canada "In general, you need to give permission, or your consent, for a business or individual to use your credit report." (\href{https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score/credit-report-score-basics.html}{source})
+        \item Requesting a credit score requires paying a fee, which mechanically creates asymmetries since non-home banks have to incurr a cost \footnote{"Equifax, Experian, and TransUnion distribute the individual consumer scores to end users, such as lenders, for use in a variety of consumer credit decisions, including mortgage underwriting. The users typically pay the credit reporting conglomerates for each individual score, and the companies in turn pay a licensing fee to FICO.
+
+Single credit reports now typically cost between $18 to $30 for an individual report, $24 to $40 for a joint report, and $40 to $60 for a tri-merge report provided by resellers. When mortgage credit reports and scores are requested for a mortgage underwriting decision, Equifax, Experian, and TransUnion typically set the wholesale price that resellers pay, which is then passed on to users. This is often implemented through an additional fee as compensation for their services in the underwriting process."\href{https://www.consumerfinance.gov/about-us/newsroom/prepared-remarks-of-cfpb-director-rohit-chopra-at-the-mortgage-bankers-association/}{source}}
+
+    \end{itemize}
+
+    Note that for young customers without credit history, the home bank might observe the inflows/outflows, giving them a big advantage when compared to other banks. For example in my case when arriving to the US I did not get a credit card for at least 6 months. 
+
+    This possible sources of persistent asymmetric information among banks even when there is a credit bureau are consistent with a model with two signals, a private one (infor not observed by the credit bureau) and a public one (the credit report), in this type of models I would still expect to observe adverse selection and the problems outlined in \textcite{sharpe_asymmetric_1990}.
+
+    Moreover in a model with one signal, where the non-home banks receive the signal with a delay, the consumer will switch when the signal was already received by the home bank but not yet by the non-home bank, creating selection.
+
+
+
+    \item \textbf{To provide more information on the prior question, what papers have studied relationship banking and what do they find? }
+    
+    \begin{itemize}
+        \item \textcite{} Empirical literature
+    \end{itemize}
+
+
+
+
+
+
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    
+    \item \textbf{}
+    \item \textbf{}
+\end{enumerate}
+
+
+
+
+
+
+\end{document}

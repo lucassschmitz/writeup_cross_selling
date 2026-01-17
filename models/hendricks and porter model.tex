@@ -1,0 +1,259 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+
+There is one neighbor firm and an arbitrary number of non-neighbor firms.
+Let $X$ and $Z$ denote, respectively, the private and public signals on $V$,
+the unknown value of the representative drainage tract.
+The neighbor firm observes the realizations of $X$ and $Z$ prior to bidding
+on the tract, while non-neighbor firms observe only the realization of $Z$.
+Realizations of the random variables will be denoted by lowercase letters.
+In what follows, we treat $z$ as given, and are explicit about the dependence
+of the distributions on its value.
+However, for notational convenience, we will suppress the dependence of
+bidding strategies on $z$.
+
+The essential feature of our model is that the information revealed by on-site
+drilling of an adjacent tract by a neighbor firm is a sufficient statistic
+for the information non-neighbor firms acquire from seismic surveys.
+The assumption that this information is known to the neighbor firm is made
+in order to obtain a precise characterization of the equilibrium and its
+properties.
+A more realistic, but less tractable, assumption is that the non-neighbor
+firms have noisy, but private, estimates of tract value.
+However, as long as the estimates of the non-neighbor firms are not too
+informative, we can use the result by Milgrom and Weber (1985) on the upper
+hemicontinuity of the equilibrium correspondence to argue that the behavioral
+implications of this descriptively more accurate model are approximately the
+same as those of a model in which the estimates of non-neighbor firms are
+based on public information.
+
+The strategy of non-neighbor firm $i$ is a distribution function $G_i(\cdot)$
+over the non-negative real numbers.
+Adopting the approach of Engelbrecht-Wiggans, Milgrom, and Weber, we summarize
+the information of the neighbor firm by the real-valued random variable
+$H = E[V \mid X, z]$.
+We shall assume that $H$ has an atomless distribution $F(\cdot \mid z)$,
+with finite mean $\bar{H}$.
+The strategy of the neighbor firm can then be defined as a function $a$
+which maps realizations of $H$, which are associated with the realizations
+of $X$, into the non-negative real numbers.
+We shall assume that $a(h)$ is a differentiable, strictly increasing function
+on the range $(R, \infty)$, where $R$ is the reservation price, and denote its
+inverse function on this interval by $T(b)$.
+
+Define $G(b) = G_1(b)\cdots G_n(b)$ to be the distribution function of the
+maximum of the bids submitted by the uninformed firms on the tract.
+Given the strategy combination $(a, G_1, \ldots, G_n)$, the payoff to the
+neighbor firm, when its estimate of $V$ is $h$, is the product of the
+probability that its bid is highest and its expected value of the tract less
+its bid:
+\begin{equation}
+G(a(h))\bigl(h - a(h)\bigr).
+\end{equation}
+
+If the drainage tract contains any oil, it is usually part of a pool which
+the neighbor firm has discovered on the adjacent tract.
+This makes the value of the drainage tract to each firm contingent upon the
+manner in which production is allocated among the firms.
+If the firms bargain to an efficient allocation, tract valuations are
+identical across firms.
+In many instances, however, competition leads to some dissipation of rents.
+In these cases, the neighbor firm is likely to have a higher tract valuation
+than the non-neighbor firm, since it can take the externality into account
+and internalize its effects.
+
+We parameterize the possible difference in tract valuations by letting the
+expected value of the drainage tract to the non-neighbor firm be equal to
+$E[H \mid z] - c$, where $c$ is a fixed, non-negative constant.
+The expected payoff to non-neighbor firm $i$ which submits a bid $b$ greater
+than $R$ is
+\begin{equation}
+E\!\left[H - b - c \mid b > a(h); z\right]
+F(T(b)\mid z)\prod_{j \neq i} G_j(b).
+\end{equation}
+
+The first term in equation (2) is expected profits, conditional on winning
+the tract (and hence $b > a(h)$).
+The remaining terms represent the probabilities of outbidding the neighboring
+firm and the other non-neighbors.
+Ties at the reservation price are assumed to be settled by randomization.
+
+A Bayesian Nash equilibrium for the bidding game is an $(n+1)$-tuple of
+strategies $(a^*, G_1^*, \ldots, G_n^*)$ such that the expected payoff to each
+firm conditional on its information is maximized, given the strategies
+employed by the other firms.
+
+\newpage 
+
+We turn next to a characterization of the equilibrium bid distributions.
+Define
+\begin{equation}
+\phi(h)
+=
+\exp\!\left(
+- \int_h^{\infty}
+\frac{f(s \mid z)\int_h^{s} F(u \mid z)\,du}
+{cF(s \mid z)^2 + F(s \mid z)\int_h^{s} F(u \mid z)\,du}
+\, ds
+\right).
+\end{equation}
+Note that if $c$ is equal to zero, then $\phi(h)$ is equal to $F(h \mid z)$.
+Our theorem is a restatement of the theorem proved by
+Engelbrecht-Wiggans, Milgrom, and Weber, extended to auctions with
+asymmetric tract valuations.
+The proof is essentially the same as the one given by
+Engelbrecht-Wiggans, Milgrom, and Weber, and is given in the Appendix.
+
+\begin{thm}
+The $(n+1)$-tuple $(a^{*},G_1^{*},\ldots,G_n^{*})$ is an equilibrium point
+if and only if
+\begin{equation}
+G^{*}(b) =
+\begin{cases}
+1, & b > H - c, \\
+\phi(T(b)), & R < b < H - c, \\
+\phi(R), & 0 < b < R,
+\end{cases}
+\end{equation}
+and
+\begin{equation}
+a^{*}(h) =
+\begin{cases}
+E[H \mid H < h; z] - c, & h > \bar{h}, \\
+R, & \bar{h} \ge h \ge R, \\
+0, & h < R,
+\end{cases}
+\end{equation}
+where $\bar{h}$ solves
+\[
+E[H \mid H < \bar{h}; z] - c = R .
+\]
+\end{thm}
+
+The theorem states that the supports of the equilibrium distribution
+functions are identical, and consist of $\{0\}$ and the interval
+$[R, H-c]$.
+We interpret a zero bid as no bid.
+The equilibrium strategy of the neighbor firm on $(R, H-c)$ is uniquely
+determined by the condition that, in equilibrium, non-neighbor firms
+must earn zero profits.
+That is, suppose a non-neighbor firm submits an equilibrium bid $b$.
+Then, since $a^{*}$ is strictly increasing at $b$, there is a unique
+$h'$ such that $b = a^{*}(h')$.
+The expected profit of the tract to the non-neighbor firm conditional
+on the event that it wins is $E[H \mid H < h'; z] - b - c$.
+Setting this equation equal to zero implies that
+\[
+a^{*}(h') = E[H \mid H < h'; z] - c.
+\]
+
+The equilibrium strategies of non-neighbor firms are indeterminate.
+However, the equilibrium distribution function of the maximum
+uninformed bid is unique.
+It is chosen in order to induce the neighbor firm to bid according to
+the function given above.
+The two distributions differ in the probability of the events of no
+bid, and of a reservation bid $R$.
+$G^{*}$ possesses a mass point equal to $F(\bar{h})$ at $\{0\}$, and is
+constant at this value on the interval $(0,R]$.
+The distribution of the neighbor bid also possesses a mass point at
+$\{0\}$, but it is equal to $F(R)$, which is less than $F(\bar{h})$.
+The distribution is constant at $F(R)$ on the open interval $(0,R)$,
+and then jumps discontinuously upward at $R$.
+The value of the mass point at $R$ is equal to $F(\bar{h}) - F(R)$.
+If $c$ is equal to zero, $G^{*}$ is identical to the distribution of the
+informed bid on $(R,H)$.
+
+The randomized strategies of non-neighbor firms are a direct consequence
+of the assumption that the neighbor firm knows their estimates.
+If non-neighbor firms bid according to a pure (and hence predictable)
+strategy which specifies a bid for each realization of the public
+information variables, the optimal response of the neighbor firm is to
+bid slightly above the maximum non-neighbor bid if the tract is worth
+more than this number, and not bid otherwise.
+But this implies that on average the non-neighbor firm is certain to
+lose, since it will win only those tracts whose expected value is less
+than its bids.
+By randomizing, non-neighbor firms can induce the neighbor firm to bid
+according to a strategy in which it will lose profitable tracts some of
+the time.
+As a result, non-neighbor firms will earn positive expected profits on
+some tracts, and it is only on average that their expected profits are
+zero.
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
