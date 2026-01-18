@@ -64,7 +64,6 @@
 \begin{document}
 
 
-\section{Introduction}
 
 This document compiles questions asked by professors or others and the ideal answer we should provide to them. 
 
@@ -73,6 +72,9 @@ This document compiles questions asked by professors or others and the ideal ans
     
     Credit bureaus include the following information: 
     \begin{itemize}
+        \item Bolivia 
+
+        "After written authorization from a prospective customer, a bank can access the registry and obtain a credit report. The report includes information on all outstanding loans of the customer for the previous 2 months. Entries include originating bank, loan amount, loan type, value of collateral, value of overdue payments, and the firm’s credit rating from the originating bank" (\cite{ioannidou_time_2010}). 
         \item Canada
         
         Factors that can affect you credit score are[\href{https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score/credit-report-score-basics.html}{source}]: 
@@ -137,7 +139,10 @@ This document compiles questions asked by professors or others and the ideal ans
         \item The credit score also does not include overdrafts and cash buffers (account balances), home banks obvserve the freuqency and duratin of consumers exceeding their limit. They also observe failed payments and declined transactions.
         \item Related to the above, the home bank also when observing overdrafts and high foreign transaction fees can infer the profitability of the consumer. Banks make money from add-ons which are not shared by credit bureaus.  
         \item In the particular case of Chile since the credit reports were quite limited (only included negative information), the open banking system aims to share also positive information. 
-        \item Finallly there is soft information gathered by the bank from in person meetings, conversations, and a qualitative assessment of the consumer. For example any health issues, employment situation, etc. 
+        \item Finallly there is soft information gathered by the bank from in person meetings, conversations, and a qualitative assessment of the consumer. For example any health issues, employment situation, etc. For example Schumpeter (1939, p. 116, cited in \textcite{diamond_financial_1984}) states: 
+
+... the banker must not only know what the transaction is which he is asked to  finance and how it is likely to turn out but he must also know the customer, his business and even his private habits, and get, by frequently "talking things over with him", a clear picture of the situation 
+        
         \item In the US, banks can only check your credit score if you already have an account with them or if they are going to send you a pre-approved offer. But one can forbid the pre-approved offer checks (\href{https://www.experian.com/blogs/ask-experian/can-someone-run-a-credit-check-without-my-permission/}{source}). For example I did it, hence in this case the asymmetry of information is even greater. 
         In Canada "In general, you need to give permission, or your consent, for a business or individual to use your credit report." (\href{https://www.canada.ca/en/financial-consumer-agency/services/credit-reports-score/credit-report-score-basics.html}{source})
         \item Requesting a credit score requires paying a fee, which mechanically creates asymmetries since non-home banks have to incurr a cost \footnote{"Equifax, Experian, and TransUnion distribute the individual consumer scores to end users, such as lenders, for use in a variety of consumer credit decisions, including mortgage underwriting. The users typically pay the credit reporting conglomerates for each individual score, and the companies in turn pay a licensing fee to FICO.
@@ -152,23 +157,64 @@ Single credit reports now typically cost between $18 to $30 for an individual re
 
     Moreover in a model with one signal, where the non-home banks receive the signal with a delay, the consumer will switch when the signal was already received by the home bank but not yet by the non-home bank, creating selection.
 
+    In what follows I cite somee papers: 
+
+    \begin{itemize}
+        \item \textcite{boot_relationship_2000} says " relationship banking does not involve only funding but includes also various other financial services, e.g., letters of credit, deposits, check clearing, and cash management services. We will not focus on these services per se, but one should keep in mind that these services can expand the information available to the intermediary. As some have argued, the information that banks obtain by offering multiple services to the same customer may be of value in lending (Degryse and Van Cayseele, 2000). " then says " A bank may maintain the checking and saving accounts of a firm (Nakamura (1991)). Easy access to this checking account information gives a bank a unique advantage in monitoring borrowers. It also allows the bank to spread the cost of information production over several products. "
+
+        \item \textcite{santikian_ties_2014} "Deposit and savings accounts include demand deposit accounts, money market and interest checking accounts, certificates of deposits, and other savings accounts. These accounts represent an inexpensive source of funds for the bank to loan out. They also allow the bank to observe a firm’s cash flow and, potentially, the owner’s personal liquidity"    
+        
+    \end{itemize}
+    
+    The following papers study relationship lending with retail borrowers (not firms) \textcite{agarwal_benefits_2018,puri_importance_2011,chakravarty_relationships_1999}
 
 
     \item \textbf{To provide more information on the prior question, what papers have studied relationship banking and what do they find? }
     
     \begin{itemize}
-        \item \textcite{} Empirical literature
+        \item \textcite{agarwal_distance_2010} is the crucial paper to convince someone that credit scores are not enough to eliminate asymmetric information. 
+
+        They study a big bank in the US and the products are loans and credit lines to small and medium enterprises (SME). 
+
+        They observe the internal credit score which is constructed with hard (verifiable) and soft (subjective) information. this score is propietary, not observed by the researcher.
+
+        They capture strenght of the relationship by length, number of products and money on the bank.
+
+        They regress the private credit score on the public (experian) credit score (also observed by the firm) and the unexplained variation is 27\% which is assigned to soft information.
+
+        They do other empirical excercises which I did not read in detail
+
+        
+        \item \textcite{mester_transactions_2007} study a Canadian bank and show that the transaction accounts of the firms predict future bankrupcties. Moreover they show that banks actively use them to monitor firms and in case they see risky behavior they take measures to diminish the bankruptcy probability. They study credit lines, hence in case of seeing risky behavior the bank can cancel the credit line or condition it on the firm taking certain measures. 
+
+        \item \textcite{ioannidou_time_2010} study firms in Bolivia, they find that when a firm switched to a new bank it switched under a lower rate, but then this rate is increased over time, reflecting the rents that banks can extract from the firm. 
+
+        In terms of the sources of asymmetric information is not
+
+        \item Other papers in relationship banking are: \textcite{bharath_lending_2011}
+
+        \item \textcite{degryse_relationship_2000} test for the possibility of rent shifting by banks. The evidence shows two opposing effects. On the one hand, the loan rate increases with the duration of a bank–firm relationship. On the other hand, the scope of a relationship, defined as the purchase of other information-sensitive products from a bank, decreases the loan's interest rate substantially. Relationship duration and scope thus have opposite effects on loan rates, with the latter being more important.
+
     \end{itemize}
 
+    \textcite{boot_relationship_2000} reviews the literature and determines that banks have private info \footnote{Some statements "The banks’ assets are illiquid largely because of their information sensitivity. In originating and pricing loans, banks develop proprietary information. " and then " informational frictions—asymmetric (and proprietary) information—provide the most fundamental explanation for the existence of (financial) intermediaries. "}
 
+    
 
 
 
 
     
-    \item \textbf{}
+    \item \textbf{[Phil Haile 14-01-26] are there any structural papers studying relationship banking and the informational issues?}
+
+    I checked the following structural papers: \textcite{bird_value_2020,buchak_beyond_2024,dempsey_quantitative_2025,kim_estimating_2003,schwert_bank_2018,truffa_estimating_2025,wang_bank_2022} none of them is close to what we want to do. See the \textit{prior structural papers} folder in zotero and the notes written about each paper. 
     
-    \item \textbf{}
+    
+    \item \textbf{[Phil Haile 14-01-26] why is it that egan and hortacsu et al. (2025) think what our    contribution is relative to this paper.}
+
+    They study "sleepy deposits" hence there is no informational component. A deposit from any two consumers provides the same benefits, whereas obviously a loan to any two individuals will not provide the same benefits because it depends on the repayment probabilities, hence naturally there is not informational component. 
+
+    In our case we want to model information asymmetries. 
     
     \item \textbf{}
     
