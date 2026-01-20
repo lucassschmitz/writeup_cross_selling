@@ -1,0 +1,175 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+Adapting \textcite{engelbrecht-wiggans_competitive_1983}
+
+
+Define $h$ to be default probability, there is an informed bank (bank 1) and an uninformed bank (bank 2).  The strategies are $r_1(h) = \sigma(h): h\rightarrow r$ and $G(x) = \Pr (r_2\leq x)$, which are interest rates. 
+
+Assume that  in equilibrium $\sigma$ is an increasing function, and denote by $\tau: r\rightarrow h $ its inverse, $\tau(\sigma(h)) = h$. 
+
+Then expected profits of bank 1 are: 
+
+\begin{align}
+    \pi_1(r_1(h)) &= \Pr(\sigma(h) \leq r_2)\cdot [(1-h)\sigma(h)-1] \notag \\ 
+     &= [1-\Pr(\sigma(h)> r_2)]\cdot [(1-h)\sigma(h)-1] \notag \\ 
+     &=  [1-G(\sigma(h))]\cdot [(1-h)\sigma(h)-1] \label{eq:profit1}
+\end{align}
+and the expected profits of bank 2 are: 
+
+\begin{align}
+     \pi_2(r_2) &= \Pr(r_2 \leq \sigma(H)) \cdot E[(1-H)\cdot r_2 -1 \mid r_2 \leq \sigma(H)] \notag \\
+     &= \Pr(H \geq \tau(r_2)) \cdot E[(1-H)\cdot r_2 -1 \mid H \geq \tau (r_2)] \notag \\
+      &= [1-F(\tau(r_2))] \cdot E[(1-H)\cdot r_2 -1 \mid H \geq \tau (r_2)] \notag \\ 
+      &= [1-F(\tau(r_2))] \cdot \left(E[(1-H) \mid H \geq \tau (r_2)]\cdot r_2 -1 \right)
+\end{align}
+
+\begin{proposition}[Zero profits of the uninformed bank]
+Assume $H$ has an atomless distribution $F$ with support $[\underline h,\bar h]\subseteq[0,1]$.
+Assume the informed bank uses a strictly increasing strategy $\sigma$ with range $[\sigma(\underline h),\sigma(\bar h)]$ and define $\bar r\equiv \sigma(\bar h)<\infty$.
+If, in addition, Bank~2 randomizes over a connected support with $\sup\,\mathrm{supp}(G)=\bar r$, then Bank~2 earns zero expected profit. In particular, every $r_2$ in the support of $G$ yields zero expected profit.
+\end{proposition}
+
+\begin{remark}[On the boundary condition $\sup\,\mathrm{supp}(G)=\bar r$]
+The equality $\sup\,\mathrm{supp}(G)=\bar r$ is a boundary condition tying together two equilibrium objects.
+It does \emph{not} follow from the primitives stated so far: if Bank~1's highest type optimally chooses to lose for sure (e.g., because any competitive rate yields non-positive profits), then one can have $\sup\,\mathrm{supp}(G)<\sigma(\bar h)$ and Bank~2's winning probability need not vanish at the top of its support.
+
+In applications, this boundary condition is typically implied by an additional structural feature such as a borrower reservation rate (an exogenous cap on feasible/accepted interest rates) or a parameter restriction ensuring even the highest type of Bank~1 strictly prefers quoting some competitive rate to losing for sure.
+\end{remark}
+
+\begin{proof}
+\textbf{Step 1 (Outside option implies nonnegative equilibrium profit).}
+Bank 2 can always choose an interest rate strictly above $\bar r$.
+Since Bank 1 never offers more than $\bar r$ under $\sigma$, this deviation loses for sure and yields profit $0$.
+Therefore Bank 2's equilibrium expected profit satisfies $\bar\pi_2\ge 0$.
+
+\textbf{Step 2 (Indifference on the support).}
+In a mixed-strategy equilibrium, Bank 2 must be indifferent across all $r_2\in\mathrm{supp}(G)$; otherwise it would assign zero probability to strictly suboptimal rates.
+Hence there exists a constant $\bar\pi_2$ such that $\pi_2(r_2)=\bar\pi_2$ for all $r_2\in\mathrm{supp}(G)$.
+\textbf{Step 3 (Profits approach $0$ near the top of the support).}
+Because $\sup\,\mathrm{supp}(G)=\bar r$, for each $n$ there exists $r_n\in\mathrm{supp}(G)$ such that $\bar r-\tfrac{1}{n}<r_n\le \bar r$. Hence we can pick a sequence $r_n\uparrow \bar r$ in $\mathrm{supp}(G)$.
+Since $\sigma$ is strictly increasing, $\tau(r_n)\uparrow \bar h$.
+Because $F$ is atomless, it is continuous at $\bar h$, so the winning probability satisfies
+\[
+\Pr(H\geq \tau(r_n)) = 1-F(\tau(r_n)) \longrightarrow 1-F(\bar h)=0.
+\]
+
+Conditional on winning we have $H\in[\tau(r_n),\bar h]\subseteq[0,1]$, so $(1-H)\in[0,1]$ and, since $r_n\le\bar r$,
+\[
+-(1)\le (1-H)\cdot r_n-1 \le \bar r-1.
+\]
+Thus the conditional margin $E[(1-H)\cdot r_n-1\mid H\geq \tau(r_n)]$ is uniformly bounded.
+Multiplying this bounded term by the winning probability (which converges to $0$) yields $\pi_2(r_n)\to 0$.
+
+\textbf{Step 4 (Combine).}
+Since $\pi_2(r_n)=\bar\pi_2$ for all $n$ and $\pi_2(r_n)\to 0$, we have $\bar\pi_2=0$.
+Together with Step 2 this implies $\pi_2(r_2)=0$ for all $r_2\in\mathrm{supp}(G)$.
+\end{proof}
+
+Since Bank 2 earns zero profits in equilibrium, we have $\pi_2(r_2)=0$ for all $r_2\in\mathrm{supp}(G)$. For any $r_2$ in the (relative) interior of the support, the winning probability $1-F(\tau(r_2))$ is strictly positive, so the conditional expected margin must be zero:
+\begin{align}\label{eq:profits2}
+    E[(1-H) \mid H \geq \tau (r_2)]\cdot r_2 -1  =0 \implies  r_2  =\frac{1}{E[(1-H) \mid H \geq \tau (r_2)]} 
+\end{align}
+
+Then we can use profit maximization by the first firm; the FOC of equation \ref{eq:profit1} are:
+\begin{align}
+    - g(\sigma(h)) [ (1-h)\sigma(h)-1] + [1-G(\sigma(h))] [1-h] = 0 \notag \\
+    \frac{1-h}{ [ (1-h)\sigma(h)-1] } = \frac{g(\sigma(h))}{[1-G(\sigma(h))]} = - \frac{d}{dr} [\log(1-G(r))]\bigg|_{r=\sigma(h)} \notag \\
+    \frac{1-\tau(r)}{ [ (1-\tau(r))r-1] }  = - \frac{d}{dr} [\log(1-G(r))] \notag
+\end{align}\footnote{The second line uses the fact that the hazard rate $g(r)/[1-G(r)] = -d\log(1-G(r))/dr$. The third line follows by substituting $h = \tau(r)$ and $\sigma(h) = r$.}
+Integrating both sides from $\underline{r} = \sigma(\underline{h})$ to a given $r$, where $G( \underline r)=0 $ we have: 
+\begin{align}
+    -[\log(1-G(r)) - \log(1-\underbrace{G(\underline r)}_{=0} ) ] = \int_{\underline r}^r \frac{1-\tau(u)}{ [ (1-\tau(u))u-1] } du \notag \\ 
+     -\log(1-G(r))  = \int_{\underline r}^r \frac{1-\tau(u)}{ [ (1-\tau(u))u-1] } du \notag \\ 
+     G(r) =1-\exp\left[ -\int_{\underline r}^r \frac{1-\tau(u)}{ [ (1-\tau(u))u-1] } du \right] \label{eq:mixed_strategy}
+\end{align}
+
+Let $k = \tau(r_2)$ the the default probability such that the home bank offers $r_2$, then we have $r_2 = \sigma(k)$ and we replace into equation \ref{eq:profits2}
+\begin{align}    
+    \sigma(h) =\frac{1}{E[(1-H) \mid H  \geq h]}   \equiv \frac{1}{\mu(h)}
+\end{align}
+Then we can obtain the mixed strategy of bank 2 by a change of variables, consider $u = \sigma(t) \implies \tau(u) = t, du = \sigma'(t)dt$, then the limits of integration change from $[\underline r, r]$ to $[\underline h, \tau(r)]$. Substituting into equation \ref{eq:mixed_strategy} we have: 
+\begin{align}
+    G(\sigma(h)) = 1-\exp\left[ -\int_{\underline h}^h \frac{1-t}{ [ (1-t)\sigma(t)-1] }\sigma'(t) dt  \right] 
+\end{align}
+given that $\sigma(t) = 1/\mu(t)$, we have $\sigma'(t) = -\mu'(t) /\mu(t)^2 $, replacing in the equation above:
+\begin{align}
+    G(\sigma(h)) = 1-\exp\left[ \int_{\underline h}^h \frac{1-t}{\frac{1-t}{\mu(t)}-1 }\frac{\mu'(t)}{\mu(t)^2} dt  \right] = 1-\exp\left[ \int_{\underline h}^h \frac{(1-t)\mu'(t)}{(1-t-\mu(t))\mu(t)} dt  \right] 
+\end{align}
+
+\newpage
+
+
+%%%%%%%%%%%%%%
+
+ 
+
+ 
+ 
+
+
+\end{document}

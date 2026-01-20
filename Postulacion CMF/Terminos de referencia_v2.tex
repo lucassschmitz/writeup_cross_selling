@@ -1,0 +1,163 @@
+\documentclass[10pt, oneside,spanish,parskip=full]{article}   	
+\usepackage{geometry}                		
+\geometry{a4paper}                   		
+\usepackage[spanish, es-noindentfirst]{babel}
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}               		
+\usepackage{graphicx}									
+\usepackage{amssymb}
+\usepackage{authblk}
+\usepackage[authoryear]{natbib}
+\RequirePackage{doi}
+\usepackage{hyperref}
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+\renewcommand{\baselinestretch}{1.5}
+\usepackage{blindtext}
+\usepackage{float}
+
+
+
+\title{Propuesta de Investigación: ¿compiten los bancos chilenos localmente?
+Implicaciones para el acceso al crédito}
+
+\author[1]{Santiago Truffa}
+\author[2]{Gonzalo Iberti}
+
+\affil[1]{Universidad de los Andes, Profesor Asistente}
+\affil[2]{Universidad Adolfo Ibañez, Estudiante de Doctorado}
+\renewcommand\Authands{, }
+\date{}							
+
+
+
+\begin{document}
+\maketitle
+
+\section{motivación del proyecto}
+
+La competencia en el sector bancario chileno ha sido abordada por diversos estudios, algunos de los cuales la han relacionado con variables específicas, pero hasta ahora, son prácticamente nulos los estudios que abordan la competencia y/o concentración del sector bancario, tomando en cuenta su ubicación geográfica y las condiciones de acceso al crédito que ofrecen a sus clientes localmente.
+
+La motivación de esta investigación es responder la pregunta ¿cómo la concentración y competencia local afecta el acceso al crédito? con el propósito de documentar si el grado de competencia bancaria a nivel geográfico se vincula con las condiciones de crédito, a las cuales acceden los clientes del sistema bancario, según su ubicación geográfica.
+
+Es así, como esta investigación busca contribuir a la literatura documentando el caso chileno. En particular, explotando la presencia de un banco estatal (BancoEstado (BE), que no solo cumple un rol determinante en los niveles de bancarización de del país, sino también, es su relevancia como parte de las estrategias de política anticíclica en tiempos de crisis.
+
+La pregunta de esta propuesta se ha intentado contestar desde el trabajo seminal de Petersen y Rajan, (1995), pero sigue siendo relevante, como lo demuestran trabajos más reciente como el de Bhutta et al. (2020) Buchak et al. (2018), y Xiao (2020). En todo ellos, se destaca la influencia que tiene en la competencia a nivel local en el acceso al crédito, así como también, en los precios que cobra por servicios financieros ofrecidos.
+
+
+No obstante, debido a la interacción entre bancos privados y el banco estatal en términos competitivo, hacen de este caso muy distinto a lo ya documentando antes; A lo que se le agrega, la riqueza en datos que posee el regulador permite identificar por personas o empresas, el match con uno o varios bancos, y seguirlos en el tiempo.
+
+ 
+
+
+\section{objetivos y preguntas}
+Como se planteó en la introducción, la pregunta a responder es ¿cómo la concentración y competencia local afecta el acceso al crédito? desde el punto de vista local o geográfico, y si las condiciones de acceso al crédito difieren entre localidades, para los hogares y empresas chilenas. Por ende, la hipótesis de este estudio es que, a mayor competencia bancaria en un sector geográfico determinado, mejor son las condiciones para acceder al crédito, es decir, disminuyen las restricciones crediticias y/o aumenta la disponibilidad de crédito, sin importar algunas características de los clientes.
+
+De lo anterior, se desprenden aún más interrogantes, por ejemplo: ¿Si lo bancos discriminan vía tasa interés de los créditos comerciales según su ubicación geográfica (o espacialmente)? Otra pregunta relacionada es ¿Si la presencia de un banco estatal influye en la discriminación de precios a nivel local? o ¿si existen diferencias en las condiciones de créditos hipotecarios? a los que acceden los clientes de un banco.
+
+Si bien, el acceso a datos de calidad es fundamental en una investigación de esta índole, también hay que considerar una estrategia de identificación que nos permita corroborar con certeza nuestra hipótesis. Una potencial estrategia para realizar dicha evaluación consiste en el hecho de que la actividad bancaria depende de forma crucial de la locación geográfica de los bancos. Si es que es cierto, el Banco Estado (BE) puede tener efectos estratégicos sobre sus competidores, pero cuán importante es dicho efecto estratégico va a depender de la participación que tenga banco estado en diversos mercados geográficos. En este sentido, se puede recurrir al experimento natural que implicó la capitalización del Banco Estado como medida macro prudencial, y con ello ver como reaccionó la competencia ante dicho aumento en sus colocaciones, como una política contra cíclica.
+
+Evaluar el efecto causal que la capitalización de BE tuvo sobre sus competidores es difícil ya que muchas cosas cambian de forma simultánea durante una crisis. Si de forma ingenua observáramos que las colocaciones de los demás bancos disminuyeron posterior a la capitalización de BE, podríamos erróneamente inferir que dicha capitalización tuvo un efecto negativo sobre los demás bancos de la plaza. En dicha evaluación estaríamos atribuyendo a la capitalización de BE efectos que pueden deberse a shocks que cada banco independientemente experimento durante la crisis
+
+Para no cometer esta clase de errores, debemos ser capaces de decir que habrían hecho los otros bancos en ausencia de la capitalización del BE. A pesar de que ello no es posible, podemos intentar construir un contrafactual apropiado que se acerque a este escenario.
+
+Por ejemplo, si BE tiene una participación de mercado muy baja en una comuna, entonces al tener menos relaciones con clientes le va a resultar más difícil salir expandir su cartera en dicha comuna. Análogamente, si es que el BE tiene una participación importante en un mercado geográfico, entonces le va a resultar más fácil salir a expandir su cartera. Dicho eso, los efectos que la capitalización del BE puede tener sobre sus competidores, va a variar por comunas en función de la participación de mercado de BE previo a la capitalización.
+
+Si es que la participación de mercado de BE en una comuna relativa a otra es independiente del hecho que el BE haya sido capitalizado para aumentar sus colocaciones durante la crisis, entonces es posible usar como instrumento la posición que tenía el BE en cada comuna antes de la crisis, e interactuar ello con la variación temporal en el capital del BE. De esta manera se puede obtener un dif-in-dif estimator.
+
+Una vez construido el instrumento, es importante saber que paso con aquellos consumidores que recibieron un mayor acceso al crédito, gracias a los efectos estratégicos del aumento de capital de BE. Para ello queremos seguir a dichos créditos en el tiempo de modo de tener una evaluación más clara de cómo esta política pudo impactar el bienestar de los consumidores.
+
+  
+
+
+
+\section{identificación de las bases de datos}
+Para este proyecto de investigación se solicita acceder a las siguientes bases de datos:
+\begin{itemize}
+      	\item [-] Se necesita acceso a los datos que recopila el archivo contable C12, que entrega información del crédito, por tipo, y estado del crédito, sin tasa de interés
+      	 \item [-] Se necesita acceso a los datos que recopila el archivo deudores D32, que entrega información del crédito, la tasa interés acordada y la oficina de emisión del crédito.
+    		\item[-] Se necesitas acceso a los datos,  del archivo i06 que contiene información de la ubicación de las oficinas que otorgan los créditos
+		\item[-] y con el rut que obtiene el crédito, identificar si persona natural, empresa y enriquecerla con datos del SII que también posee la CMF.    
+\end{itemize}
+
+
+\section{reseña curricular de los integrantes del equipo}
+
+\textbf{Santiago Truffa}
+Profesor Asistente de Finanzas y Director del Real Estate Modeling Lab en ESE Business School de la Universidad de los Andes en Chile. Sus intereses de investigación se encuentran en la intersección de las finanzas domésticas y la economía urbana. Antes de unirse a la Universidad de los Andes, fue profesor en el Departamento de Finanzas de la Universidad de Tulane. Recibió un doctorado en Administración de Empresas de la Haas School of Business de UC Berkeley.
+
+\textbf{Gonzalo Iberti}
+es estudiante de Ph.D. en Finanzas de la Universidad Adolfo Ibañez de Chile. Es Magíster en Economía de la Pontificia Universidad Católica de Chile y Magíster en Finanzas Aplicadas de la Universidad del Desarrollo. Sus intereses de investigación son la intermediación financiera, la organización industrial de la banca y las restricciones financieras de las empresas. Tiene una amplia experiencia laboral en instituciones públicas y privadas relacionadas con los mercados financieros y su regulación.
+
+
+\section{ manifestación de adherencia a los requisitos y condiciones de este convenio}
+A continuación se adjunta Manifestación de adherencia de requisition y condiciones del presente convenio
+\begin{figure}[h!]
+\begin{center}
+	\includegraphics[width=\textwidth]{figure1.PNG} 
+\end{center}
+\end{figure}
+
+
+
+\section{Plan de actividades: }
+
+
+\begin{itemize}
+	\item[-] Procesamiento y construcción de base de datos (3 meses). Producto Final, base de datos para realizar las estimaciones
+	\item[-] Descripción del comportamiento de las variables claves y Resultados preliminares (3 meses). Producto entregable, Presentación primeros resultados. 	
+	\item[-] Redireccionamientos y ajustes del proyecto de acuerdo a los resultados preliminares. Producto entregable, Primer draft para comentarios y evaluación de consistencia.
+	\item[-] Incorporación de comentarios y análisis de robustez de los resultados. Producto entregable (3 meses), Segundo Draft.
+	\item[-] Presentación resultados, y ronda de exposiciones (3 meses). Presentación con resultados. 
+	\item[-] Incorporación de comentarios y ajustes después de exposiciones (3 meses). Draft final.
+\end{itemize}
+
+
+\section{Bibliografía}
+%\bibliographystyle{econ}
+%\addcontentsline{toc}{section}{\refname}\nocite{*}
+%\bibliography{bibliograph}
+
+Beck, T., Demirgüç-Kunt, A., \& Maksimovic, V. (2004). Bank competition and access to finance: International evidence. Journal of Money, Credit and Banking, 627-648.\\
+
+Beck, T., Demirgüç-Kunt, A., \& Maksimovic, V. (2008). Financing patterns around the world: Are small firms different?. Journal of financial economics, 89(3), 467-487.\\
+
+Black, S. E., \& Strahan, P. E. (2002). Entrepreneurship and bank credit availability. The Journal of Finance, 57(6), 2807-2833.
+Cabezón, F., \& López, K. (2019). Determinantes de la competencia en la banca chilena. Economía chilena, vol. 22, no. 1.\\
+
+Bhutta, N., A. Fuster, and A. Hizmo (2020). Paying too much? Price dispersion in the US mortgage market.
+
+Buchak, G., G. Matvos, T. Piskorski, and A. Seru (2018). The limits of shadow banks. Technical report, National Bureau of Economic Research.
+
+Canales, R., \& Nanda, R. (2012). A darker side to decentralized banks: Market power and credit rationing in SME lending. Journal of Financial Economics, 105(2), 353-366.\\
+
+Carbo-Valverde, S., Rodriguez-Fernandez, F., \& Udell, G. F. (2009). Bank market power and SME financing constraints. Review of Finance, 13(2), 309-340.\\
+
+Casu, B., \& Girardone, C. (2006). Bank competition, concentration and efficiency in the single European market. The Manchester School, 74(4), 441-468.\\
+
+Chong, T. T. L., Lu, L., \& Ongena, S. (2013). Does banking competition alleviate or worsen credit constraints faced by small-and medium-sized enterprises? Evidence from China. Journal of Banking \& Finance, 37(9), 3412-3424.\\
+
+Claessens, S., \& Laeven, L. (2005). Financial dependence, banking sector competition, and economic growth. Journal of the European Economic Association, 3(1), 179-207.\\
+
+Degryse, H., \& Ongena, S. (2007). The impact of competition on bank orientation. Journal of Financial Intermediation, 16(3), 399-424.\\
+
+DeYoung, R., Goldberg, L. G., \& White, L. J. (1999). Youth, adolescence, and maturity of banks: Credit availability to small business in an era of banking consolidation. Journal of Banking \& Finance, 23(2-4), 463-492.\\
+
+Dong, Y., \& Men, C. (2014). SME financing in emerging markets: Firm characteristics, banking structure and institutions. Emerging Markets Finance and Trade, 50(1), 120-149.\\
+
+Fischer, Karl-Hermann, 2000. Acquisition of Information in Loan Markets and Bank Market Power – An Empirical Investigation. Mimeo Johann Wolfgang Goethe University Frankfurt.\\
+
+
+Hannan, T. H. (1991). Bank commercial loan markets and the role of market structure: Evidence from surveys of commercial lending., 15(1), 133-149.
+Kumar, A., \& Francisco, M. (2005). Enterprise size, financing patterns, and credit constraints in Brazil: analysis of data from the investment climate assessment survey. The World Bank.\\
+
+
+Mirzaei, A., \& Moore, T. (2014). What are the driving forces of bank competition across different income groups of countries?. Journal of International Financial Markets, Institutions and Money, 32, 38-71.\\
+
+Petersen, M. A., \& Rajan, R. G. (1995). The effect of credit market competition on lending relationships. The Quarterly Journal of Economics, 110(2), 407-443.\\
+
+Scharfstein, D. and A. Sunderam (2016). Market power in mortgage lending and the transmission of monetary policy. Unpublished working paper. Harvard University.
+
+Xiao, K. (2020, June). Monetary Transmission through Shadow Banks. The Review of Financial Studies 33 (6), 2379–2420
+
+\end{document}   
