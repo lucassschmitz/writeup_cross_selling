@@ -1,0 +1,88 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins}
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}
+\newtheorem{definition}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[thm]{Remark}
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+\addbibresource{../references.bib}
+\begin{document}
+
+\textcolor{red}{1. to use BLP one needs to i) observe the full choice set and ii) observe multiple markets, in this case it is not obvious how to model it since prices are at the consumer level and we do not observe the full choice set., 2. }
+
+\section{Estimation of Model 1: Switching Costs with Persistent Heterogeneity}
+
+We describe the estimation strategy for the multi-product duopoly model with switching costs and persistent consumer heterogeneity developed in \texttt{model1\_switching costs\_v2.tex}. The model features two periods and $J=2$ firms, with consumer utility:
+\begin{equation}
+    u_{ijt} = \beta_j - \alpha p_{ijt} + \xi_j + \mu_{ij} + \epsilon_{ijt}
+\end{equation}
+where $\mu_{ij} \sim N(0, \sigma_\mu^2)$ is persistent consumer-firm match value and $\epsilon_{ijt}$ is i.i.d.\ Type-I Extreme Value.
+
+\subsection{Parameters to Estimate}
+
+The parameter vector is:
+\begin{equation}
+    \theta = (\alpha, \sigma_\mu, s, \beta_1, \ldots, \beta_J, \xi_1, \ldots, \xi_J, c_1, c_2)
+\end{equation}
+
+
+Definde the demand parameters: 
+$ \theta^D = (\alpha, \sigma_\mu, s, \beta_1, \ldots, \beta_J, \xi_1, \ldots, \xi_J)$. The demand parameters can be estimated from consumer choice data in the first stage. 
+Assuming that consumers are myopic the choices made by consumers are sufficient to estimate $\theta^D$ using BLP. Given the estimated demand parameters, the switching costs can be identified from the switching decisions. Finally, the cost parameters are identified from the FOC of the firms. 
+
+Here the heavy lifting is done by assuming that $\xi_{jt}$ is constant across periods, which allows to estimate all the demand parameters from the first period choices. I am not sure whether time-varying $\xi_{jt}$ would complicate identification since would imply that the choices in the second stage have to identify the second period demand shocks and the switching costs. 
+
+
+
+
+\end{document}

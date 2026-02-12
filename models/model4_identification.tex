@@ -1,0 +1,347 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+
+\section{Model Setup}
+
+We take model 4 and assume that the repayment probability is distributed according to a parametric family of functions. Specifically, we assume the Kumaraswamy distribution.
+
+\subsection{Kumaraswamy Distribution}
+
+The probability density function is:
+\begin{align}
+    f(h) = \alpha \beta h^{\alpha - 1} (1 - h^\alpha)^{\beta - 1}
+\end{align}
+
+The cumulative distribution function is:
+\begin{align}
+    F(h) = 1 - (1 - h^\alpha)^\beta
+\end{align}
+
+Note that for $\alpha = \beta = 1$, this reduces to the uniform distribution. The expected value is given by:
+\begin{align}\label{eq:mean_kumaraswamy}
+    \mathbb{E}(\alpha, \beta) = \beta B\left(1+ \frac{1}{\alpha}, \beta \right) = \frac{\beta \Gamma (1 + \frac{1}{\alpha})\Gamma(\beta))}{\Gamma (1 + \frac{1}{\alpha}+\beta )} 
+\end{align}
+where $B(\cdot)$ is the beta function and $\Gamma$ is the gamma function.
+
+\subsection{Parameters to Identify}
+
+The elements we need to identify from our model are:
+\begin{itemize}
+    \item $\lambda$: Switching cost
+    \item $\alpha, \beta$: Distribution of types
+\end{itemize}
+
+\subsection{Observable Data}
+
+For each borrower $i = 1, ..., N$, we observe:
+\begin{itemize}
+    \item $r_i^{win}$: The interest rate charged by the winning bank (i.e., the bids conditional on winning)
+    \item $W_i \in \{1, 2\}$: The bank from which the customer took the loan, where $W_i = 1$ indicates the incumbent won and $W_i = 2$ indicates the entrant won
+    \item $D_i \in \{0, 1\}$: Whether the borrower defaulted ($D_i = 1$) or repaid ($D_i = 0$)
+\end{itemize}
+
+
+
+
+\section{Estimation Strategy with Limited Observables}
+
+In practice, the researcher observes only a subset of the model's variables. 
+
+\subsection{Unobservable Variables}
+
+The following are \textit{not} observed by the researcher:
+\begin{enumerate}
+    \item \textbf{Latent type} $h_i$: The borrower's true default probability
+    \item \textbf{Loser's bid}: The interest rate offered by the bank that lost (either $r_1$ if entrant won, or $r_2$ if incumbent won)
+    \item \textbf{Bank profits}: The realized profits are not directly observed
+\end{enumerate}
+
+
+The parameter vector to be estimated is $\theta = (\alpha, \beta, \lambda, h_{min}, h_{max})$.
+
+\subsection{Likelihood Function}
+
+Given the model structure, we can construct the likelihood of observing the data. For borrower $i$, we observe $(r_i^{win}, W_i, D_i)$ but not the latent type $h_i$.
+
+\paragraph{Incumbent wins ($W_i = 1$):} 
+
+When the incumbent wins, they play the pure strategy $r_1 = \sigma(h)$. Since $\sigma(\cdot)$ is strictly increasing, observing $r_i^{win}$ when the incumbent wins reveals the borrower's type uniquely:
+\begin{align}
+    h_i = \tau(r_i^{win}) \equiv \sigma^{-1}(r_i^{win})
+\end{align}
+
+To construct the likelihood, we trace back through the data generating process. The likelihood for observation $i$ when the incumbent wins is:
+\begin{align}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 1; \theta) = \Pr(r_i^{win}, D_i, W_i = 1; \theta)
+\end{align}
+
+\textbf{Step 1: Density of the latent type.} The borrower's type is drawn from:
+\begin{align}
+    h_i \sim f(h; \alpha, \beta)
+\end{align}
+
+\textbf{Step 2: Incumbent's offer.} Given type $h_i$, the incumbent offers:
+\begin{align}
+    r_1 = \sigma(h_i; \theta) = \lambda + \frac{1}{\mu(h_i)}
+\end{align}
+This is a deterministic function, not random.
+
+\textbf{Step 3: Winning probability.} The entrant draws $r_2$ from $G(\cdot)$. The incumbent wins if $\sigma(h_i) \leq r_2 + \lambda$, which occurs when $r_2 \geq \sigma(h_i) - \lambda$. Thus:
+\begin{align}
+    \Pr(W_i = 1 \mid h_i; \theta) = \Pr(r_2 \geq \sigma(h_i) - \lambda) = 1 - G(\sigma(h_i) - \lambda; \theta)
+\end{align}
+
+\textbf{Step 4: Default outcome.} Conditional on type $h_i$, default is Bernoulli:
+\begin{align}
+    \Pr(D_i \mid h_i) = h_i^{D_i}(1-h_i)^{1-D_i}
+\end{align}
+
+\textbf{Step 5: Change of variables.} We observe $r_i^{win}$, not $h_i$. To convert from the density of $h_i$ to the density of $r_i^{win}$, we use the transformation:
+\begin{align}
+    r_i^{win} = \sigma(h_i) \implies h_i = \tau(r_i^{win})
+\end{align}
+The density of $r_i^{win}$ (induced by the density of $h_i$) is:
+\begin{align}
+    f_{r}(r_i^{win}) = f(\tau(r_i^{win}); \alpha, \beta) \cdot \left|\frac{d\tau}{dr}\right|_{r = r_i^{win}}
+\end{align}
+This is the standard change-of-variables formula from probability theory: the Jacobian term $|\tau'(r)|$ adjusts for the rate at which density "stretches" or "compresses" under the transformation.
+
+\textbf{Complete likelihood:} Combining all components, the joint density of observing $(r_i^{win}, D_i, W_i=1)$ is:
+\begin{align}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 1; \theta) &= f_{r}(r_i^{win}) \cdot \Pr(W_i = 1 \mid h_i; \theta) \cdot \Pr(D_i \mid h_i) \notag \\
+    &= f(\tau(r_i^{win}); \alpha, \beta) \cdot \left|\tau'(r_i^{win})\right| \cdot [1 - G(r_i^{win} - \lambda; \theta)] \notag \\
+    &\quad \cdot h_i^{D_i}(1- h_i)^{1-D_i}
+\end{align}
+
+\textbf{Expressing as a function of observables only:} Since $h_i$ is not observed, we substitute $h_i = \tau(r_i^{win})$ everywhere. The likelihood is now purely a function of the observables and the parameters:
+\begin{align}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 1; \theta) &= f(\tau(r_i^{win}); \alpha, \beta) \cdot \left|\tau'(r_i^{win})\right| \cdot [1 - G(r_i^{win} - \lambda; \theta)] \notag \\
+    &\quad \cdot [\tau(r_i^{win})]^{D_i}[1-\tau(r_i^{win})]^{1-D_i}
+\end{align}
+
+\textbf{Interpretation:} This expression has four components:
+\begin{enumerate}
+    \item $f(\tau(r_i^{win}); \alpha, \beta)$: How likely is the inferred type $\tau(r_i^{win})$ under the parametric distribution?
+    \item $|\tau'(r_i^{win})|$: The Jacobian adjusting for the nonlinear transformation from types to rates
+    \item $1 - G(r_i^{win} - \lambda; \theta)$: The probability the incumbent wins against the entrant's mixed strategy
+    \item $[\tau(r_i^{win})]^{D_i}[1-\tau(r_i^{win})]^{1-D_i}$: The probability of observing the realized default outcome given the inferred type
+\end{enumerate}
+
+\textbf{Key insight:} When the incumbent wins, observing the winning rate $r_i^{win}$ allows us to perfectly infer the latent type through the invertible relationship $h_i = \tau(r_i^{win})$. This makes the likelihood computation straightforward—we simply evaluate all model components at the inferred type.
+
+\paragraph{Entrant wins ($W_i = 2$):}
+
+When the entrant wins, the situation is fundamentally different from the incumbent wins case. The entrant uses a mixed strategy $G(x)$, so the winning rate $r_i^{win}$ is a random draw from this distribution rather than a deterministic function of type $h$. Moreover, we don't observe the incumbent's bid, so we cannot infer $h_i$ directly. Instead, we must integrate over all possible types that could have led to this outcome.
+
+\textbf{Step-by-step derivation:}
+
+\textbf{Step 1: Write the joint probability.} The likelihood for observation $i$ when the entrant wins is:
+\begin{align}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 2; \theta) = \Pr(r_i^{win}, D_i, W_i = 2; \theta)
+\end{align}
+
+\textbf{Step 2: Decompose using the law of total probability.} Since we don't observe $h_i$ when the entrant wins, we integrate it out:
+\begin{align}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 2; \theta) = \int_{h_{min}}^{h_{max}} \Pr(r_i^{win}, D_i, W_i = 2 \mid h; \theta) \cdot f(h; \alpha, \beta) \, dh
+\end{align}
+
+\textbf{Step 3: Factor the conditional probability.} We factor the joint probability of observing rate $r_i^{win}$, the entrant winning, and default outcome $D_i$:
+\begin{align}
+    \Pr(r_i^{win}, D_i, W_i = 2 \mid h; \theta) = \Pr(r_i^{win}, W_i = 2 \mid h; \theta) \cdot \Pr(D_i \mid h)
+\end{align}
+where:
+\begin{itemize}
+    \item $\Pr(r_i^{win}, W_i = 2 \mid h; \theta) = g(r_i^{win}; \theta) \cdot \mathbf{1}\{r_i^{win} < \sigma(h; \theta) - \lambda\}$ is the joint probability that the entrant offers rate $r_i^{win}$ \textit{and} wins. The entrant draws from $G$ with density $g$, and wins if and only if their draw is below $\sigma(h) - \lambda$. Therefore, the joint event ``offer $r_i^{win}$ and win'' has probability $g(r_i^{win}) \cdot \mathbf{1}\{r_i^{win} < \sigma(h) - \lambda\}$.
+    \item $\Pr(D_i \mid h) = h^{D_i}(1-h)^{1-D_i}$ is the probability of the observed default outcome given type $h$
+\end{itemize}
+
+
+\textbf{Step 4: Substitute into the integral.} Combining Steps 2 and 3:
+\begin{align}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 2; \theta) &= \int_{h_{min}}^{h_{max}} g(r_i^{win}; \theta) \cdot \mathbf{1}\{r_i^{win} < \sigma(h; \theta) - \lambda\} \notag \\
+    &\quad \cdot h^{D_i}(1-h)^{1-D_i} \cdot f(h; \alpha, \beta) \, dh
+\end{align}
+
+\begin{remark}[Equivalent conditional formulation]
+The expression above works directly with the \emph{joint} density $\Pr(r_i^{win}, W_i=2\mid h) = g(r_i^{win})\mathbf{1}\{r_i^{win} < \sigma(h)-\lambda\}$. An equivalent way to write the same likelihood is to condition on the event that the entrant wins. Since
+\begin{align}
+    \Pr(W_i=2\mid h;\theta) = \Pr(r_2 < \sigma(h;\theta)-\lambda) = G(\sigma(h;\theta)-\lambda;\theta),
+\end{align}
+we have
+\begin{align}
+    \Pr(r_i^{win} \mid W_i=2, h;\theta)
+    = \frac{g(r_i^{win};\theta)\,\mathbf{1}\{r_i^{win} < \sigma(h;\theta)-\lambda\}}{G(\sigma(h;\theta)-\lambda;\theta)}.
+\end{align}
+Plugging this into $\Pr(r_i^{win},W_i=2\mid h)=\Pr(r_i^{win}\mid W_i=2,h)\Pr(W_i=2\mid h)$ recovers the joint formulation used above (so one should not multiply by $G(\sigma(h)-\lambda)$ \emph{in addition} to the joint term).
+\end{remark}
+
+
+
+
+ 
+\textbf{ Step 5:} Since $\sigma(\cdot)$ is strictly increasing, the condition $r_i^{win} < \sigma(h) - \lambda$ is equivalent to $h > \tau(r_i^{win} + \lambda)$, where $\tau = \sigma^{-1}$. The integral simplifies to:
+\begin{align}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 2; \theta) &= g(r_i^{win}; \theta) \cdot \int_{\tau(r_i^{win} + \lambda)}^{h_{max}} h^{D_i}(1-h)^{1-D_i} \cdot f(h; \alpha, \beta) \, dh
+\end{align}
+This integrates only over types $h$ for which the entrant's observed offer $r_i^{win}$ actually beats the incumbent.
+
+
+\textbf{Interpretation:} This expression has two components:
+\begin{enumerate}
+    \item $g(r_i^{win}; \theta)$: The density that the entrant offers the observed rate $r_i^{win}$
+    \item $\int_{\tau(r_i^{win} + \lambda)}^{h_{max}} h^{D_i}(1-h)^{1-D_i} \cdot f(h; \alpha, \beta) \, dh$: The integral over types $h$ for which the entrant's offer $r_i^{win}$ beats the incumbent (i.e., $\sigma(h) > r_i^{win} + \lambda$), weighted by the probability of the observed default outcome and the prior density of $h$
+\end{enumerate}
+The key insight is that observing the entrant's winning rate $r_i^{win}$ restricts the set of possible borrower types: only types with $h > \tau(r_i^{win} + \lambda)$ could have generated this outcome, since lower types would have incumbents offering rates that beat $r_i^{win}$.
+
+\textbf{Key difference from $W_i = 1$:} When the entrant wins, we cannot uniquely identify $h_i$ from observables. The same winning rate $r_i^{win}$ could arise from any type $h$, as long as the entrant happens to draw $r_i^{win}$ from their mixed strategy. Therefore, the likelihood involves integrating over the uncertainty about the borrower's true type, weighted by how likely each type is to produce the observed outcome $(r_i^{win}, W_i = 2, D_i)$.
+
+
+\textbf{Sample likelihood:} The likelihood for the full sample is:
+\begin{align}
+    \mathcal{L}(\{r_i^{win}, D_i, W_i\}_{i=1}^N; \theta) = \prod_{i=1}^N \mathcal{L}_i(r_i^{win}, D_i, W_i; \theta)
+\end{align}
+where $\mathcal{L}_i(r_i^{win}, D_i, W_i; \theta)$ equals the expression for $W_i = 1$ or $W_i = 2$ depending on which bank wins.
+
+The log-likelihood is:
+\begin{align}
+    \ell(\{r_i^{win}, D_i, W_i\}_{i=1}^N; \theta) = \sum_{i=1}^N \log \mathcal{L}_i(r_i^{win}, D_i, W_i; \theta)
+\end{align}
+
+\subsection{Estimation Procedure}
+
+\textbf{Maximum Likelihood Estimation:}
+\begin{enumerate}
+    \item For a given parameter vector $\theta$:
+    \begin{itemize}
+        \item Compute the equilibrium strategies $\sigma(h; \theta)$ and $G(x; \theta)$ numerically (following the algorithm in Section ``Equilibrium computation'' in model4\_adapting Engelbrecht et al.tex)
+        \item For each observation $(r_i^{win}, D_i, W_i)$, evaluate the likelihood $\mathcal{L}_i(r_i^{win}, D_i, W_i; \theta)$. When $W_i = 2$, this requires numerical integration over $h$
+    \end{itemize}
+    \item Maximize the log-likelihood:
+    \begin{align}
+        \hat{\theta} = \arg\max_\theta \ell(\{r_i^{win}, D_i, W_i\}_{i=1}^N; \theta)
+    \end{align}
+    using numerical optimization (e.g., Nelder-Mead, BFGS)
+    \item Compute standard errors from the inverse Hessian or via bootstrap
+\end{enumerate}
+
+\subsection{Identification}
+
+\textbf{Key identification arguments:}
+
+\begin{itemize}
+    \item \textbf{Switching cost $\lambda$:} Identified from the gap between incumbent and entrant rates. In equilibrium, the incumbent charges $r_1(h) = \lambda + 1/\mu(h)$ while the entrant's support starts at $x_{min} = 1/E[1-H]$. The minimum observed incumbent rate minus the minimum observed entrant rate reveals $\lambda$.
+    
+    \item \textbf{Distribution parameters $(\alpha, \beta)$:} Identified from:
+    \begin{enumerate}
+        \item The distribution of winning rates conditional on winner identity
+        \item The correlation between winning rates and default outcomes
+        \item The switching probability (fraction of borrowers choosing the entrant)
+    \end{enumerate}
+    
+    \item \textbf{Support bounds $(h_{min}, h_{max})$:} The observed range of rates (conditional on winner) restricts the support of $h$ via the equilibrium pricing function $\sigma(h)$.
+\end{itemize}
+
+% \subsection{Moment Conditions}
+
+% As an alternative to MLE, one could use Method of Moments by matching:
+% \begin{enumerate}
+%     \item $E[r^{win}]$: Mean winning rate
+%     \item $\text{Var}(r^{win})$: Variance of winning rates
+%     \item $\Pr(W = 2)$: Switching probability
+%     \item $E[D \mid W = 1]$ vs $E[D \mid W = 2]$: Adverse selection (entrant gets lemons)
+%     \item $\text{Cov}(r^{win}, D)$: Correlation between rate and default
+%     \item Quantiles of the winning rate distribution
+% \end{enumerate}
+
+% The model-implied moments are functions of $\theta$, and we solve:
+% \begin{align}
+%     \hat{\theta}_{MM} = \arg\min_\theta \left[\mathbf{m}_{data} - \mathbf{m}_{model}(\theta)\right]' W \left[\mathbf{m}_{data} - \mathbf{m}_{model}(\theta)\right]
+% \end{align}
+% where $W$ is a weighting matrix.
+
+\newpage 
+
+\section{Random thoughts}
+ 
+
+\begin{itemize}
+    \item  Switching costs does not generate heterogeneity in the rates paid by old customers, whereas information asymmetries do. Maybe the variance of rates paid by old customers can tell us about the degree of learning by the bank. 
+    
+    \item If we can determine the switching probability implied by the model, then we can compare it to the observed in the data and this can reveal something about the relative importance of switching costs vs information asymmetries. For example if there is no information asymmetries, then the equilibrium is in pure strategies and there is no switching. If there are information asymmetries there will be switching. 
+    \item Given that we obseve the winning bids conditional on winning, we can try to obtain some moments from the model and compare them to the data. 
+
+    \item Maybe if one calculates the probability of switching conditional on ex-post repayment there are some moments that we can try to match. Note that the lemons are the ones that switch, hence switchers should have a lower repayment rate than non-switchers.
+
+    \item Note that the home bank plays a pure strategy. For any $h$ they play $\sigma(h)$ and whenever the home bank wins we observe $\sigma(h)$, and the home bank has a higher likelihood of winning when $h$ is low. if we adjust for this winning probability we can obtain the distribution of $\sigma(h)$ and then given a switching cost obtain the distribution of $h$. 
+    
+    \item To identify the switching costs we can use the difference between the lowest bid by the entrant and the lowest rate by the incumbent. The difference should be equal to the switching cost.
+\end{itemize}
+
+
+
+\end{document}

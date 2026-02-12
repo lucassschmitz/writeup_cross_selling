@@ -1,0 +1,92 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{references.bib}
+\begin{document}
+\begin{center}
+    {\Large \textbf{Research Questions}} \\[6pt]
+    Cross-Selling and Switching Costs in Consumer Credit Markets
+\end{center}
+
+\bigskip
+
+\begin{enumerate}
+
+\item \textbf{What share of observed cross-selling in consumer credit markets is attributable to switching costs versus persistent consumer preferences for specific banks?}
+
+Cross-selling, could arise from two fundamentally different sources: switching costs and persistent preference heterogeneity. 
+Both of this forces have different welfare implications. A market where consumers buy multiple products from the same bank could be due to persistent preferences, in which case there is no inefficiency. But it could also be due to switching costs, in which case there could be inneficiencies since consumers would not be choosing the bank they would prefer absent switching costs. To differentiate this effects we need a structural model. 
+
+
+
+
+
+
+\item \textbf{How do switching costs distort the pricing of financial products across the customer lifecycle---specifically, do banks invest through below-cost entry products and harvest through above-competitive-rate subsequent products?}
+
+A  prediction of switching cost models is that firms face invest and harvest incentives. In banking, this would manifest as below-cost checking accounts or credit cards used to build a customer base, followed by consumer loans or mortgages priced above what a competitive market would deliver.
+\textcite{egan_dynamic_2025} document this investment-harvesting dynamic for U.S. deposits, but attribute all persistence to consumer inattention rather than switching costs, and study a single product. \textcite{qi_big_2024} shows that non-loan product profits cross-subsidize loans, consistent with the investment-harvesting pattern, but does not structurally recover the switching cost that generates it. This paper quantifies the magnitude of the pricing distortion across the product sequence---from entry products to loans---and decomposes observed markups into the component attributable to switching costs versus the component attributable to market power from other sources.
+
+
+\end{enumerate}
+
+\end{document}

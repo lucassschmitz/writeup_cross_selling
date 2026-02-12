@@ -1,0 +1,169 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{references.bib}
+\begin{document}
+
+
+
+This document compiles questions I want to ask to customers and practitioners. 
+
+\section{Questions to customers}
+
+\begin{enumerate}
+    \item Con que bancos tienes productos o usas sus servicios? [e.g. cuenta corriente/tarjeta de credito/hipoteca/inversiones en depositos a plazo o en otros activos -como acciones- a traves del banco.] 
+    
+    \textbf{Alfredo Mahns:} Banco de chile, banco estado (no la usa).
+
+    \textbf{Christian Schmitz:} Banco chile y santander 
+    
+    \item Por que elegiste el banco en el que estas? 
+    
+    \textbf{Alfredo Mahns:} sus papas le abrieron una cuenta de ahorro desde chico  (10 anos) y  luego 19/20 anos abrio cuenta corriente y todo eso. 
+
+    \textbf{Christian Schmitz:} Partio primero con el banco Santander porque tenia la hipoteca con mejor tasa de interes y traslado (por razon de hipoteca) todo al santander. Para obtener las preferencias de tasas en la hipoteca habia que depositar el sueldo ahi. 
+
+    Luego abrio en el banco de chile porque ofrecia una cuenta corriente en dolares y queria traer inversiones desde Alemania a Chile, los cuales no se podian hacer en el Santander. Y habia que abrir todos los productos 
+
+
+
+
+    \item Que productos tienes/usas? 
+    
+    \textbf{Alfredo Mahns:} Estado: cuenta rut, Chile: tarjetas de debito/credito, linea de credito y cuenta corriente
+
+    \textbf{Christian Schmitz:} Ambos cuenta corriente, linea de credito, tarjetas de debito y credito. La hipoteca estaba con el santander.  En ambos depositos a plazo, fondos mutuos y APV en el banco. 
+
+    \item Cual fue el orden en el que obtuviste los productos? [e.g. primero una cuenta corriente y despues la hipoteca ambos con banco x] y si hubo un cambio de banco porque es que se dio\footnote{La razon por la cual se dio no tiene un objetivo claro, es un poco para tantear las motivaciones. } y que tuviste que hacer \footnote{to evaluate whether the siwching cost is high}
+    
+    \textbf{Alfredo Mahns:} en el Chile primero fue cuenta corriente en conjunto con tarjeta de debito luego credito y luego linea de credito
+
+
+
+    \item Si tuvieras que conseguir una hipoteca, a que bancos le solicitarias la hipoteca? [para ver si hay persitencia] Si es el mismo banco donde ya tiene productos, porque la solicitarias en ese banco? [para ver razones, e.g. switching costs o persistent preferences]
+
+
+    \item Has pensado en cambiarte de banco, porque? Alguna vez otro banco te ha contactado con ofertas para que te cambies (e.g. una tasa mas baja, beneficios)? Que te ofrecieron y que decidiste hacer?\footnote{Para capturar la dinamica de poaching del entrant y la percepcion del consumidor sobre los switching costs. Si no se cambio, por que no?}
+    
+    \textbf{Alfredo Mahns:} a los neobanks (match/mercado pago) porque no tienen costo de mantencion y tienen mayores beneficios
+
+    \item Cuando tomaste tu último producto financiero, ¿cotizaste activamente en otros bancos? Si no lo hiciste, ¿qué te detuvo? (e.g. papeleo, tiempo, pereza, confianza en tu banco actual).
+    
+    \item Otros 
+    
+    \textbf{Alfredo Mahns:} El credito lo empezo a usar porque habia visto que el puntaje crediticio mejoraba con la tarjeta de credito, y por eso el fue al banco a abrir la tarjeta de credito. 
+
+    \textbf{Christian Schmitz:}
+    \begin{itemize}
+        \item Los bancos ven como fundamental donde recibes el sueldo y ofrecen cero comisiones, y mas facilidades si recibes el sueldo ahi. 
+
+        \item venta conjunta es cuando se hace un bundle pero se pueden vender por separado es legal, mientras que en la venta atada los dos productos no estand disponibles por separado lo que es ilegal. 
+    \end{itemize} 
+ 
+\end{enumerate}
+
+Talk to: 
+\begin{itemize}
+    \item Alfredo Mahns 
+    \item Papa 
+    \item 
+\end{itemize}
+\section{Questions to practitioners}
+asked by professors or others and the ideal answer we should provide to them. 
+
+\begin{enumerate}
+    \item Cuando alguien pide un credito, como determinan el riesgo del individuo? \footnote{para evaluar si hay informacion asymetrica, por ejemplo, usan la informacion privada que tiene el banco? } usan la informacion privada del banco (por ejemplo previo historial de pagos)?  \footnote{info privada: generada por previas interacciones}
+    
+    \textbf{Gonzalo Basis:} historial crediticio, ha tomado creditos previamente con el banco, tiene otros productos, informacion que esta en DICOM (publica), info demografica (edad , nivel socio-economico). Son 600 variables. 
+    
+
+    \item  Cuanto mejor puede el banco predecir el default de un cliente existente (con historial interno) comparado con un cliente nuevo que solo tiene informacion publica (DICOM)? Tienes alguna intuicion de la magnitud? \footnote{Cuantifica directamente la magnitud de la asimetria de informacion entre incumbent y entrant---el parametro clave del modelo.}
+    
+    \item Como se fija la tasa de interes para un credito? Me imagino que tienen un modelo de riesgo, dado ese modelo me imagino que le agregan un margen, este margen es diferente para clientes existentes vs. nuevos clientes? O en que se diferencia la forma de fijar la tasa para clientes existentes y nuevos clientes? 
+
+
+    \item Los bancos usan cross-selling? En caso de que si lo usen para que productos lo usan, cual es el producto ancla? 	e.g. los usan para checking accounts donde tienen perdidas y mortgages donde tienen ganancias. Relacionado, hay productos que se consideren "de entrada"?
+    
+    \textbf{Gonzalo Basis:} los bancos venden seguros de cruce, que son por ejemplo agregarle un seguro de antiestafa a una tarjeta de credito. Estos seguros de cruce se agregan a la CMR (tarjeta de credito), creditos de consumo o credito automotriz. La idea es que el ejecutivos los ofrezca una vez que vende uno de estos productos. 
+
+    A los que se consideran clientes (pareciera ser 6 meses usando CMR o cuenta corriente) se les ofrece creditos hipotecarios a una tasa preferencial.
+
+
+    \item El banco tiene un sistema para registrar soft information? e.g. si el cliente le dice al ejecutivo de cuenta que tiene una situacion personal, eso queda registrado en algun lugar?
+
+    \textbf{Gonzalo Basis:} no hay un sistema formal para registrar soft information. El ejecutivo de cuenta si la usa para tomar decisiones, y ajustar la informacion que provee a las necesidades del cliente. Pero no hay un sistema formal para registrar esa informacion.
+
+
+    \item Otros 
+    \textbf{Gonzalo Basis: } los productos de credito son mas rentables porque no tiene el CPA (costo por apertura) sobre todo los de credito de consumo. los menos rentables son cuentas corrientes y seguros. 
+
+\end{enumerate}
+
+
+
+Con Gonzalo Basis me respondio Whatsapps el 4/2/26
+Talk to basilillio, bryan fry and Diego's friend. 
+
+
+
+
+\end{document}

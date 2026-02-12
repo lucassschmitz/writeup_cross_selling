@@ -1,0 +1,576 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{references.bib}
+
+\newcommand{\lawbox}[1]{\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{#1}}\medskip}
+
+\begin{document}
+\begin{center}
+    {\Large \textbf{Institutional Details: Chilean Consumer Credit Policies}} \\[6pt]
+    Cross-Selling and Switching Costs in Consumer Credit Markets
+\end{center}
+
+\bigskip
+
+\noindent This document takes the major regulatory policies from the files gpt1.md to gpt3.md and claude1.md and keeps only the ones I am interested in. 
+
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Interest Rate Caps}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 20,715 -- Protection of Debtors of Money Credits (December 2013)}
+
+\lawbox{%
+\textbf{Law Number:} 20,715 \quad \textbf{Date:} Published December 13, 2013 \\
+\textbf{Type:} Price regulation (usury ceiling reform) \\
+\textbf{Products Affected:} Consumer loans, credit cards, retail store credit---especially loans under 200 UF ($\approx$USD 8,000)
+}
+
+\noindent \textbf{Description.} Law 20,715 reformed Chile's \textit{Tasa M\'{a}xima Convencional} (TMC, Maximum Conventional Interest Rate) for small consumer loans. Prior to the reform, non-bank lenders (retail stores, cooperatives) could charge very high interest rates on small credits. The law introduced a new TMC formula for peso-denominated, non-inflation-adjusted loans of 90+ days and amounts up to 200 UF. Two segments were created:
+
+\begin{itemize}
+    \item \textbf{0--50 UF:} Maximum surcharge above the reference rate phased down to 21 percentage points (reached June 2015).
+    \item \textbf{50--200 UF:} Maximum surcharge phased down to 14 percentage points (reached December 2015).
+\end{itemize}
+
+\noindent The gradual phase-in reduced ceilings from approximately 54\% to 36\%. The law also expanded supervisory authority: the SBIF (now CMF) gained jurisdiction to enforce the TMC over all credit providers---including cooperatives, \textit{cajas de compensaci\'{o}n}, and retail lenders---not only banks. The SBIF was mandated to publish periodic information on effective interest rates by segment and to produce annual impact reports during the first three years of implementation.
+
+Additional provisions included: (i) a mandatory 60-day grace period before lenders can accelerate small loans (under 200 UF) or modest mortgages (under 2,000 UF) due to non-payment; (ii) the right to prepay loans up to 5,000 UF without lender consent (minimum 20\% of remaining balance); and (iii) caps on extrajudicial collection fees, which cannot accrue interest or be capitalized into the debt principal.
+
+\medskip
+\noindent \textbf{Prior Research.}
+\begin{itemize}
+    \item \textbf{Cuesta and Sep\'{u}lveda (2021, Stanford GSB):} Used structural demand estimation with administrative data covering Chile's entire universe of bank borrowers. Key finding: consumer surplus decreased by 2.5--3.5\% of average income. The same policy would have \textit{increased} welfare under monopoly, highlighting how market structure shapes regulatory outcomes.
+    \item \textbf{Madeira (Central Bank of Chile):} Used panel data linking the Chilean Household Finance Survey to SBIF administrative records. Found 9.7\% of borrowers (197,000 people) were excluded from banking consumer loans.
+    \item \textbf{SBIF Annual Impact Reports (2015--2017):} Found no significant contraction of credit to affected segments; consumer lending continued growing in 2014--2016. Documented firm responses including fee increases to compensate for rate caps.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Credit Information and Bureau Regulations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 20,463 -- Credit Information Deletion for Unemployed (2010)}
+
+\lawbox{%
+\textbf{Law Number:} 20,463 \quad \textbf{Date:} 2010 \\
+\textbf{Type:} Credit reporting reform / information access restriction \\
+\textbf{Products Affected:} All consumer credit products relying on bureau data
+}
+
+\noindent \textbf{Description.} Law 20,463 introduced a delay for when the credit bureau can  update the default information of workers currently receiving unemployment benefits. In particular,  the credit bureau cannot report the delinquency or late payments of workers currently receiving  unemployment benefits from the state, although such information can be legally included as part of  the individualsícredit score after the unemployment compensation period is over (even if the worker  has not yet regained employment at the end of his benefitts). In Chile workers can only receive  unemployment benefits for a short period (6 months or less), therefore the law gives incentives  for unemployed workers to get a clean credit situation before the credit bureau makes their late  payments and arrears public at the end of the unemployment insurance period. To implement  the regulation, the credit bureau has access to the stateís administrative records of all workers  receiving unemployment benefits.
+
+\medskip
+\noindent \textbf{Prior Research.}
+\begin{itemize}
+    \item \textbf{Madeira (Central Bank Working Paper \#873):} Compared the effects of Laws 20,463, 20,521, and 20,575, finding that the 2010 targeted deletion \textit{increased} welfare, in contrast to the broader 2012 deletion which had opposite effects.
+\end{itemize}
+
+\subsection{Law 20,521 -- Exclusion of Credit Inquiries from Scoring (2011)}
+
+\lawbox{%
+\textbf{Law Number:} 20,521 \quad \textbf{Date:} 2011 \\
+\textbf{Type:} Credit reporting reform \\
+\textbf{Products Affected:} All consumer credit products relying on bureau data
+}
+
+\noindent \textbf{Description.} Law 20,521 excluded borrower credit inquiries from credit scoring models. Previously, each time a consumer shopped for credit and a lender pulled their report, the inquiry itself could negatively affect the consumer's credit score---discouraging comparison shopping. By removing this signal, the law aimed to encourage consumers to search for better terms without fear of score deterioration.
+
+\subsection{Law 20,575 -- Credit Information ``Clean Slate'' (February 2012)}
+
+\lawbox{%
+\textbf{Law Number:} 20,575 \quad \textbf{Date:} Published February 17, 2012; effective immediately \\
+\textbf{Type:} Credit reporting reform / information access restriction (one-time deletion + ongoing restrictions) \\
+\textbf{Products Affected:} All consumer credit products (bank and non-bank) relying on bureau data
+}
+
+\noindent \textbf{Description.} Known popularly as the ``Ley DICOM'' or ``Ley Chao Dicom,'' Law 20,575 had two components:
+
+\begin{enumerate}
+    \item \textbf{One-time deletion:} All unpaid debts up to December 31, 2011 for individuals with total default amounts below approximately CLP 2,500,000 ($\approx$USD 5,000) were permanently erased from commercial credit bureaus (Dicom/Equifax). Approximately \textbf{2.8 million individuals} (21\% of adults) had their records wiped---the number of persons listed in Dicom fell from $\sim$4 million to $\sim$1.125 million.
+    \item \textbf{Principle of finality:} Credit data may only be used for evaluating credit risk. The law prohibited using credit history for non-credit purposes (employment decisions, school admissions, emergency healthcare access).
+\end{enumerate}
+
+\noindent The deletion did not extinguish the underlying debts; obligations remained, but were no longer visible in commercial databases. Banks retained access to bank loan delinquency data via the regulator, but non-bank lenders lost visibility of borrowers' past small defaults.
+
+\medskip
+\noindent \textbf{Prior Research.}
+\begin{itemize}
+    \item \textbf{Liberman, Neilson, Opazo, and Zimmerman (NBER Working Paper \#25097):} Applied an equilibrium model of borrowing under adverse selection to the 2012 deletion. Using machine learning to measure changes in lender cost predictions, they found aggregate borrowing fell 3.5--9\% and demonstrated that deletion reduced total surplus. Only $\sim$600,000 benefited while 2 million faced harder borrowing conditions.
+    \item \textbf{Madeira (Central Bank Working Paper \#873):} Compared all three credit information laws (2010, 2011, 2012), finding the targeted 2010 deletion increased welfare while the broader 2012 deletion decreased it.
+    \item \textbf{Post-deletion outcomes:} CONADECUS reports showed that within nine months, the number of individuals in default had climbed back toward 2 million, suggesting the measure did not solve the structural problem of over-indebtedness.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Disclosure and Consumer Protection}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Cr\'{e}dito Universal -- Standardized Loan Quote (October 2011)}
+
+\lawbox{%
+\textbf{Regulation:} Reglamento de Cr\'{e}ditos Universales \quad \textbf{Date:} October 24, 2011 \\
+\textbf{Type:} Standardized disclosure requirements \\
+\textbf{Products Affected:} Consumer loans, mortgages, credit card credit (all consumer credit products)
+}
+
+\noindent \textbf{Description.} The ``Cr\'{e}dito Universal'' quotation framework required all banks and lenders to present consumer credit offers in a standardized format. Providers must clearly display key loan terms---including the total cost of credit, fees, interest rate, contract duration, and the \textit{Carga Anual Equivalente} (CAE, annual percentage cost)---in all advertisements and quotes. The reform was designed to enable consumers to ``compare pears to pears and apples to apples.''
+
+\medskip
+\noindent \textbf{Potential Research Implications.} Improved price transparency could reduce interest rate dispersion, enable more consumer shopping and switching, and alter competitive dynamics among lenders.
+
+\subsection{Law 20,555 -- SERNAC Financiero (March 2012)}
+
+\lawbox{%
+\textbf{Law Number:} 20,555 \quad \textbf{Date:} Published December 5, 2011; effective March 4--5, 2012 \\
+\textbf{Type:} Consumer financial protection (disclosure, business practice restrictions, institutional reform) \\
+\textbf{Products Affected:} All consumer financial products---personal loans, credit cards, credit lines, mortgages
+}
+
+\noindent \textbf{Description.} Known as the ``SERNAC Financiero'' law, this was a comprehensive reform of consumer financial protection. Key provisions include:
+
+\begin{enumerate}
+    \item \textbf{Mandatory disclosure:} Standardized summary sheet (\textit{Hoja de Resumen}) for all credit contracts, prominently displaying the CAE and itemizing all fees, insurance, and charges. All financial quotations must be valid for a minimum of 7 business days.
+    \item \textbf{Ban on tied sales (\textit{ventas atadas}):} Providers cannot condition approval of one financial product on purchasing another (e.g., requiring insurance or a credit card to approve a mortgage). All add-ons must be optional and separately agreed.
+    \item \textbf{Prohibition of unsolicited products:} No institution may send credit cards or other financial products without prior consumer consent.
+    \item \textbf{Right to early termination:} Consumers can close accounts or cards within a maximum of 10 business days; providers cannot delay closure or prepayment.
+    \item \textbf{Written rejection reasons:} Lenders must provide written explanations for credit rejections.
+    \item \textbf{SERNAC Seal (\textit{Sello SERNAC}):} Voluntary certification for contracts reviewed by SERNAC ensuring no abusive clauses.
+    \item \textbf{Enhanced enforcement:} SERNAC received new supervisory powers over financial products and the ability to mediate and arbitrate consumer financial disputes.
+\end{enumerate}
+
+\noindent The law was partly a response to the La Polar scandal (2011), in which the retailer engaged in fraudulent unilateral debt renegotiations. SERNAC comparative studies show CAE differences between providers range from 15\% to 29\% for similar products. Since implementation, SERNAC reports achieving 93 billion CLP in consumer reparations benefiting over 3.5 million financial consumers.
+
+\medskip
+\noindent \textbf{Prior Research.}
+\begin{itemize}
+    \item \textbf{Caorsi et al.\ (2016):} Evaluation commissioned by SERNAC with BID support. Found the law achieved important advances in transparency (summary sheets, CAE dissemination), near-elimination of tied sales, and greater rights awareness among consumers. Identified challenges in enforcement capacity.
+    \item \textbf{Berwart, Higgins, Kulkarni, and Truffa (Stanford ifdm):} Study on search and negotiation with biased beliefs in consumer credit markets, using the Chilean disclosure reforms as context. They explain that this law builds on law 20,448 which introduces the CAE (carga anual equivalente) as a standardized measure of credit cost. 
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Financial Portability and Switching Costs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 21,236 -- Financial Portability (September 2020)}
+
+\lawbox{%
+\textbf{Law Number:} 21,236 \quad \textbf{Date:} Published June 9, 2020; effective September 8, 2020 \\
+\textbf{Type:} Pro-competition / market facilitation (switching cost reduction) \\
+\textbf{Products Affected:} Checking/savings accounts, credit cards, lines of credit, consumer loans, auto loans, mortgages
+}
+
+\noindent \textbf{Description.} Inspired by number portability in telecommunications, this law established a formal process for consumers and small businesses to switch financial providers quickly and cheaply. Two modalities were created:
+
+\begin{enumerate}
+    \item \textbf{Without subrogation:} The client contracts with a new provider and orders closure of products at the old provider, extinguishing associated guarantees.
+    \item \textbf{With subrogation:} A new loan from the incoming institution pays off the old loan, and the new institution inherits the original guarantees (e.g., a mortgage transfers automatically to the new bank).
+\end{enumerate}
+
+\noindent Key operational features include:
+\begin{itemize}
+    \item Free liquidation certificates within 5 business days.
+    \item Standardized portability offer formats across institutions.
+    \item The new provider executes the entire switching process on behalf of the consumer.
+    \item Automatic guarantee transfer for mortgages.
+    \item Mortgage refinancing costs reduced from $\sim$CLP 700,000 to $\sim$CLP 280,000 (60\% reduction).
+    \item \textit{Stamp tax} exemption for subrogated loans (treated as continuation, not new origination).
+    \item Minimum 7 business-day validity for portability offers.
+\end{itemize}
+
+\noindent The law was enacted during the COVID-19 pandemic, partly to enable families to refinance at lower rates. In the first semester of 2021, over 50,000 consumers used portability, achieving significant interest rate reductions. All major banks launched retention campaigns, offering to match or beat competitor offers.
+
+\medskip
+\noindent \textbf{Prior Research.}
+\begin{itemize}
+    \item \textbf{Madeira (2021, \textit{Journal of International Money and Finance}):} Estimated welfare gains of \$202--\$902 USD per borrower using optimal refinancing models. Decomposed pecuniary versus cognitive costs and found refinancing probability could increase from 18\% to 21--29\%.
+    \item The CMF tracks portability transactions, providing before/after data on customer mobility.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Payment Systems and Card Regulation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 21,365 -- Interchange Fee Regulation (August 2021)}
+
+\lawbox{%
+\textbf{Law Number:} 21,365 \quad \textbf{Date:} Published August 6, 2021 \\
+\textbf{Type:} Price regulation (two-sided market intervention) \\
+\textbf{Products Affected:} Credit, debit, and prepaid card transactions
+}
+
+\noindent \textbf{Description.} Law 21,365 established an autonomous technical committee (\textit{Comit\'{e} para la Fijaci\'{o}n de L\'{\i}mites a las Tasas de Intercambio}) to regulate interchange fees in Chile's payment card market. The committee comprises four members designated by the Ministry of Finance, Central Bank, CMF, and FNE (Economic Prosecutor's Office). Initial maximum rates (effective February 2023):
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Card Type} & \textbf{Maximum Interchange Rate} \\
+\midrule
+Debit & 0.6\% \\
+Credit & 1.48\% \\
+Prepaid & 1.04\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent In 2023, the committee announced further reductions to be phased in over 18 months: credit card interchange to 0.8\% (from $\sim$1.5\%) and debit card interchange to 0.35\% (from 0.6\%), effective by late 2024. The committee reviews limits every three years.
+
+This directly tests two-sided market theory predictions. Chile's payment card market had been dominated by Transbank's integrated model; the introduction of the four-party model (M4P) creates observable variation in vertical relationships between issuers and acquirers.
+
+\subsection{Law 20,950 -- Non-Bank Prepaid Payment Providers (October 2016)}
+
+\lawbox{%
+\textbf{Law Number:} 20,950 \quad \textbf{Date:} Effective October 29, 2016 \\
+\textbf{Type:} Market entry regulation (licensing framework for fintech payments) \\
+\textbf{Products Affected:} Prepaid cards, electronic payment accounts (e-wallets)
+}
+
+\noindent \textbf{Description.} Before this law, only banks could issue stored-value payment instruments. Law 20,950 allowed non-bank companies to issue and operate prepaid payment cards or electronic payment accounts (``tarjetas de prepago''), subject to:
+
+\begin{itemize}
+    \item Issuers must be Chilean corporations with the exclusive purpose of issuing/operating payment instruments.
+    \item Supervision by the CMF (formerly SBIF) and compliance with anti-money-laundering reporting.
+    \item Central Bank authority over prudential rules (minimum capital, liquidity, risk management).
+    \item Customer funds held in segregated accounts (cannot earn interest for the user, protected from issuer creditors).
+    \item Cardholders may redeem (cash-out) balances at any time.
+    \item Named cards can have indefinite validity; anonymous/bearer cards must have an expiry date.
+\end{itemize}
+
+\noindent The law opened the door for fintech companies and retailers to offer e-wallets and payment cards, increasing financial inclusion for unbanked populations. Since its enactment, several non-bank prepaid card issuers have entered the market under Central Bank regulation.
+
+\subsection{Law 20,009 -- Fraud Liability for Card and Electronic Transactions (2005, amended 2020, 2024)}
+
+\lawbox{%
+\textbf{Law Numbers:} 20,009 (2005), 21,234 (2020 amendment), 21,673 (2024 amendment) \\
+\textbf{Type:} Consumer protection / risk allocation in payment markets \\
+\textbf{Products Affected:} Credit, debit, and prepaid cards; electronic fund transfers
+}
+
+\noindent \textbf{Description.} This evolving legal framework limits consumer liability for unauthorized transactions:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Law} & \textbf{Year} & \textbf{Key Change} \\
+\midrule
+20,009 & 2005 & Limited cardholder liability for physical card fraud \\
+21,234 & 2020 & Extended to \textit{all} payment methods (electronic, web, phone) \\
+21,673 & 2024 & Added sworn declaration and police report requirements \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Key features of the current regime:
+\begin{itemize}
+    \item Banks must provide 24/7 reporting channels; upon notification, the card/account must be blocked immediately.
+    \item All transactions \textit{after} the customer's notice are the bank's responsibility (not the customer's).
+    \item Contract clauses placing the burden of proof on consumers to prove non-authorization are null and void.
+    \item Consumers have 30 business days after notice to submit a formal fraud claim, covering transactions up to 60 days prior.
+    \item 5-business-day restitution for amounts $\leq$35 UF; banks must prove user negligence in court to avoid liability.
+    \item Semiannual fraud disclosure reports mandated by law.
+\end{itemize}
+
+\noindent The 2020 reform (Law 21,234) was the most significant, shifting the burden of proof away from consumers and extending coverage to all electronic payment channels.
+
+\subsection{Central Bank Regulatory Update on Payment Cards (July 2024)}
+
+\lawbox{%
+\textbf{Regulation:} Central Bank Compendium Chapter III.J update \quad \textbf{Date:} July 2, 2024 \\
+\textbf{Type:} Prudential/market structure regulation \\
+\textbf{Products Affected:} All card payment systems, payment service providers (PSPs)
+}
+
+\noindent \textbf{Description.} A major modernization of payment card regulations in response to new business models and the 2022 Fintech Law. Key changes:
+
+\begin{enumerate}
+    \item \textbf{Closed-loop payment schemes:} Card issuers (including non-bank under Law 20,950) may facilitate peer-to-peer transfers between customers of the same issuer, but must implement \textit{interoperability} mechanisms with other networks.
+    \item \textbf{Sub-acquirer operators:} New intermediate category for PSPs processing 0.5--1\% of market transactions (minimum capital 1,000 UF), easing the transition to full operator status.
+    \item \textbf{Cross-border acquiring:} Explicitly authorized, with prudential safeguards and CMF prior approval required.
+    \item \textbf{Bank subsidiaries as operators:} Clarified that bank or credit-union subsidiaries may become licensed card operators.
+    \item \textbf{Enhanced AML/CFT:} Operators must identify the ultimate payee (merchant) and country for each settled transaction.
+\end{enumerate}
+
+\noindent PSPs have 60 days to apply for registration and up to 18 months for full compliance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fintech and Open Finance}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 21,521 -- Fintech Law and Open Finance (January 2023)}
+
+\lawbox{%
+\textbf{Law Number:} 21,521 \quad \textbf{Date:} January 2023 \\
+\textbf{Type:} Market entry / data portability regulation \\
+\textbf{Products Affected:} Crowdfunding, alternative trading systems, credit advisory, investment advisory, order routing, intermediation, custody
+}
+
+\noindent \textbf{Description.} Law 21,521 established Chile's regulatory framework for fintech services and mandated an Open Finance system (\textit{Sistema de Finanzas Abiertas}). Seven new service categories now operate under CMF oversight (NCG N\textdegree 502). The Open Finance mandate requires banks to share customer data (with consent) via standardized APIs, expected to be fully operational by 2026--2027.
+
+\medskip
+\noindent \textbf{Research Opportunities.}
+\begin{itemize}
+    \item \textbf{Entry dynamics:} New fintech registrations tracked through the CMF registry.
+    \item \textbf{Platform competition:} Two-sided market effects of API standardization.
+    \item \textbf{Incumbent response:} Whether traditional banks adjust pricing or service offerings.
+    \item \textbf{Market structure evolution:} How data portability affects concentration.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Insolvency and Debt Relief}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 21,673 -- Credit Card Minimum Payment Regulation (May 2024)}
+
+\lawbox{%
+\textbf{Law Number:} 21,673 \quad \textbf{Date:} May 2024; implementing regulation NCG 537 (June 2025) \\
+\textbf{Type:} Consumer protection (over-indebtedness prevention) \\
+\textbf{Products Affected:} Credit cards
+}
+
+\noindent \textbf{Description.} This law addresses consumer over-indebtedness by mandating capital amortization in minimum credit card payments. The formula requires:
+\[
+\text{Minimum Payment} = \text{Non-Financeable Amount} + 5\% \times \text{Financeable Amount}
+\]
+CMF analysis showed that with only 1\% amortization, debt payoff takes approximately 180 months with 160\% interest accumulation; with the mandated 5\%, payoff drops to $\sim$60 months with 40\% interest accumulation. The 18-month gradual implementation creates staggered treatment groups useful for research design.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Debt Collection Practices}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 21,320 -- Regulation of Extrajudicial Debt Collection and Bank Commissions (April 2021)}
+
+\lawbox{%
+\textbf{Law Number:} 21,320 \quad \textbf{Date:} April 20, 2021 \\
+\textbf{Type:} Consumer protection (debt collection regulation, bank fee transparency) \\
+\textbf{Products Affected:} All consumer credit products; checking accounts and electronic transfers
+}
+
+\noindent \textbf{Description.} Enacted during the COVID-19 pandemic, this law addressed two areas:
+
+\medskip
+\noindent \textbf{(a) Extrajudicial debt collection.} Strict limits on collection practices:
+\begin{itemize}
+    \item Maximum one telephone call or visit per week per debtor.
+    \item Maximum two written communications (email, SMS, WhatsApp, letters) per week, with at least two days between them.
+    \item Prohibited: documents that appear judicial; informing third parties (neighbors, employers) of the debt; contacting outside 8:00--20:00 hours, on Sundays or holidays.
+    \item Companies must maintain a 2-year record of all collection activities for each debtor.
+    \item During the state of emergency, an even stricter temporary rule applied: only two collection contacts per month.
+\end{itemize}
+
+\noindent \textbf{(b) Bank commissions.} Enhanced transparency requirements for checking account fees, overdraft charges, and electronic transfer commissions. In practice, the law accelerated the elimination of interbank transfer fees for common users.
+
+Colombia passed a similar law, commonly known as "Ley dejen de fregar" (\href{https://gestionynegocios.co/a-un-ano-de-la-ley-2300-como-ha-cambiado-la-cobranza-telefonica-en-colombia/}{source}). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Marketing and Data Protection}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Law 21,304 -- Consent for Marketing Communications (January 2021)}
+
+\lawbox{%
+\textbf{Law Number:} 21,304 \quad \textbf{Date:} January 2021 \\
+\textbf{Type:} Data protection / consumer privacy \\
+\textbf{Products Affected:} All retail financial products
+}
+
+\noindent \textbf{Description.} Known informally as the ``Ley No Molestar'' (Do Not Disturb Law), this law requires that firms obtain \textit{express} consumer consent before sending promotional communications. Key features:
+
+\begin{itemize}
+    \item Consent must be clear, written (or via a verifiable medium), and informed about the purpose.
+    \item Silence or inaction cannot be interpreted as acceptance---an affirmative, unequivocal statement is required.
+    \item Consumers may revoke consent at any time, and the firm must cease communications immediately.
+    \item Covers all channels: email, SMS, phone calls, messaging apps, physical mail.
+    \item Violations constitute an infraction of consumer privacy and data protection rights.
+\end{itemize}
+
+\noindent The law aimed to curb the common practice of banks and retail chains sending unsolicited offers for pre-approved credit, insurance, and other products. It aligns Chilean regulation with GDPR-style consent standards and complements Law 19,628 on Protection of Private Life.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Student Loan Reform}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Laws 20,027 and 20,634 -- Cr\'{e}dito con Aval del Estado (2005, reformed 2012)}
+
+\lawbox{%
+\textbf{Law Numbers:} 20,027 (2005), 20,634 (2012 reform) \\
+\textbf{Type:} Government-backed lending / interest rate subsidy \\
+\textbf{Products Affected:} Higher education student loans
+}
+
+\noindent \textbf{Description.} The CAE (\textit{Cr\'{e}dito con Aval del Estado}) system provides a natural experiment in interest rate subsidies within a state-guaranteed lending framework:
+
+\begin{center}
+\begin{tabular}{llp{8cm}}
+\toprule
+\textbf{Period} & \textbf{Interest Rate} & \textbf{Policy Mechanism} \\
+\midrule
+2006--2012 & 5.8--6.0\% & Banks originate; state guarantees 90\% \\
+2012--present & 2.0\% & State pays interest differential to banks \\
+2024 (proposed FES) & 0\% (not a loan) & Income-contingent repayment, no bank involvement \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The 2012 rate reduction from 5.8\% to 2\% enables studying how interest subsidies affect enrollment decisions, loan amounts, and default behavior in a market where government guarantees largely remove credit risk considerations. Comisi\'{o}n Ingresa maintains extensive data on enrollment, debt levels, and repayment patterns across universities.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary of Key Policies and Research Opportunities}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[H]
+\centering
+\caption{Summary of Chilean Consumer Finance Policies}
+\label{tab:summary}
+\footnotesize
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{p{3cm}p{2.5cm}p{4.5cm}p{4cm}p{2.5cm}}
+\toprule
+\textbf{Policy Area} & \textbf{Law \& Year} & \textbf{Key Intervention} & \textbf{IO Research Opportunity} & \textbf{Key Papers} \\
+\midrule
+Interest Rate Caps & 20,715 (2013) & Reduced TMC for loans $<$200 UF & Welfare analysis, pricing, risk selection & Cuesta \& Sep\'{u}lveda (2021); Madeira \\
+\addlinespace
+Credit Info Deletion & 20,463 (2010), 20,521 (2011), 20,575 (2012) & Deleted delinquency/default records, excluded inquiries & Adverse selection, information economics & Liberman et al.\ (NBER); Madeira \\
+\addlinespace
+Disclosure (SERNAC) & 20,555 (2012) & Mandatory CAE, summary sheets, tied-sales ban & Price dispersion, search behavior, competition & Caorsi et al.\ (2016) \\
+\addlinespace
+Portability & 21,236 (2020) & Reduced switching costs & Switching costs, refinancing, welfare & Madeira (2021, JIMF) \\
+\addlinespace
+Interchange Fees & 21,365 (2021) & Max interchange fee caps & Two-sided markets & --- \\
+\addlinespace
+Non-Bank Payments & 20,950 (2016) & Non-bank prepaid card issuance & Entry, financial inclusion & --- \\
+\addlinespace
+Fraud Liability & 20,009 (2005), 21,234 (2020) & Limited consumer liability for fraud & Risk allocation & --- \\
+\addlinespace
+Fintech / Open Finance & 21,521 (2023) & Fintech licensing, open banking APIs & Entry dynamics, platform competition & --- \\
+\addlinespace
+Insolvency & 20,720 (2014) & Modern bankruptcy w/ personal debt renegotiation & Debt relief, moral hazard & --- \\
+\addlinespace
+Minimum Payments & 21,673 (2024) & 5\% capital amortization in CC payments & Over-indebtedness, behavioral & --- \\
+\addlinespace
+Debt Collection & 21,320 (2021) & Limits on collection frequency/methods & Consumer welfare & --- \\
+\addlinespace
+Marketing Consent & 21,304 (2021) & Express consent for promotions & Data protection, cross-selling & --- \\
+\addlinespace
+Student Loans (CAE) & 20,027 (2005), 20,634 (2012) & Interest subsidies in state-guaranteed loans & Enrollment, moral hazard & --- \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\medskip
+\noindent \textbf{Key Data Sources.} Chilean regulators maintain exceptional data infrastructure for IO research:
+\begin{itemize}
+    \item \textbf{CMF:} Interest rates by segment, loan volumes, card transactions (monthly).
+    \item \textbf{Central Bank:} Household Finance Survey (EFH), aggregate credit statistics (quarterly/biannual).
+    \item \textbf{SERNAC:} Consumer complaints, CAE comparisons, reparation amounts (annual).
+    \item \textbf{FNE:} Merger decisions, market concentration analysis (per case).
+    \item \textbf{Superir:} Insolvency proceedings, debt renegotiation statistics (annual).
+    \item \textbf{Comisi\'{o}n Ingresa:} Student loan enrollment, debt, and repayment data.
+\end{itemize}
+
+\noindent \textbf{Key Researchers.} Jos\'{e} Ignacio Cuesta (Stanford GSB), Carlos Madeira (Central Bank of Chile), Christopher Neilson (Princeton), Andr\'{e}s Liberman (NYU Stern), Salvador Vald\'{e}s (PUC Chile).
+
+
+\section{Laws still to be implemented}
+
+Ley fintech and open finance (21,521) is still being implemented, with the open finance system expected to be fully operational by 2026--2027. The Central Bank's updated regulations on payment cards (July 2024) have a phased compliance timeline of up to 18 months. The credit card minimum payment regulation (Law 21,673) has an implementation timeline of 18 months after the June 2025 regulation.
+
+
+\section{Other laws}
+
+Ley 21680 on REDEC which incorporates positive information to the previous system. This systme extends information to non-bank lenders [\href{https://cnc.cl/wp-content/uploads/2022/01/PDL-Registro-de-Obligaciones-Crediticias-CNC.pdf#:~:text=%E2%80%A2%20La%20creaci%C3%B3n%20de%20un,markets%2F49497488.pdf}{1}] moreover the new system includes positive information [\href{https://cnc.cl/wp-content/uploads/2022/01/PDL-Registro-de-Obligaciones-Crediticias-CNC.pdf#:~:text=%E2%80%A2%20La%20creaci%C3%B3n%20de%20un,markets%2F49497488.pdf}{1}]
+
+Ley 21234 shifts responsability for fraud liability from consumers to banks, and extends coverage to all electronic payment channels. This is a significant consumer protection reform that could have implications for risk allocation and fraud prevention strategies in the payment industry.
+
+Ley 21.314 something to do with agents and conflicts of interests \textcolor{red}{not analized}
+
+Ley 21,214 (28 february 2020) prohibicion de informar de deudas contraidas para financiar servicios educacionales (\href{https://www.aguilaycia.cl/post/ley-chao-dicom-en-chile-un-an%C3%A1lisis-exhaustivo}{1})
+https://www.cnnchile.com/pais/senado-chao-dicom-deudas-estudiantiles_20190515/
+
+
+Ley 21,504 establece prohibicion de informar de deudas contraidas para financiar servicios y acciones de salud (Memorias ARF 2022) 
+Sources \href{https://www.diarioconcepcion.cl/pais/2023/05/12/por-ley-no-se-puede-informar-deudas-de-salud-en-dicom.html}{1}
+Other sources: 
+https://www.gonzalezronycia.cl/2020/03/03/ley-n21-214-denominada-chao-dicom-que-prohibe-que-se-informe-sobre-deudas-contraidas-para-financiar-la-educacion/
+
+
+There is a proyect of law commonly called "Chao DICOM" that eliminates registries of debts less than 2.5 million from 18 october of 2019 to 31 of may 2022 [\href{https://www.biobiochile.cl/noticias/nacional/chile/2022/08/03/camara-despacha-proyecto-de-ley-chao-dicom-vamos-a-darle-una-segunda-oportunidad-a-las-personas.shtml}{1}]. Other sources 
+https://www.chilevision.cl/noticias/te-ayuda/video/chao-dicom-en-que-consiste-el-proyecto-y-a-quienes-beneficiaria
+https://www.mosabogados.cl/ley-chao-dicom/
+https://www.votovisible.cl/proyectos/14888-03
+https://www.diariousach.cl/chao-dicom-camara-baja-aprueba-proyecto-y-pasa-al-senado
+\newpage 
+
+Questions: 
+
+\begin{itemize}
+    \item which credit bureaus operate in Chile 
+    
+    \href{https://www.diarioconcepcion.cl/pais/2023/05/12/por-ley-no-se-puede-informar-deudas-de-salud-en-dicom.html}{This} article mentions Equifax, Transunion and Experian. 
+
+    \item   sobre ley redec cual era el sitema previo de divulgacion de informacion. mi impression es que habia un Sistema publico y un Sistema privado, es asi? que informacion divulgaba cada uno de ellos? 
+
+    \item cual es la interseccion de la ley redec con la ley fintech? 
+\end{itemize}
+\end{document}

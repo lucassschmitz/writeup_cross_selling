@@ -1,0 +1,333 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{references.bib}
+\begin{document}
+
+ 
+
+ 
+
+    \subsection{Model 1}
+ 
+    Consider the simplest model of multi-product firms with switching costs, we assume that there are two periods and two products. For example one can think that initially a consumer opens a checking account (product 1) and later on she may take a loan (product 2). We denote the period/product by  $t = 1,2$. 
+
+    There are $J$ firms, indexed by $j$. 
+
+    \paragraph{Consumer problem}
+
+    The per period utility of the consumer is given by:
+
+    \begin{equation}
+        u_{ijt} = \beta_j - \alpha p_{ijt} + \xi_{jt} + \mu_{ij} + \epsilon_{ijt}
+    \end{equation}
+    where $\beta_j$ represents vertical differentiaion, $p_{ijt}$ is the price charged by firm $j$ in period $t$, $\xi_{jt}$ is a firm-specific demand shock, $\mu_{ij}$ is a persistent consumer-firm match value, and $\epsilon_{ijt}$ is an i.i.d. Type-I Extreme Value shock.
+
+    The term $\mu_{ij}$ is constant across periods for the same consumer-firm pair, creating persistent heterogeneity:
+    \begin{equation}
+        \mu_i = (\mu_{ij})_{j=1}^J \sim F_\mu, \quad \text{with } \mu_{ij} \text{ drawn once and fixed for both periods}
+    \end{equation}
+
+    We assume that consumers are myopic, and that in case of switching they incur a switching cost $s$. Denote by $j_t$ the firm chosen in period $t$. In period $1$ the demand is given by: 
+    
+    \begin{equation}
+        D_{1j}( p_1) =  \int_{\mu_{i}} \frac{\exp (\delta_{j1}+\mu_{ij})}{\sum_{j'} \exp (\delta_{j'1}+\mu_{ij'})} dF_{\mu_{i}}
+    \end{equation}
+    
+    where we use the fact that prices in the first period are not consumer-specific  since consumers are  ex-ante homogenous, firms do not observe $\mu_i$ when setting prices. 
+
+    When setting prices in the second period firms know the consumer's choice in the first period. Hence they set price $p_{j2}(k)$ for consumers who chose firm $k$ in period 1. The demand for consumers who chose firm $k$ in period 1 is given by:
+
+    \begin{align}\label{eq:demand_t2}
+        D_{2j}(k, p_2;p_1) =  \int_{\mu_{i}} \frac{\exp (\delta_{j2k}+\mu_{ij} - \alpha s \cdot \mathbb{I}(j \neq k))}{\sum_{j'} \exp (\delta_{j'2k}+\mu_{ij'} - \alpha s \cdot \mathbb{I}(j' \neq k))} dF_{\mu_i\mid j_1 = k}   
+    \end{align}
+    where $\delta_{j2k} = \beta_j - \alpha p_{j2}(k) + \xi_{j2}$. Where the demand depends on $p_1$ since it determines the distribution of $\mu_i$ among consumers who chose firm $k$ in period 1.
+   
+    \paragraph{Firm problem}
+
+    In the second period, for each group of consumers who chose firm $k$ in period 1, firms compete by setting prices $p_{j2}(k)$. Firm $j$ chooses $p_{j2}(k)$ according to 
+
+    \begin{equation}
+        \pi_{2j}(k;p_1) = \max_{p} D_{2j}(k, (p, p_{-j2}^*(k)))(p-c_2) 
+    \end{equation}
+    where $D_{2j}(k, \cdot)$ is the demand for firm $j$ from consumers who previously bought from $k$.
+
+    In the first period, each firm $j$ chooses $p_{j1}$ to maximize total expected discounted profits. The firm anticipates how its period 1 price affects its period 1 market share and thus the size of its "locked-in" customer base in period 2. The maximization problem is:
+    
+    \begin{equation}
+        \max_{p_{j1}} \Pi_j = D_{1j}(p_{j1}, p_{-j1}^*) (p_{j1} - c_1) + \sum_{k=1}^J D_{1k}(p_{j1}, p_{-j1}^*) \pi_{2j}(k;p_1)
+    \end{equation}
+    
+    Note that the second term sums over all possible first-period choices $k$, weighted by the mass of consumers $D_{1k}$ who made that choice. This  captures that by influencing $D_{1j}$ (and rivals' $D_{1k}$), the firm changes the composition of the market in period 2.
+
+
+    \paragraph{Equilibrium FOC and Invest-Harvest Motive}
+
+    In the case where $\mu_{ij} = 0$ for all $i,j$ (no persistent heterogeneity), 
+    there is no selection in period 1, hence $ \pi_{2j}(k;p_1) = \pi_{2j}(k)$ independent of $p_1$. In this case we illustrate the invest-harvest motive more clearly. 
+    
+    The First Order Condition (FOC) with respect to $p_{j1}$ reveals the dynamic incentives:
+    
+    \begin{equation}
+        \frac{\partial \Pi_j}{\partial p_{j1}} = \underbrace{\frac{\partial D_{1j}}{\partial p_{j1}}(p_{j1} - c_1) + D_{1j}}_{\text{Period 1 Marginal Profit}} + \sum_{k=1}^J \frac{\partial D_{1k}}{\partial p_{j1}} \pi_{2j}(k) = 0
+    \end{equation}
+
+    We can decompose the summation.  The FOC becomes:
+    
+    \begin{equation}
+        \text{MR}_{1j} + \frac{\partial D_{1j}}{\partial p_{j1}} \pi_{2j}(j) + \sum_{k \neq j} \frac{\partial D_{1k}}{\partial p_{j1}} \pi_{2j}(k) = 0
+    \end{equation}
+    
+
+     We can group the future effects without symmetry. Define the \emph{diversion weights}
+        \begin{equation}
+            \omega_{jk} \equiv \frac{\frac{\partial D_{1k}}{\partial p_{j1}}}{-\frac{\partial D_{1j}}{\partial p_{j1}}}, \qquad k \neq j.
+        \end{equation}
+        Under standard regularity conditions for differentiated-products demand, $\frac{\partial D_{1j}}{\partial p_{j1}} \!<\! 0$ and $\frac{\partial D_{1k}}{\partial p_{j1}} \!>\! 0$ for substitutes, implying $\omega_{jk} \ge 0$. Moreover, since $\sum_{k=1}^J D_{1k}=1$, we have $\sum_{k=1}^J \frac{\partial D_{1k}}{\partial p_{j1}}=0$, so $\sum_{k \neq j} \omega_{jk}=1$.
+
+        Using these weights, the FOC can be rewritten as
+        \begin{align} \label{eq:marketing_foc}
+            \text{MR}_{1j} + \underbrace{\frac{\partial D_{1j}}{\partial p_{j1}}}_{(-)} \left[ \pi_{2j}(j) - \sum_{k \neq j} \omega_{jk}\, \pi_{2j}(k) \right] = 0.
+        \end{align}
+        The bracketed term is the incremental value of \emph{acquiring a marginal period-1 customer}: when $p_{j1}$ falls, extra customers are drawn from rivals $k$ in proportions $\omega_{jk}$, and each such customer changes firm $j$'s period-2 profit from the "poaching" level $\pi_{2j}(k)$ to the "incumbent" level $\pi_{2j}(j)$.
+    
+    \textbf{Interpretation:}
+    \begin{enumerate}
+        \item \textbf{Harvest Motive (Period 2):} In the second period, consumers who chose firm $j$ in period 1 face a switching cost $s$ to leave. This grants firm $j$ market power over its own base, allowing it to charge a higher price (a "rip-off" or "harvest" price) compared to the competitive poaching price. Thus, $\pi_{2j}(j) > \pi_{2j}(k)$ for $k \neq j$.
+        \item \textbf{Invest Motive (Period 1):} Equation \eqref{eq:marketing_foc} shows that the dynamic incentive depends on whether an incumbent customer is more valuable than a poached customer:
+        \begin{equation}
+            \pi_{2j}(j) \;>\; \sum_{k \neq j} \omega_{jk}\, \pi_{2j}(k).
+        \end{equation}
+        This condition does \emph{not} require symmetric firms or identical products; it only requires (i) demand substitution in period 1 so that $\omega_{jk} \ge 0$ and (ii) switching costs (or any state dependence) that make period-2 profits higher when the firm is the incumbent for that consumer. When the condition holds, the bracket in \eqref{eq:marketing_foc} is positive and, since $\frac{\partial D_{1j}}{\partial p_{j1}}<0$, the entire dynamic term is negative.
+        
+        To satisfy the FOC $= 0$, the static marginal profit $\text{MR}_{1j}$ must be positive. This implies that the firm sets $p_{j1}$ \textit{lower} than the static monopoly price. The firm sacrifices period 1 margins (invests) to build a larger customer base ($D_{1j}$) from which it can extract higher rents in period 2 (harvest).
+    \end{enumerate}
+
+    This model is essentially the same as Dube et al. (2009), but in a two-period setting.
+
+
+
+    %%% reviewed up to this point %%% 
+
+\newpage
+\section{Simulation: Equilibrium Computation (Duopoly)}
+
+We specialize to $J=2$  firms. Because persistent heterogeneity ($\mu_{ij}$) creates selection---consumers who chose firm $k$ in Period 1 have systematically different $\mu_i$ draws---we use a simulation-based approach. We draw a panel of $N$ consumers, each with fixed $(\mu_{i1},\mu_{i2})$, and compute equilibrium prices by iterating best responses evaluated on this panel.
+
+\subsection{Parameters}
+
+\begin{itemize}
+    \item $\alpha$: price sensitivity
+    \item $s$: switching cost (monetary; enters utility as $-\alpha s$)
+    \item $c_1, c_2$: marginal costs in periods 1 and 2
+    \item $\beta_j$: firm-specific baseline valuation, $j=1,2$
+    \item $\xi_{jt}$: firm-period demand shocks we assume them to be constant over time
+    \item $\sigma_\mu$: standard deviation of $\mu_{ij} \sim \text{i.i.d. } N(0, \sigma_\mu^2)$
+    \item $N$: number of simulated consumers
+\end{itemize}
+
+\subsection{Step 0: Draw the Consumer Panel}
+
+Before solving for prices, draw and \emph{fix} all random components:
+\begin{enumerate}
+    \item For each firm $j=1,2$ : draw $\xi_{j} \sim N(0,\sigma_\xi^2)$
+    \item For each consumer $i = 1,\ldots, N$ and firm $j=1,2$: draw $\mu_{ij} \sim N(0,\sigma_\mu^2)$
+    \item For each consumer $i$, firm $j$, and period $t$: draw $\epsilon_{ijt} \sim$ Type-I Extreme Value
+\end{enumerate}
+These draws are held fixed throughout the price iteration, so that demand is a smooth (simulated) function of prices.
+
+\subsection{Step 1: Period 2 Equilibrium (given Period 1 choices)}
+
+For a given vector of Period 1 prices $p_1 = (p_{11}, p_{21})$, each consumer's Period 1 choice partitions the panel into two pools. Define:
+\begin{align}
+    \mathcal{S}_k(p_1) = \left\{ i : k = \arg\max_{j} \left( \delta_{j1} + \mu_{ij} + \epsilon_{ij1} \right) \right\}, \qquad k = 1,2
+\end{align}
+where $\delta_{j1} = \beta_j - \alpha p_{j1} + \xi_{j1}$.
+
+For consumers in pool $\mathcal{S}_k$, Period 2 demand for firm $j$ at prices $p_2(k) = (p_{12}(k), p_{22}(k))$ is:
+\begin{align}
+    \hat{D}_{2j}(k, p_2(k)) = \frac{1}{|\mathcal{S}_k|} \sum_{i \in \mathcal{S}_k} \mathbb{I}\left[ j = \arg\max_{j'} \left( \delta_{j'2k} + \mu_{ij'} - \alpha s \cdot \mathbb{I}(j' \neq k) + \epsilon_{ij'2} \right) \right]
+\end{align}
+where $\delta_{j2k} = \beta_j - \alpha p_{j2}(k) + \xi_{j2}$. Equivalently, we can integrate out $\epsilon$ analytically (using its known Type-I EV distribution) to obtain a smoother demand function:
+\begin{align}
+    \hat{D}_{2j}^{\text{smooth}}(k, p_2(k)) = \frac{1}{|\mathcal{S}_k|} \sum_{i \in \mathcal{S}_k} \frac{\exp(\delta_{j2k} + \mu_{ij} - \alpha s \cdot \mathbb{I}(j \neq k))}{\sum_{j'} \exp(\delta_{j'2k} + \mu_{ij'} - \alpha s \cdot \mathbb{I}(j' \neq k))}
+\end{align}
+This formulation is differentiable in Period 2 prices and is preferable for the equilibrium computation. Denote the per-consumer Period 2 choice probability (the summand above) by:
+\begin{align}
+    \hat{D}_{2j}^{i}(k, p_2(k)) \equiv \frac{\exp(\delta_{j2k} + \mu_{ij} - \alpha s \cdot \mathbb{I}(j \neq k))}{\sum_{j'} \exp(\delta_{j'2k} + \mu_{ij'} - \alpha s \cdot \mathbb{I}(j' \neq k))}
+\end{align}
+so that the smooth demand with hard partition is simply $\hat{D}_{2j}^{\text{smooth}}(k, p_2(k)) = \frac{1}{|\mathcal{S}_k|} \sum_{i \in \mathcal{S}_k} \hat{D}_{2j}^{i}(k, p_2(k))$.
+
+\paragraph{Smooth pool assignments: integrating out $\epsilon_{i1}$.}
+The formulation above still relies on the hard partition $\mathcal{S}_k(p_1)$ via $\arg\max$, which makes pool memberships---and hence demand---jump discretely as $p_1$ changes. We can also integrate out $\epsilon_{i1}$ analytically, yielding a demand function that is smooth in $p_1$ as well.
+
+Start from the theoretical Period 2 demand (equation \ref{eq:demand_t2}), which conditions on $\mu_i \mid j_1 = k$. By Bayes' rule the conditional density of $\mu_i$ among consumers who chose firm $k$ is:
+\begin{align}
+    dF_{\mu_i \mid j_1 = k} = \frac{\Pr(j_1 = k \mid \mu_i)}{D_{1k}(p_1)}\, dF_{\mu_i}
+\end{align}
+Since $\epsilon_{i1}$ is Type-I Extreme Value, the conditional probability of choosing firm $k$ given $\mu_i$ has the logit form:
+\begin{align}
+    w_{ik}(p_1) \equiv \Pr(j_1 = k \mid \mu_i) = \frac{\exp(\delta_{k1} + \mu_{ik})}{\sum_{j'} \exp(\delta_{j'1} + \mu_{ij'})}
+\end{align}
+and $D_{1k}(p_1) = \int w_{ik}(p_1)\, dF_{\mu_i}$. Substituting the Bayes' rule expression into equation (\ref{eq:demand_t2}):
+\begin{align}
+    D_{2j}(k, p_2; p_1) &= \int \hat{D}_{2j}^{i}(k, p_2(k)) \cdot \frac{w_{ik}(p_1)}{D_{1k}(p_1)}\, dF_{\mu_i} \notag \\
+    &= \frac{\int \hat{D}_{2j}^{i}(k, p_2(k)) \cdot w_{ik}(p_1)\, dF_{\mu_i}}{\int w_{ik}(p_1)\, dF_{\mu_i}}
+\end{align}
+where the second line uses $D_{1k}(p_1) = \int w_{ik}\, dF_{\mu_i}$. Approximating both integrals via sample averages over the $N$ draws of $\mu_i$:
+\begin{align} \label{eq:smooth_demand_wik}
+    \hat{D}_{2j}^{\text{smooth}}(k, p_2(k); p_1) = \frac{\sum_{i=1}^{N} w_{ik}(p_1) \cdot \hat{D}_{2j}^{i}(k, p_2(k))}{\sum_{i=1}^{N} w_{ik}(p_1)}
+\end{align}
+
+This is equivalent to the hard-partition formula, but with the indicator $\mathbb{I}[i \in \mathcal{S}_k]$ replaced by the smooth weight $w_{ik}(p_1)$, and the sum running over \emph{all} $N$ consumers rather than only those in $\mathcal{S}_k$. Since $w_{ik}$ is differentiable in $p_1$, demand is now smooth in \emph{both} Period 1 and Period 2 prices, which makes the equilibrium computation more robust. The $\epsilon_{ijt}$ draws are then only needed in Step 3 for computing realized outcomes.
+
+\textbf{Remark (selection):}  Because $w_{ik}(p_1)$ is larger for consumers with high $\mu_{ik}$, the weighted average naturally captures the selection effect: consumers who are more likely to have chosen firm $k$ in Period 1 receive more weight in the Period 2 demand calculation. This selection, combined with the switching cost $s$, generates stronger lock-in than either force alone.
+
+\textbf{Algorithm:} For each pool $k = 1,2$:
+\begin{enumerate}
+    \item Initialize: $p_{j2}^{(0)}(k) = c_2 + 1$ for $j=1,2$
+    \item Iterate until convergence: for each firm $j$, search for the price $p_{j2}$ that maximizes
+    \begin{align}
+        \pi_{j}^{\text{pool}\,k}(p_{j2}) = \hat{D}_{2j}(k,(p_{j2}, p_{-j,2}^{(n)}))(p_{j2} - c_2)
+    \end{align}
+    using a one-dimensional solver (e.g., golden section or \texttt{fminbnd}).
+    \item Store equilibrium prices $p_{j2}^*(k; p_1)$ and per-consumer profits $\hat{\pi}_{2j}(k; p_1) = \hat{D}_{2j}(k, p_2^*(k; p_1))(p_{j2}^*(k; p_1) - c_2)$.
+\end{enumerate}
+
+\paragraph{Period 2 FOC and markup formula.}
+Because $\hat{D}_{2j}^{i}$ has the logit form, its derivative with respect to $p_{j2}$ takes the familiar shape:
+\begin{align}
+    \frac{\partial \hat{D}_{2j}^{i}}{\partial p_{j2}} = -\alpha\, \hat{D}_{2j}^{i}\bigl(1 - \hat{D}_{2j}^{i}\bigr)
+\end{align}
+Differentiating the smooth demand \eqref{eq:smooth_demand_wik} with respect to $p_{j2}$ (the weights $w_{ik}$ do not depend on Period 2 prices):
+\begin{align}
+    \frac{\partial \hat{D}_{2j}^{\text{smooth}}}{\partial p_{j2}} = \frac{\sum_{i=1}^{N} w_{ik}\,(-\alpha)\, \hat{D}_{2j}^{i}(1 - \hat{D}_{2j}^{i})}{\sum_{i=1}^{N} w_{ik}}
+\end{align}
+The FOC for the Period 2 profit $\hat{D}_{2j}^{\text{smooth}}(p_{j2} - c_2)$ is:
+\begin{align}
+    \frac{\partial \hat{D}_{2j}^{\text{smooth}}}{\partial p_{j2}}(p_{j2} - c_2) + \hat{D}_{2j}^{\text{smooth}} = 0
+\end{align}
+Substituting and noting that the denominators $\sum_i w_{ik}$ cancel:
+\begin{align}
+    -\alpha(p_{j2} - c_2) \sum_{i} w_{ik}\, \hat{D}_{2j}^{i}(1 - \hat{D}_{2j}^{i}) + \sum_{i} w_{ik}\, \hat{D}_{2j}^{i} = 0
+\end{align}
+Solving for the markup:
+\begin{align} \label{eq:p2_markup}
+    p_{j2}(k) - c_2 = \frac{1}{\alpha} \cdot \frac{\sum_{i} w_{ik}\, \hat{D}_{2j}^{i}}{\sum_{i} w_{ik}\, \hat{D}_{2j}^{i}(1 - \hat{D}_{2j}^{i})} = \frac{1}{\alpha\, \bar{\sigma}_{jk}}
+\end{align}
+where
+\begin{align}
+    \bar{\sigma}_{jk} \equiv \frac{\sum_{i} w_{ik}\, \hat{D}_{2j}^{i}\,(1 - \hat{D}_{2j}^{i})}{\sum_{i} w_{ik}\, \hat{D}_{2j}^{i}}
+\end{align}
+is a weighted average of $(1 - \hat{D}_{2j}^{i})$, with weights proportional to $w_{ik} \cdot \hat{D}_{2j}^{i}$---i.e., consumers who are both likely to be in pool $k$ \emph{and} likely to buy from firm $j$ receive the most weight.
+
+This generalizes the standard logit markup $p = c + 1/[\alpha(1-D)]$. In the plain logit case ($\mu_{ij} = 0$ for all $i,j$), all consumers are identical so $\hat{D}_{2j}^{i} = D_{2j}$ for every $i$, and $\bar{\sigma}_{jk} = 1 - D_{2j}$, recovering the standard formula. With heterogeneity ($\sigma_\mu > 0$), the markup reflects the \emph{composition} of the pool: because selected consumers have high $\mu_{ik}$ (and hence high $\hat{D}_{2k}^{i}$, low $\hat{D}_{2j}^{i}$ for $j \neq k$), the incumbent's $\bar{\sigma}_{jk}$ when $j = k$ tends to be smaller than $1 - D_{2j}$, leading to a higher markup than the plain logit formula would predict.
+
+Note that \eqref{eq:p2_markup} is an implicit equation since $\hat{D}_{2j}^{i}$ itself depends on $p_{j2}$ through $\delta_{j2k}$. It can be solved via fixed-point iteration (updating $p_{j2}$ from the right-hand side given current $\hat{D}_{2j}^{i}$) or used as a one-dimensional root-finding problem, which is faster than unconstrained optimization.
+
+\subsection{Step 2: Period 1 Equilibrium}
+
+The key complication relative to the plain logit model is that the Period 2 equilibrium---and hence $\hat{\pi}_{2j}(k)$---depends on $p_1$ through the weights $w_{ik}(p_1)$, which determine the composition of the consumer pools. Using the smooth formulation from Step 1, the firm's total profit is:
+\begin{align}
+    \hat{\Pi}_j(p_1) = \hat{D}_{1j}(p_1)(p_{j1} - c_1) + \sum_{k=1}^{2} \hat{D}_{1k}(p_1)\, \hat{\pi}_{2j}(k; p_1)
+\end{align}
+where $\hat{D}_{1k}(p_1) = \frac{1}{N}\sum_{i=1}^N w_{ik}(p_1)$ and $\hat{\pi}_{2j}(k; p_1)$ is the Period 2 equilibrium profit of firm $j$ from pool $k$, computed using the smooth demand \eqref{eq:smooth_demand_wik}. Both terms are smooth functions of $p_1$, but $\hat{\pi}_{2j}(k; p_1)$ must be \emph{re-solved} for each candidate $p_1$.
+
+\textbf{Algorithm (nested fixed point):}
+\begin{enumerate}
+    \item Initialize: $p_{j1}^{(0)} = c_1 + 1$ for $j=1,2$
+    \item Iterate until convergence: for each firm $j$, search for the $p_{j1}$ that maximizes $\hat{\Pi}_j(p_{j1}, p_{-j,1}^{(n)})$. Each evaluation of $\hat{\Pi}_j$ requires:
+    \begin{enumerate}
+        \item Recompute pools $\mathcal{S}_k(p_{j1}, p_{-j,1}^{(n)})$ given the candidate $p_{j1}$
+        \item Solve the Period 2 equilibrium for each pool (Step 1)
+        \item Sum Period 1 and Period 2 profits
+    \end{enumerate}
+    Use a one-dimensional solver for firm $j$'s best response.
+    \item Store equilibrium prices $p_{j1}^*$
+\end{enumerate}
+
+\textbf{Remark (computational cost):} The nested structure (Period 2 equilibrium inside Period 1 search) is expensive because each evaluation of $\hat{\Pi}_j(p_1)$ requires a full Period 2 equilibrium solve. The smooth pool assignments from Step 1 already ensure that $\hat{\Pi}_j$ is differentiable in $p_1$, which makes the nested best-response iteration more robust. A further speedup is to \textbf{solve all FOCs simultaneously}: stack all $2 + 2 \times J$ prices into a single vector $\mathbf{p} = (p_{11}, p_{21}, p_{12}(1), p_{22}(1), p_{12}(2), p_{22}(2)) \in \mathbb{R}^6$ and solve the system of 6 FOCs simultaneously using a nonlinear equation solver (\texttt{fsolve}). This eliminates the inner loop entirely: each Jacobian evaluation is a single pass over $N$ consumers, and the solver typically converges in $<20$ Newton steps. Combined with the smooth formulation \eqref{eq:smooth_demand_wik}, this yields a single smooth $6 \times 6$ system that is typically orders of magnitude faster than the nested approach.
+
+\subsection{Step 3: Compute Observables}
+
+Given equilibrium prices $p_1^*, p_2^*(k; p_1^*)$ and the consumer panel, compute:
+\begin{itemize}
+    \item Market shares: $\hat{D}_{1j} = |\mathcal{S}_j|/N$, \quad $\hat{D}_{2j} = \frac{1}{N}\sum_{i=1}^N \mathbb{I}(j_2^i = j)$
+    \item Switching rate: $\hat{\rho} = \frac{1}{N}\sum_{i=1}^N \mathbb{I}(j_1^i \neq j_2^i)$
+    \item Transition matrix: $\hat{T}_{jk} = \Pr(j_2 = k \mid j_1 = j) = \frac{|\{i : j_1^i = j,\, j_2^i = k\}|}{|\mathcal{S}_j|}$
+    \item Firm profits: $\hat{\Pi}_j = \hat{D}_{1j}(p_{j1}^* - c_1) + \sum_{k=1}^{2} \hat{D}_{1k}\, \hat{\pi}_{2j}(k)$
+    \item Period 2 price premium: $\Delta p_2 = p_{j2}^*(j; p_1^*) - p_{j2}^*(k; p_1^*)$ for $k \neq j$ (the harvest markup)
+\end{itemize}
+
+\subsection{Verification}
+
+The numerical solution should satisfy:
+\begin{itemize}
+    \item No firm can profitably deviate in either period (check via grid search around equilibrium prices)
+    \item When $s = 0$, $\sigma_\mu = 0$, and $\beta_1 = \beta_2$, $\xi_{jt} = 0$: switching rate $\approx 1/2$ and $p_1^* = p_2^*$ (static symmetric logit duopoly)
+    \item When $\sigma_\mu = 0$: the model reduces to plain logit and prices should match the closed-form logit markup results
+    \item When $s \to \infty$: switching rate $\to 0$
+    \item Increasing $\sigma_\mu$ (holding $s$ fixed) should \emph{reduce} the switching rate, since persistent preferences reinforce switching costs
+    \item Period 2 incumbent price $>$ entrant price: $p_{j2}^*(j) > p_{j2}^*(k \neq j)$
+\end{itemize}
+
+\end{document}

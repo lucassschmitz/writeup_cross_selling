@@ -1,0 +1,189 @@
+%\documentclass[notes,10pt,aspectratio=169]{beamer}
+
+%\documentclass[notes, 10pt,aspectratio=169]{beamer}
+\documentclass[10pt,aspectratio=169]{beamer}
+
+
+% Add this line to your preamble
+%\setbeameroption{show notes on second screen=right}
+
+%\usetheme{Singapore} %Boadilla, Madrid, default, etc. 
+\usetheme[progressbar=frametitle]{metropolis}
+\usecolortheme{rose} %beaver, dolphin, crane, 
+
+
+%\setbeamersize{text margin left=4mm, text margin right=4mm}
+
+
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{booktabs} % Required for \toprule, \midrule, \bottomrule
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+\tikzstyle{block} = [rectangle, draw, text width=4cm, align=center, rounded corners, minimum height=1cm]
+\tikzstyle{decision} = [rectangle, draw, text width=5cm, align=center, fill=blue!10, rounded corners, minimum height=1cm]
+\tikzstyle{terminal} = [rectangle, draw, text width=4.5cm, align=center, fill=yellow!30, rounded corners, minimum height=1cm]
+\tikzstyle{end} = [rectangle, draw, text width=5cm, align=center, fill=green!30, rounded corners, minimum height=1cm]
+\tikzstyle{arrow} = [->, thick]
+
+
+
+\usepackage{adjustbox}
+%2. change the bullets 
+\setbeamertemplate{itemize item}[triangle] %circle, square,... 
+
+
+% 1. Define custom colors and set colors 
+%\definecolor{myblue}{HTML}{003366}
+\definecolor{accent}{RGB}{78,205,196}
+
+%\setbeamercolor{title}{fg=white,bg=myblue}
+\setbeamercolor{frametitle}{fg=black,bg=white}
+%\setbeamercolor{normal text}{fg=mygray}
+\setbeamercolor{block title}{fg=black,bg=blue}
+%\setbeamercolor{block body}{fg=black,bg=white}
+
+\setbeamercolor{item}{fg= orange!80} % Change bullet color
+\setbeamercolor{button}{bg=orange, fg=white}
+
+
+
+
+
+% 3. BibLaTeX settings
+\usepackage[
+  backend=biber,
+  style=apa,
+  citestyle=authoryear
+]{biblatex}
+\addbibresource{references.bib}
+
+\title{Meetin with SPoints to discuss with Steve}
+%\subtitle{A Mini Literature Overview}
+
+\author{%
+ Lucas Condeza
+\inst{1} \and
+   %\and
+%  Coauthor Three\inst{3}
+}
+\institute{
+  \inst{1} Yale University \\
+}
+
+\date{\today}
+
+\begin{document}
+
+%\begin{frame}
+%  \titlepage
+%\end{frame}
+
+
+
+\begin{frame}{Last meeting}
+Last meeting we talked about:
+\begin{itemize}
+    \item Cross-selling and its causes: persistent preferences, switching costs, informational asymmetries. 
+    \item Some points Phil raised: 
+    \begin{enumerate}
+        \item is asymmetric information plausible? It is plausible, credit bureaus do not share transaction data nor soft information. There are papers that show that using the information gathered from app use can improve predictions. From talks with a practitioner he told me they use around 600 variables. 
+        \item I mentioned Egan et al. (2025), Phil said that it was important to have that paper in mind. In their model there are no switching costs, persistence is due to consumer not reoptimizing.
+        \item Is there prior literature on cross-selling? There are a couple of papers (e.g. Basten et al.) but they do not use IO tools and they do not focus on competition. 
+    \end{enumerate}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{This meeting (1)}
+
+Topics to discuss: 
+\begin{itemize}
+    \item Present model of switching costs 
+    \item How to identify the model of switching costs? 
+    \begin{itemize}
+        \item Dube et al. (2009)?  
+    \end{itemize}
+    \item Discuss prospectus advising
+    \item Next steps considering that I still have to apply for the data 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Model: Setup}
+\textbf{Environment:} Two periods $t=1,2$, two products (e.g., checking account $\to$ loan), $J$ firms.
+
+\vspace{0.3cm}
+\textbf{Consumer utility:}
+\begin{equation*}
+    u_{ijt} = \beta_t - \alpha p_{ijt} + \xi_{ijt} + \epsilon_{ijt}
+\end{equation*}
+
+\textbf{Switching cost:} If consumer switches firms between periods, incurs cost $s$:
+\begin{equation*}
+    U_i(j_1, j_2) = u_{ij_1,1} + u_{ij_2,2} - s \cdot \mathbf{1}(j_1 \neq j_2)
+\end{equation*}
+
+\textbf{Demand in period 2:} Conditional on first-period choice $j_1$:
+\begin{equation*}
+    D_{2j}(j_1, p_2) =
+    \begin{cases}
+        \frac{\exp(\delta_{jt})}{\exp(\delta_{jt}) + \sum_{j' \neq j}\exp(\delta_{j't} - \alpha s)} & \text{if } j = j_1 \\[0.3cm]
+        \frac{\exp(\delta_{jt} - \alpha s)}{\exp(\delta_{j_1t}) + \sum_{j' \neq j_1}\exp(\delta_{j't} - \alpha s)} & \text{if } j \neq j_1
+    \end{cases}
+\end{equation*}
+\end{frame}
+
+
+\begin{frame}{Model: Invest-Harvest Motive}
+\textbf{Firm $j$'s problem in period 1:}
+\begin{equation*}
+    \max_{p_{j1}} \underbrace{D_{1j}(p_{j1} - c_1)}_{\text{Period 1 profit}} + \sum_{k=1}^J D_{1k} \cdot \pi_{2j}(k)
+\end{equation*}
+
+\textbf{FOC reveals dynamic incentives:}
+\begin{equation*}
+    \text{MR}_{1j} + \underbrace{\frac{\partial D_{1j}}{\partial p_{j1}}}_{(-)} \left[ \pi_{2j}(j) - \sum_{k \neq j} \omega_{jk}\, \pi_{2j}(k) \right] = 0
+\end{equation*}
+where $\omega_{jk}$ are diversion weights (fraction of lost customers going to $k$).
+
+\vspace{0.3cm}
+\textbf{Key insight:}
+\begin{itemize}
+    \item \textbf{Harvest (Period 2):} Incumbent earns $\pi_{2j}(j) > \pi_{2j}(k)$ due to switching costs
+    \item \textbf{Invest (Period 1):} Firm sets $p_{j1}$ \textit{below} static optimum to acquire customers
+    \item Sacrifice period 1 margins $\to$ build larger customer base $\to$ extract rents in period 2
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Model: Definitions}
+\textbf{Period 2 profits $\pi_{2j}(k)$:} Firm $j$'s expected profit from consumers who chose firm $k$ in period 1:
+\begin{equation*}
+    \pi_{2j}(k) = \max_{p} D_{2j}(k, (p, p_{-j2}^*(k)))(p - c_2)
+\end{equation*}
+\begin{itemize}
+    \item $\pi_{2j}(j)$: Profit from ``own'' customers (incumbent advantage due to $s$)
+    \item $\pi_{2j}(k)$ for $k \neq j$: Profit from ``poaching'' rival's customers
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Diversion weights $\omega_{jk}$:} Fraction of customers lost by firm $j$ that go to firm $k$:
+\begin{equation*}
+    \omega_{jk} \equiv \frac{\frac{\partial D_{1k}}{\partial p_{j1}}}{-\frac{\partial D_{1j}}{\partial p_{j1}}}, \qquad k \neq j
+\end{equation*}
+\begin{itemize}
+    \item $\omega_{jk} \geq 0$ for substitutes (raising $p_{j1}$ increases $D_{1k}$)
+    \item $\sum_{k \neq j} \omega_{jk} = 1$ (lost customers must go somewhere)
+\end{itemize}
+\end{frame}
+
+
+
+
+\end{document}

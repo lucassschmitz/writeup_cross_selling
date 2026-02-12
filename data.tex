@@ -1,0 +1,222 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{references.bib}
+\begin{document}
+
+This file contains all the information I have been able to get from the data available at the CMF. 
+
+
+\vspace{3cm}
+
+
+\begin{itemize}
+    \item Would I be able to observe repayment behavior? it would be super useful to determine whether there is adverse selection, which would be created by the asymmetric information. 
+    
+    I am not sure D1- for example contains "monto con morosidad desde 30 a menso de 60 dias" and then other time frames. But is something I still need to properly understand 
+\end{itemize}
+\section{Data}
+
+\subsection{Sistema de deudores}
+
+\begin{itemize}
+    \item D03 contains information on the people being reported to the CMF, particularly contains: 
+\begin{itemize}
+    \item County (comuna) of residence
+\end{itemize}
+Actually it does not seem that relevant for indivduals, but contains quite a bit of interesting information for firms (e.g. assets, liabilities, etc).
+
+\item D04 contains \textit{depositos a plazo}
+
+\item D10 
+
+\item D32 (TASAS DE INTERES DIARIAS POR OPERACIONES.) seems to contain the interest rate for the loans and also the amount of the loan.
+
+Contains all the credits with the exception of the ones related to D33 and credit lines, is at the individual level since includes the RUT. 
+
+My impression is that is the flow since it says "operaciones, que se indican, cursadas en el o los dias anteriores a su envio".
+
+\item D33 contains credit card lines and their respective interest rate. It might be aggregated data since it does not include RUT.
+
+\item D34 has a similar title to D32 and seems like contains almost all the loans, but it does not include RUT either, so it might be aggregated, moreover includes the average interest (item 10 in the structure), which is further evidence that it is aggregated. Finally it contains the number of operations (item 13 in the structure), which also suggests that it is aggregated.
+
+\end{itemize}
+
+
+
+\subsubsection{Q\&A}
+\begin{itemize}
+    \item What is the difference between D10, D32, D34 and D35? the three of them look very similar. 
+    
+    D32 appears to be the flow of loans, whereas D35 contains the full stock of loans. Both are at the indiviudal level since they include RUT.
+
+    In their application Santiago Truffa requested the file D32 saying that "ntrega información del crédito, la tasa interés acordada y la oficina de emisión del crédito" 
+
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sistema de productos}
+
+
+Generally it seems like this files are not at the customer level but at a more aggregated level. For example page 1 says that "En estos campos se entrega la información sobre el producto correspondiente, agregada de acuerdo a lo indicado en los campos clasificadores de la información." and if one goes to the structure of the data (e.g. see P21) they contain the number of accounts in each bracket and then the total balances of all the accounts in each bracket. Hence this does not seem that useful for our purpose.
+
+\begin{itemize}
+    \item Current accounts (P02) and their balances and gender. 
+    \item P07: deposito a plazo
+
+    \item P10: deposito a vista y a plazo
+    \item P21: current accounts with county, which can help to calculate distance to bank branches. 
+    \item P73: credit card transactions
+\end{itemize}
+ 
+
+
+
+
+\subsubsection{Q\&A}
+\begin{itemize}
+    \item P38 and P39 are related to credit cards, what is the difference?
+    
+    \item P21 is titled with "deudores", how is it that someone with a current account is a debtor?
+
+    \item  D04, P07 and P10 include depositos a plazo, what are the differences among them?
+
+    D04 includes RUT which means that is at the individual level. Whereas P07 reports number of depositos in each amount bracket, which appears to indicate that it is at the aggregated level (e.g. number of depositos less than certain amount), but I am not sure because in comuna it says that is the place where the deposito was made, which appears to indicate that it is at the individual level. 
+    P10 also does not include RUT and has a similar structure to P07. 
+
+    I think that PO7 and P10 are aggregated because page 1 says "En estos campos se entrega la información sobre el producto correspondiente, agregada de acuerdo a lo indicado en los campos clasificadores de la información." 
+\end{itemize}
+\subsection{Sistema de Instituciones}
+\begin{itemize}
+    \item I06 contains the location of the branches, time when the branches are open and presence of ATM.
+\end{itemize}
+
+
+
+
+\section{Conversations with Cristian Rojas}
+
+\subsection{11 feb 2026}
+
+\begin{enumerate}
+    \item \textbf{Cuando uno postula con un proyecto, ¿es necesario indicar los años para los cuales se solicitan los archivos? ¿Existe algún límite respecto del número de años que es posible pedir?}
+
+    No, no es necesario decir el periodo de tiempo. Te adjunto la sección donde en el proposal de este proyecto hablamos de los datos:
+
+4. Bases de datos a utilizar
+
+a.      Información de Acceso Financiero: Condiciones de nuevos créditos y cumplimiento crediticio del registro de deudores de la CMF.
+
+b.     Información de Fusiones y Adquisiciones: Para empresas supervisadas por CMF y otras no supervidadas.
+
+c.      Información de Proyectos de Energía: Proyectos de ERNC en Chile.
+
+d.      Información de Financiamiento de Proyectos de Energía: Financiamiento de proyectos ERNC en Chile.
+
+Puedes plantear en general el uso de información de créditos y deudas.
+
+Respecto al limite de la información, tampoco existe. Pero en general se limita a las disponibilidades reales de acceso por parte de los analistas internos. Por ejemplo, todo lo que es flujo de créditos (hablo de esto mas adelante) parte de forma mensual desde 2012/2013. La información de stocks (también hablo de esto mas adelante) parte de forma simple desde 2010. Entiendo que es posible ir mas atrás, pero en mis trabajos por lo menos no ha sido necesario retroceder tanto.
+
+
+
+\item \textbf{Mi impresión es que el archivo D10 es el principal insumo para estudiar crédito a personas naturales. ¿Estoy en lo correcto? Idealmente me gustaria observar créditos de consumo e hipotecarios para una muestra de individuos, hay otro archivo que sea particularmente relevante para ello?}
+
+Perfecto, esto al principio puede ser bien confuso, déjame ver si logro ayudarte. Lo primero es que información financiera, especialmente de deuda, tiene dos lógicas de bases de datos: stocks y flujos.
+
+Partamos por los flujos. La base de flujos mas importante es la base D32 que tiene todos los créditos entregados y sus condiciones. Aquí puedes ver los montos del crédito, las tasas, el plazo, etc. Importante: 1 crédito es una observación en esta base. Si pido un crédito a 30 años hipotecario, solo aparece con fecha de otorgación una vez. Esta base no tiene lógica de “panel”, es 1 observación cada vez que se entrega un crédito con sus características de caratula por así decirlo. Puede ser también que en un mismo mes una empresa tenga “n” créditos con un banco, no tiene lógica de panel bajo ningún caso (otra cosa es que se pueda transformar a panel, pero tiene eso varios bemoles de los cuales podemos hablar si es necesario).
+
+Luego vienen dos bases de stocks. Las principales son D10 y C11. Estas reflejan en general todas las deudas vigentes de créditos de consumo, comerciales e hipotecarios. Cual es la diferencia con la base de flujos: aquí se muestra mes a mes la deuda vigente de cada persona/firme hasta que se extingan sus obligaciones. En el mismo ejemplo anterior del crédito hipotecario, mientras que en flujos tendrás solo 1 observación el mes de otorgación del crédito, en stocks tendrás 30 años (de forma mensual) con la deuda vigente (al día y en mora) de ese cliente, en caso de un pago normal del cliente. Siempre tendrás que el numero de observaciones de stock será muy superior a flujos, es normal esto en estas bases lo cual es consistente ya que reflejan información complementaria.
+
+No quiero por el momento complicar con como se cruzan ambas bases (y todas la limitaciones asociadas), pero puedo ir a más detalles según tus consultas.
+
+Pero en general, ambas bases te permiten ver las condiciones de origen y la deuda vigente en el tiempo asociada a ese crédito.
+
+\item \textbf{Si uno observa una deuda en el archivo D10 y quisiera analizar los pagos mensuales del individuo, ¿es posible hacerlo?}
+\item 
+Aquí empezamos con los detalles importantes. Las bases D10/C11 son bases de deuda vigente. Es decir, en el mismo caso de mi crédito hipotecario si mi dividendo son \$1.000.000 veré una deuda que cae en \$1MM, pero eso no lo tiene individualizado la base como flujo es un cálculo “residual”. Es decir, en algunos casos la diferencia de stocks puede atribuirse a pagos, pero no es algo tan preciso en general. Podemos iterar sobre este punto.
+
+\item \textbf{Estuve buscando algún archivo que contenga la tasa de interés de cada crédito para poder calcular los pagos, o algún archivo que contenga directamente los pagos, pero no he logrado encontrarlo.}
+
+La tasa de interés solo esta en la base D32 de flujos. Si pido un crédito hipotecario en el D32 aparecerá toda la información para calcular, por ejemplo, las cuotas. Pero esto es una “estimación”. Te podría decir que es correcto que puedes “calcular” los pagos. De hecho, la CMF tiene un informe de deuda donde se estima la carga financiera de las personas.
+
+\href{https://www.cmfchile.cl/portal/estadisticas/617/articles-102985_doc_pdf.pdf}{link}
+
+
+[HERE THERE IS A PICTURE, SEE THE ORIGINAL EMAIL]
+
+Importante: Dado lo anterior hay dos formas de calcular “pagos”. Una es mediante diferenciales de stocks de deuda, y la otra es calcular “planes de pagos” mediante el D32. Depende un poco del objetivo que estes buscando cual alternativa es mejor, pero al menos hay dos formas.
+
+\item \textbf{¿Existe alguna forma de observar el monto que un individuo mantiene en cuentas corrientes o de ahorro? Mi impresión es que el Sistema de Productos entrega información a nivel de producto, pero no a nivel individual. Quisiera confirmar si hay algún otro archivo que contenga información de depósitos a nivel de persona.}
+
+Sí, tienes que mirar el archivo D50. Este archivo desde hace algunos años (no muchos, creo que no desde antes de 2020) tiene información de saldos también.
+
+
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
