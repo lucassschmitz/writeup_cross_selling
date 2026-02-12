@@ -1,0 +1,335 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+Adapting \textcite{engelbrecht-wiggans_competitive_1983}
+
+This version incorporates switching costs. Let bank 1 be the incumbent, which has a relationship with the borrower. The borrower incurs a switching cost $\lambda > 0$ if they choose bank 2. 
+This borrower chooses bank 2 if  $r_1 > r_2 + \lambda$, otherwise it chooses bank 1. 
+
+Define $h$ to be default probability, there is an informed bank (bank 1) and an uninformed bank (bank 2), which is smoothly distributed in the population according to the cdf $F(h)$ and pdf $f(h)$.   The strategies are $r_1(h) = \sigma(h): h\rightarrow r$ and $G(x) = \Pr (r_2\leq x)$, which are interest rates. 
+
+Assume that  in equilibrium $\sigma$ is an increasing function, and denote by $\tau: r\rightarrow h $ its inverse, $\tau(\sigma(h)) = h$. 
+
+Then expected profits of bank 1 are: 
+
+\begin{align}
+    \pi_1(r_1(h)) &= \Pr(\sigma(h) \leq r_2 + \lambda)\cdot [(1-h)\sigma(h)-1] \notag \\
+     &= \Pr(r_2 \geq \sigma(h) - \lambda)\cdot [(1-h)\sigma(h)-1] \notag \\
+     &=  [1-G(\sigma(h)-\lambda)]\cdot [(1-h)\sigma(h)-1] \label{eq:profit1}
+\end{align}
+and the expected profits of bank 2 are: 
+
+Bank 2 wins if $r_2 < \sigma(h) - \lambda$, which is $\sigma(h) > r_2 + \lambda$.
+\begin{align}
+    \pi_2(r_2) &= \Pr(\sigma(h) > r_2 + \lambda) \cdot E[(1-h)\cdot r_2 -1 \mid \sigma(h) > r_2 + \lambda] \notag \\ 
+    &= \Pr(h > \tau(r_2+\lambda)) \cdot E[(1-h)\cdot r_2 -1 \mid h > \tau(r_2+\lambda)] \notag \\ 
+     &= [1-F(\tau(r_2+\lambda))] \cdot \left[E[(1-h) \mid h > \tau(r_2+\lambda)]\cdot r_2 -1 \right]
+\end{align}
+
+Assume that bank 2 makes zero profits\footnote{Would have to be proved, but I am confident that it is true since the uninformed firm in auction models always makes zero profits. }, then we have: 
+
+\begin{align}
+   [1-F(\tau(r_2+\lambda))] \cdot \left[E[(1-h) \mid h > \tau(r_2+\lambda)]\cdot r_2 -1 \right] =0
+\end{align}
+since the winning probability is not zero, then the expected profits have to be zero. 
+\begin{align}\label{eq:profits2}
+    E[(1-h) \mid h > \tau(r_2+\lambda)]\cdot r_2 -1  =0 \implies  r_2  =\frac{1}{E[(1-h) \mid h > \tau(r_2+\lambda)]} 
+\end{align}
+
+
+Let $k = \tau(r_2 + \lambda)$, which means $\sigma(k) = r_2 + \lambda$. Therefore $r_2 = \sigma(k) - \lambda$. Substituting:
+\begin{align*}
+    \sigma(k) - \lambda = \frac{1}{E[1-h | h > k]}
+\end{align*}
+Hence, 
+\begin{align}\label{eq:strategy_home}
+    \sigma(h)  = \lambda + \mu(h)^{-1} 
+\end{align}
+where $\mu(h) = E[1-H | H > h]$.
+
+Then we can use profit maximization by the first firm, the FOC of equation \ref{eq:profit1} are: 
+\begin{align}
+    - g(\sigma(h)-\lambda) [ (1-h)\sigma(h)-1] + [1-G(\sigma(h)-\lambda)] [1-h] &= 0 \notag \\ 
+    \frac{1-h}{ [ (1-h)\sigma(h)-1] } = \frac{g(\sigma(h)-\lambda)}{[1-G(\sigma(h)-\lambda)]} &= - \frac{d}{d\sigma} [\log(1-G(\sigma(h)-\lambda))] \notag \\
+    \frac{1-\tau(r)}{ [ (1-\tau(r))r-1] }  = - \frac{d}{d\sigma} [\log(1-g(r-\lambda))]  
+\end{align}
+Integrating both sides from $\underline r = \sigma(\underline h)$ to a given $r$, where $G( \underline r - \lambda)=0 $ we have: 
+\begin{align}
+    -[
+\log(1-G(r-\lambda)) - \log(1-\underbrace{G(\underline r - \lambda))}_{=0} ] = \int_{\underline r}^r \frac{1-\tau(u)}{ [ (1-\tau(u))u-1] } du \notag \\ 
+     -\log(1-G(r-\lambda))  = \int_{\underline r}^r \frac{1-\tau(u)}{ [ (1-\tau(u))u-1] } du \notag \\ 
+     G(r-\lambda) =1-\exp\left[ -\int_{\underline r}^r \frac{1-\tau(u)}{ [ (1-\tau(u))u-1] } du \right] \label{eq:mixed_strategy}
+\end{align}
+
+\subsection{Case with $\lambda = 0$}
+
+From equation \ref{eq:strategy_home} we have that: 
+\begin{align}    
+    \sigma(h) =\frac{1}{E[(1-H) \mid H  \leq h]}   \equiv \frac{1}{\mu(h)}
+\end{align}
+Then we can obtain the mixed strategy of bank 2 by a change of variables, consider $u = \sigma(t) \implies \tau(u) = t, du = \sigma'(t)dt$, then the limits of integration change from $[\underline r, r]$ to $\underline h, \tau(r)]$. Substituting into equation \ref{eq:mixed_strategy} we have: 
+\begin{align}
+    G(\sigma(h)) = 1-\exp\left[ -\int_{\underline h}^h \frac{1-t}{ [ (1-t)\sigma(t)-1] }\sigma'(t) dt  \right] 
+\end{align}
+given that $\sigma(t) = 1/\mu(t)$, we have $\sigma'(t) = -\mu'(t) /\mu(t)^2 $, replacing in the equation above:
+\begin{align}
+    G(\sigma(h)) = 1-\exp\left[ \int_{\underline h}^h \frac{1-t}{\frac{1-t}{\mu(t)}-1 }\frac{\mu'(t)}{\mu(t)^2} dt  \right] = 1-\exp\left[ \int_{\underline h}^h \frac{(1-t)\mu'(t)}{(1-t-\mu(t))\mu(t)} dt  \right] 
+\end{align}
+
+
+\subsection{Example}
+
+To derive a closed-form solution, we assume that the default risk $h$ is uniformly distributed on $[\underline{h},\bar{h}]$, where $0 < \underline{h} < \bar{h} < 1$. This ensures that even the safest borrower has positive default risk and that no borrower defaults with certainty. The conditional expectation is then:
+\begin{align*}
+    E[1-h \mid h > k] = \frac{\int_k^{\bar{h}} (1-x) dx}{\int_k^{\bar{h}} dx} = \frac{\left[(x - \frac{x^2}{2})\right]_k^{\bar{h}}}{\bar{h}-k} = \frac{(\bar{h} - \frac{\bar{h}^2}{2}) - (k - \frac{k^2}{2})}{\bar{h}-k}
+\end{align*}
+Simplifying the numerator:
+\begin{align*}
+    \bar{h} - \frac{\bar{h}^2}{2} - k + \frac{k^2}{2} = (\bar{h} - k) - \frac{\bar{h}^2 - k^2}{2} = (\bar{h} - k) - \frac{(\bar{h}-k)(\bar{h}+k)}{2} = (\bar{h}-k)\left(1 - \frac{\bar{h}+k}{2}\right)
+\end{align*}
+Therefore:
+\begin{align*}
+    E[1-h \mid h > k] = 1 - \frac{\bar{h}+k}{2} = \frac{2 - \bar{h} - k}{2}
+\end{align*}
+Substituting this into equation \ref{eq:profits2} with $k = \tau(r_2+\lambda)$:
+\begin{align*}
+    r_2 = \frac{1}{(2-\bar{h}-\tau(r_2+\lambda))/2} = \frac{2}{2-\bar{h}-\tau(r_2+\lambda)}
+\end{align*}
+We can solve this for $\tau$. Let $r=r_2+\lambda$, so $r_2=r-\lambda$. The equation becomes:
+\begin{align*}
+    r-\lambda = \frac{2}{2-\bar{h}-\tau(r)} \implies 2-\bar{h}-\tau(r) = \frac{2}{r-\lambda} \implies \tau(r) = 2 - \bar{h} - \frac{2}{r-\lambda}
+\end{align*}
+This is the inverse of bank 1's strategy. To find the strategy $\sigma(h)$ itself, we set $h = \tau(r)$ and solve for $r$:
+\begin{align*}
+    h = 2 - \bar{h} - \frac{2}{r-\lambda} \implies r-\lambda = \frac{2}{2-\bar{h}-h} \implies r = \sigma(h) = \lambda + \frac{2}{2-\bar{h}-h}
+\end{align*}
+This is the equilibrium pricing function for the informed bank. It prices at a markup over the switching cost $\lambda$, where the markup depends on the borrower's risk and the upper bound $\bar{h}$.
+
+\textbf{Verification:} We can verify this makes economic sense:
+\begin{itemize}
+    \item For the safest borrower ($h = \underline{h}$): $\sigma(\underline{h}) = \lambda + \frac{2}{2-\bar{h}-\underline{h}}$
+    \item For the riskiest borrower ($h = \bar{h}$): $\sigma(\bar{h}) = \lambda + \frac{2}{2-2\bar{h}} = \lambda + \frac{1}{1-\bar{h}}$
+    \item Since $\bar{h} < 1$, the rate is finite and positive for all borrowers in the support.
+    \item The profit margin for type $h$ is $(1-h)\sigma(h) - 1 = (1-h)\left(\lambda + \frac{2}{2-\bar{h}-h}\right) - 1$. 
+\end{itemize}
+
+Finally, we can use our expression for $\tau(u)$ to find the explicit distribution $G$ for bank 2 from equation \ref{eq:mixed_strategy}. We have:
+\begin{align*}
+    1 - \tau(u) = 1 - \left(2 - \bar{h} - \frac{2}{u-\lambda}\right) = \bar{h} - 1 + \frac{2}{u-\lambda}
+\end{align*}
+The integrand becomes:
+\begin{align*}
+    \frac{1-\tau(u)}{[ (1-\tau(u))u-1] } &= \frac{\bar{h} - 1 + \frac{2}{u-\lambda}}{\left(\bar{h} - 1 + \frac{2}{u-\lambda}\right)u - 1}
+\end{align*}
+Let $A = \bar{h} - 1$ (note $A < 0$ since $\bar{h} < 1$). Then:
+\begin{align*}
+    \frac{A + \frac{2}{u-\lambda}}{\left(A + \frac{2}{u-\lambda}\right)u - 1} &= \frac{A(u-\lambda) + 2}{(u-\lambda)} \cdot \frac{1}{\frac{[A(u-\lambda) + 2]u - (u-\lambda)}{u-\lambda}} \\
+    &= \frac{A(u-\lambda) + 2}{Au^2 - A\lambda u + 2u - u + \lambda} \\
+    &= \frac{A(u-\lambda) + 2}{Au^2 + (2-A\lambda-1)u + \lambda} \\
+    &= \frac{Au - A\lambda + 2}{Au^2 + (1-A\lambda)u + \lambda}
+\end{align*}
+Substituting back $A = \bar{h} - 1$:
+
+\begin{align*}
+    &= \frac{(\bar{h}-1)u - (\bar{h}-1)\lambda + 2}{(\bar{h}-1)u^2 + (1-(\bar{h}-1)\lambda)u + \lambda} \\
+    &= \frac{(\bar{h}-1)(u-\lambda) + 2}{(\bar{h}-1)u^2 + (1-(\bar h -1)\lambda)u + \lambda}
+\end{align*}
+
+This integral is complex in the general case.
+For a cleaner closed-form solution, consider the case where $\bar{h} = 1$ (so default probability ranges from $\underline{h} > 0$ to $1$). With $\bar{h} = 1$:
+\begin{align*}
+    \sigma(h) = \lambda + \frac{2}{2-1-h} = \lambda + \frac{2}{1-h}
+\end{align*}
+and
+\begin{align*}
+    \tau(r) = 2 - 1 - \frac{2}{r-\lambda} = 1 - \frac{2}{r-\lambda}
+\end{align*}
+The lower bound of integration is $\underline{r} = \sigma(\underline{h}) = \lambda + \frac{2}{1-\underline{h}}$.
+
+Now we compute:
+\begin{align*}
+    1 - \tau(u) = 1 - \left(1 - \frac{2}{u-\lambda}\right) = \frac{2}{u-\lambda}
+\end{align*}
+The integrand becomes:
+\begin{align*}
+    \frac{1-\tau(u)}{(1-\tau(u))u - 1} = \frac{\frac{2}{u-\lambda}}{\frac{2u}{u-\lambda} - 1} = \frac{\frac{2}{u-\lambda}}{\frac{2u - (u-\lambda)}{u-\lambda}} = \frac{2}{u + \lambda}
+\end{align*}
+The integral becomes:
+\begin{align*}
+    \int_{\underline{r}}^{r} \frac{2}{u+\lambda} du = 2\ln(u+\lambda)\Big|_{\underline{r}}^{r} = 2\ln\left(\frac{r+\lambda}{\underline{r}+\lambda}\right) = \ln\left(\left(\frac{r+\lambda}{\underline{r}+\lambda}\right)^2\right)
+\end{align*}
+Substituting into equation \ref{eq:mixed_strategy}:
+\begin{align*}
+    -\log(1-G(r-\lambda)) &= \ln\left(\left(\frac{r+\lambda}{\underline{r}+\lambda}\right)^2\right) \\
+    \implies G(r-\lambda) &= 1 - \left(\frac{\underline{r}+\lambda}{r+\lambda}\right)^2
+\end{align*}
+Let $x = r - \lambda$, so $r = x + \lambda$. Bank 2's strategy $G(x) = \Pr(r_2 \le x)$ is:
+\begin{align*}
+    G(x) = 1 - \left(\frac{\underline{r}+\lambda}{x + 2\lambda}\right)^2
+\end{align*}
+where $\underline{r} + \lambda = 2\lambda + \frac{2}{1-\underline{h}}$.
+
+The support for bank 2's offers starts where $G(x) = 0$, which occurs at $x = \underline{r} - \lambda = \frac{2}{1-\underline{h}}$.
+
+\subsection{Switchers }
+
+\textcolor{red}{What is the probability a bank switches?}
+
+\newpage 
+
+\subsection{Equilibrium computation}
+
+Previosuly we derived the equilibrium conditions (see equations \ref{eq:strategy_home} and \ref{eq:mixed_strategy}) for the informed incumbent bank and the uninformed entrant bank.
+
+For a generic distribution $F(h)$ with support $[h_{min}, h_{max}]$, we cannot obtain closed-form solutions. Instead, we use numerical methods to compute the equilibrium strategies.
+
+\subsubsection{Step 1: Define the conditional expectation function}
+
+For each type $h$, we need to compute the conditional expectation:
+\begin{align}
+    \mu(h) = E[1-H \mid H > h] = \frac{\int_h^{h_{max}} (1-t) f(t) dt}{1 - F(h)}
+\end{align}
+
+\textbf{Properties:}
+\begin{itemize}
+    \item $\mu(h)$ is decreasing in $h$ (higher types have worse expected repayment)
+    \item $\mu(h_{min}) = E[1-H]$ (unconditional expectation)
+    \item As $h \to h_{max}$: $\mu(h) \to 1 - h_{max}$
+\end{itemize}
+
+\textbf{Empirical computation:} Given $N$ draws from $F$: $\{h_1, ..., h_N\}$, we compute $\mu$ on a grid of $M$ points $\{h_1^{grid}, ..., h_M^{grid}\}$:
+\begin{align}
+    \mu(h_k^{grid}) = \frac{1}{|\{i: h_i > h_k^{grid}\}|} \sum_{i: h_i > h_k^{grid}} (1 - h_i)
+\end{align}
+
+
+\subsubsection{Step 2: Support of strategies}
+
+The incumbent's offers range from:
+\begin{align}
+    \underline{r} &= \sigma(h_{min}) = \lambda + \frac{1}{E[1-H]} \\
+    \bar{r} &= \sigma(h_{max}) = \lambda + \frac{1}{1-h_{max}}
+\end{align}
+
+The entrant's offers have support $[x_{min}, \infty)$ where $x_{min} = \underline{r} - \lambda = \frac{1}{E[1-H]}$.
+
+\subsubsection{Step 3: Compute the inverse function $\tau(r)$}
+
+From $\sigma(\tau(r)) = r$, we need to find $\tau(r)$ for each $r \in [\underline{r}, \bar{r}]$. Given $\sigma(h) = \lambda + 1/\mu(h)$:
+\begin{align}
+    r = \lambda + \frac{1}{\mu(\tau(r))} \implies \mu(\tau(r)) = \frac{1}{r - \lambda}
+\end{align}
+
+\textbf{Numerical solution:} For each $r$ in a grid, solve for $\tau(r)$ by finding $h$ such that $\mu(h) = 1/(r-\lambda)$ using interpolation or root-finding.
+
+\subsubsection{Step 4: Compute the entrant's mixed strategy}
+
+From equation \ref{eq:mixed_strategy}, we compute:
+\begin{align}
+    G(r-\lambda) = 1 - \exp\left[-\int_{\underline{r}}^r \frac{1-\tau(u)}{(1-\tau(u))u - 1} du\right]
+\end{align}
+
+\textbf{Numerical algorithm:}
+\begin{enumerate}
+    \item Create a grid of $M$ points: $r_1 = \underline{r}, r_2, ..., r_M$ in $[\underline{r}, \bar{r}]$
+    \item For each $r_j$, compute $\tau(r_j)$ as described in Step 3
+    \item Compute the integrand: $I(r_j) = \frac{1-\tau(r_j)}{(1-\tau(r_j))r_j - 1}$
+    \item Use numerical integration (e.g., trapezoidal rule): 
+    \begin{align}
+        \int_{\underline{r}}^{r_j} I(u) du \approx \sum_{k=1}^{j-1} \frac{I(r_k) + I(r_{k+1})}{2} (r_{k+1} - r_k)
+    \end{align}
+    \item Compute: $G(r_j - \lambda) = 1 - \exp\left[-\int_{\underline{r}}^{r_j} I(u) du\right]$
+\end{enumerate}
+
+\subsubsection{Step 5: Sample from the entrant's strategy}
+
+To simulate the model with $N$ borrowers:
+\begin{enumerate}
+    \item Draw $N$ borrowers: $h_i \sim F(h)$ for $i = 1, ..., N$
+    \item For each borrower $i$, compute incumbent's offer: $r_1^i = \sigma(h_i) = \lambda + 1/\mu(h_i)$
+    \item Draw entrant's offers from $G$ using inverse transform sampling:
+    \begin{itemize}
+        \item Draw $U_i \sim \text{Uniform}[0,1]$
+        \item Find $r_2^i$ such that $G(r_2^i) = U_i$ by interpolation
+    \end{itemize}
+    \item Borrower $i$ switches if $r_2^i + \lambda < r_1^i$
+\end{enumerate}
+
+\subsubsection{Verification}
+
+The numerical solution should satisfy:
+\begin{itemize}
+    \item Bank 2's expected profit is zero for all $r_2$ in its support
+    \item Bank 1 is indifferent over its support for each type $h$
+    \item $G$ is a valid CDF: $G(x_{min}) = 0$ and $\lim_{x \to \infty} G(x) = 1$
+\end{itemize}
+
+ 
+
+
+\end{document}
+
