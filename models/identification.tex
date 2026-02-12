@@ -1,0 +1,248 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+
+\section{Model Setup}
+
+We take model 4 and assume that the repayment probability is distributed according to a parametric family of functions. Specifically, we assume the Kumaraswamy distribution.
+
+\subsection{Kumaraswamy Distribution}
+
+The probability density function is:
+\begin{align}
+    f(h) = \alpha \beta h^{\alpha - 1} (1 - h^\alpha)^{\beta - 1}
+\end{align}
+
+The cumulative distribution function is:
+\begin{align}
+    F(h) = 1 - (1 - h^\alpha)^\beta
+\end{align}
+
+Note that for $\alpha = \beta = 1$, this reduces to the uniform distribution. The expected value is given by:
+\begin{align}\label{eq:mean_kumaraswamy}
+    \mathbb{E}(\alpha, \beta) = \beta B\left(1+ \frac{1}{\alpha}, \beta \right) = \frac{\beta \Gamma (1 + \frac{1}{a})\Gamma(\beta))}{\Gamma (1 + \frac{1}{a}+\beta )} 
+\end{align}
+where $B(\cdot)$ is the beta function and $\Gamma$ is the gamma function.
+
+\subsection{Parameters to Identify}
+
+The elements we need to identify from our model are:
+\begin{itemize}
+    \item $\lambda$: Switching cost
+    \item $\alpha, \beta$: Distribution of types
+\end{itemize}
+
+\subsection{Observable Data}
+
+For each borrower $i = 1, ..., N$, we observe:
+\begin{itemize}
+    \item $r_i^{win}$: The interest rate charged by the winning bank (i.e., the bids conditional on winning)
+    \item $W_i \in \{1, 2\}$: The bank from which the customer took the loan, where $W_i = 1$ indicates the incumbent won and $W_i = 2$ indicates the entrant won
+    \item $D_i \in \{0, 1\}$: Whether the borrower defaulted ($D_i = 1$) or repaid ($D_i = 0$)
+\end{itemize}
+
+
+
+
+\section{Estimation Strategy with Limited Observables}
+
+In practice, the researcher observes only a subset of the model's variables. 
+
+\subsection{Unobservable Variables}
+
+The following are \textit{not} observed by the researcher:
+\begin{enumerate}
+    \item \textbf{Latent type} $h_i$: The borrower's true default probability
+    \item \textbf{Loser's bid}: The interest rate offered by the bank that lost (either $r_1$ if entrant won, or $r_2$ if incumbent won)
+    \item \textbf{Bank profits}: The realized profits are not directly observed
+\end{enumerate}
+
+
+The parameter vector to be estimated is $\theta = (\alpha, \beta, \lambda, h_{min}, h_{max})$.
+
+\subsection{Likelihood Function}
+
+Given the model structure, we can construct the likelihood of observing the data. For borrower $i$:
+
+\paragraph{Incumbent wins ($W_i = 1$):} 
+The incumbent wins when $r_1(h_i) \leq r_2 + \lambda$. Given the equilibrium strategy $\sigma(h; \theta)$ and mixed strategy $G(x; \theta)$, the probability that the incumbent wins with type $h$ is:
+\begin{align}
+    \Pr(W_i = 1 \mid h_i; \theta) = 1 - G(\sigma(h_i; \theta) - \lambda; \theta)
+\end{align}
+
+The conditional density of the winning rate is:
+\begin{align}
+    f(r_i^{win} \mid W_i = 1, h_i; \theta) = \begin{cases}
+        1 & \text{if } r_i^{win} = \sigma(h_i; \theta) \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{align}
+since the incumbent plays a pure strategy.
+
+\paragraph{Entrant wins ($W_i = 2$):}
+The entrant wins when $r_2 < r_1(h_i) - \lambda$. The probability is:
+\begin{align}
+    \Pr(W_i = 2 \mid h_i; \theta) = G(\sigma(h_i; \theta) - \lambda; \theta)
+\end{align}
+
+The conditional density of the winning rate comes from the mixed strategy:
+\begin{align}
+    f(r_i^{win} \mid W_i = 2, h_i; \theta) = g(r_i^{win}; \theta)
+\end{align}
+where $g(\cdot)$ is the density of $G(\cdot)$.
+
+\paragraph{Default outcome:}
+Conditional on type $h_i$:
+\begin{align}
+    \Pr(D_i = 1 \mid h_i) = h_i, \quad \Pr(D_i = 0 \mid h_i) = 1 - h_i
+\end{align}
+
+\paragraph{Complete likelihood:}
+Since $h_i$ is unobserved, we integrate it out:
+\begin{align}
+    \mathcal{L}_i(\theta) = \int_{h_{min}}^{h_{max}} &f(r_i^{win} \mid W_i, h; \theta) \cdot \Pr(W_i \mid h; \theta) \notag \\
+    &\cdot \Pr(D_i \mid h) \cdot f(h; \alpha, \beta) \, dh
+\end{align}
+
+The log-likelihood for the sample is:
+\begin{align}
+    \ell(\theta) = \sum_{i=1}^N \log \mathcal{L}_i(\theta)
+\end{align}
+
+\subsection{Estimation Procedure}
+
+\textbf{Maximum Likelihood Estimation:}
+\begin{enumerate}
+    \item For a given parameter vector $\theta$:
+    \begin{itemize}
+        \item Compute the equilibrium strategies $\sigma(h; \theta)$ and $G(x; \theta)$ numerically (following the algorithm in Section ``Equilibrium computation'' in model4\_adapting Engelbrecht et al.tex)
+        \item For each observation $(r_i^{win}, W_i, D_i)$, evaluate the likelihood $\mathcal{L}_i(\theta)$ by numerical integration over $h$
+    \end{itemize}
+    \item Maximize the log-likelihood:
+    \begin{align}
+        \hat{\theta} = \arg\max_\theta \ell(\theta)
+    \end{align}
+    using numerical optimization (e.g., Nelder-Mead, BFGS)
+    \item Compute standard errors from the inverse Hessian or via bootstrap
+\end{enumerate}
+
+\subsection{Identification}
+
+\textbf{Key identification arguments:}
+
+\begin{itemize}
+    \item \textbf{Switching cost $\lambda$:} Identified from the gap between incumbent and entrant rates. In equilibrium, the incumbent charges $r_1(h) = \lambda + 1/\mu(h)$ while the entrant's support starts at $x_{min} = 1/E[1-H]$. The minimum observed incumbent rate minus the minimum observed entrant rate reveals $\lambda$.
+    
+    \item \textbf{Distribution parameters $(\alpha, \beta)$:} Identified from:
+    \begin{enumerate}
+        \item The distribution of winning rates conditional on winner identity
+        \item The correlation between winning rates and default outcomes
+        \item The switching probability (fraction of borrowers choosing the entrant)
+    \end{enumerate}
+    
+    \item \textbf{Support bounds $(h_{min}, h_{max})$:} The observed range of rates (conditional on winner) restricts the support of $h$ via the equilibrium pricing function $\sigma(h)$.
+\end{itemize}
+
+% \subsection{Moment Conditions}
+
+% As an alternative to MLE, one could use Method of Moments by matching:
+% \begin{enumerate}
+%     \item $E[r^{win}]$: Mean winning rate
+%     \item $\text{Var}(r^{win})$: Variance of winning rates
+%     \item $\Pr(W = 2)$: Switching probability
+%     \item $E[D \mid W = 1]$ vs $E[D \mid W = 2]$: Adverse selection (entrant gets lemons)
+%     \item $\text{Cov}(r^{win}, D)$: Correlation between rate and default
+%     \item Quantiles of the winning rate distribution
+% \end{enumerate}
+
+% The model-implied moments are functions of $\theta$, and we solve:
+% \begin{align}
+%     \hat{\theta}_{MM} = \arg\min_\theta \left[\mathbf{m}_{data} - \mathbf{m}_{model}(\theta)\right]' W \left[\mathbf{m}_{data} - \mathbf{m}_{model}(\theta)\right]
+% \end{align}
+% where $W$ is a weighting matrix.
+
+\newpage 
+
+\section{Random thoughts}
+ 
+
+\begin{itemize}
+    \item  Switching costs does not generate heterogeneity in the rates paid by old customers, whereas information asymmetries do. Maybe the variance of rates paid by old customers can tell us about the degree of learning by the bank. 
+    
+    \item If we can determine the switching probability implied by the model, then we can compare it to the observed in the data and this can reveal something about the relative importance of switching costs vs information asymmetries. For example if there is no information asymmetries, then the equilibrium is in pure strategies and there is no switching. If there are information asymmetries there will be switching. 
+    \item Given that we obseve the winning bids conditional on winning, we can try to obtain some moments from the model and compare them to the data. 
+
+    \item Maybe if one calculates the probability of switching conditional on ex-post repayment there are some moments that we can try to match. Note that the lemons are the ones that switch, hence switchers should have a lower repayment rate than non-switchers.
+
+    \item Note that the home bank plays a pure strategy. For any $h$ they play $\sigma(h)$ and whenever the home bank wins we observe $\sigma(h)$, and the home bank has a higher likelihood of winning when $h$ is low. if we adjust for this winning probability we can obtain the distribution of $\sigma(h)$ and then given a switching cost obtain the distribution of $h$. 
+    
+    \item To identify the switching costs we can use the difference between the lowest bid by the entrant and the lowest rate by the incumbent. The difference should be equal to the switching cost.
+\end{itemize}
+
+
+
+\end{document}
