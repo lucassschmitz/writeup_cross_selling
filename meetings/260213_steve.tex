@@ -86,34 +86,147 @@
 
 
 \begin{frame}{Last meeting}
-
+\textbf{Last meeting:}
 \begin{itemize}
     \item Presented outline of a research idea about cross-selling 
 \end{itemize}
-\end{frame}
 
-
-
-
-\begin{frame}{This meeting}
-
-Some topics to discuss: 
+\textbf{Today's meeting:}
 \begin{itemize}
-    \item Present model of multi-product banks with switching costs and asymmetric information \textcolor{red}{discuss identification}
+    \item Present model of multi-product banks with switching costs and asymmetric information 
     \item What patterns in the data would be consistent with asymmetric information 
     \item Recommendations on next steps considering that I still have to apply for the data 
 \end{itemize}
+
 \end{frame}
 
+
+%-------------------------------
+\begin{frame}{Model: Setup (Adapting Engelbrecht-Wiggans et al., 1983)}
+
+\begin{itemize}
+  \item Model of a banking duopoly 
+  \item Two periods:
+  \begin{itemize}
+    \item $t =1$: borrower gets an introductory product
+    \item $t=2$: borrower requests a loan 
+  \end{itemize} 
+  \item In $t=2$ the incumbent bank observes the borrower's default probability $h$, the entrant only the distribution $F(h)$ with pdf $f(h)$
+  \item In $t=2$ the borrower incurs a switching cost $\lambda$ if switching to the entrant bank
+\end{itemize}
+
+
+\vspace{0.3cm}
+\textbf{Strategies:}
+\begin{itemize}
+    \item Bank 1 (incumbent): $r_1(h) = \sigma(h)$, an increasing function of $h$
+    \item Bank 2 (entrant): mixed strategy $G(x) = \Pr(r_2 \leq x)$
+    \item Borrower chooses bank 2 if $r_1 > r_2 + \lambda$
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------
+\begin{frame}{Model: Equilibrium}
+
+\textbf{Expected profits:}
+\begin{align*}
+    \pi_1(r_1(h)) &= [1-G(\sigma(h)-\lambda)] \cdot [(1-h)\sigma(h)-1] \\
+    \pi_2(r_2) &= \Pr(\sigma(h)> r_2 +\lambda)\cdot \left[E[(1-h)r_2 - 1 \mid \sigma(h) > r_2 + \lambda \right]
+\end{align*}
+where $\tau = \sigma^{-1}$ is the inverse of bank 1's strategy.
+
+\vspace{0.2cm}
+\textbf{Equilibrium strategies:}
+\begin{itemize}
+    \item Incumbent's optimal strategy:
+    $$\sigma(h) = \lambda + \frac{1}{ E[1-H \mid H > h]}$$
+    \item Bank 2's mixed strategy:
+\end{itemize}
+\begin{align*}
+    G(r - \lambda) = 1 - \exp\left[-\int_{\underline{r}}^{r} \frac{1-\tau(u)}{(1-\tau(u))u - 1} du\right]
+\end{align*}
+
+\end{frame}
+
+%-------------------------------
+\begin{frame}{Observations}
+
+\begin{itemize}
+    \item Entrant faces adverse selection: switchers have higher $h$
+    \item Informational asymmetries create rents due to market power in $t=2$, but they are competed away in $t=1$
+    \begin{itemize}
+      \item Information asymmetries can lead to higher financial inclusion
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------
+% SIMULATION RESULTS
+%-------------------------------
+\begin{frame}{Simulation: Switching Probability by Repayment}
+    \centering
+    \includegraphics[width=0.85\textwidth]{../figures/Simulations/Model4/switching_probability_by_repayment.png}
+\end{frame}
 
 
 
 %-------------------------------
-\begin{frame}{The model}
- 
+% Plots
+%-------------------------------
+\begin{frame}{Mortgage default rates}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.85\textwidth]{../figures/Screenshots/Marcel21_BC_2_cropped.png}
+        \caption{\textcite{marcel_pdl_2021}}
+    \end{figure}
 \end{frame}
 
- 
+%\begin{frame}{Mortgage default rates}
+%    \centering
+%    \includegraphics[width=0.85\textwidth]{../figures/Screenshots/Marcel21_BC.png}
+%\end{frame}
+
+%-------------------------------
+% IDENTIFICATION
+%-------------------------------
+
+\begin{frame}{Identification}
+
+\textbf{Observables:} winning rate $r_i^{win}$, winner identity $W_i \in \{1,2\}$, default $D_i \in \{0,1\}$
+\begin{itemize}
+    \item \textbf{Switching cost $\lambda$:} Identified from the gap between the minimum incumbent rate and the minimum entrant rate: $\lambda = \min(r_1^{win}) - \min(r_2^{win})$
+    
+    \item Is the model identified? I recovered the parameters of a simulation, but do not have a formal proof. 
+    
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------
+\begin{frame}{Estimation: MLE}
+
+Each observation is $(r_i^{win}, W_i, D_i)$ a rate, the winner identity and the default outcome. 
+
+
+
+\begin{itemize}
+    \item \textbf{Incumbent wins} ($W_i = 1$): type is revealed, $h_i = \tau(r_i^{win})$
+    \begin{align*}
+        \mathcal{L}_i = \underbrace{f(\tau(r_i^{win})) \cdot |\tau'(r_i^{win})|}_{\text{density of rate}} \cdot \underbrace{[1 - G(r_i^{win} - \lambda)]}_{\text{prob. incumbent wins}} \cdot \underbrace{h_i^{D_i}(1-h_i)^{1-D_i}}_{\text{default outcome}}
+    \end{align*}
+    
+    \item \textbf{Entrant wins} ($W_i = 2$): type is unobserved, integrate out $h$
+    
+    \begin{align*}
+    \mathcal{L}_i(r_i^{win}, D_i, W_i = 2; \theta) &= \int_{h_{min}}^{h_{max}} \Pr(r_i^{win}, D_i, W_i = 2 \mid h; \theta) \cdot f(h; \alpha, \beta) \, dh \\
+    &= \underbrace{g(r_i^{win})}_{\text{density of entrant's offer}} \cdot \int_{\tau(r_i^{win} + \lambda)}^{h_{max}} \underbrace{h^{D_i}(1-h)^{1-D_i}}_{\text{default outcome}} \cdot \underbrace{f(h)}_{\text{type density}} \, dh
+    \end{align*}
+\end{itemize}
+
+\end{frame}
+
 
 \end{document}
 

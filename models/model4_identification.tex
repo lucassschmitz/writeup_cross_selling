@@ -295,7 +295,51 @@ The log-likelihood is:
 
 \begin{itemize}
     \item \textbf{Switching cost $\lambda$:} Identified from the gap between incumbent and entrant rates. In equilibrium, the incumbent charges $r_1(h) = \lambda + 1/\mu(h)$ while the entrant's support starts at $x_{min} = 1/E[1-H]$. The minimum observed incumbent rate minus the minimum observed entrant rate reveals $\lambda$.
-    
+\end{itemize}
+
+\begin{prop}[Identification of $\lambda$]
+The switching cost $\lambda$ is identified from the difference between the minimum equilibrium rate of the incumbent and the minimum equilibrium rate of the entrant:
+\begin{align}
+    \lambda = r_1^{min} - r_2^{min}
+\end{align}
+\end{prop}
+
+\begin{proof}
+
+\textbf{Step 1: Define $h_{min}$.} Let $h_{min}$ denote the lower bound of the support of the distribution of default probabilities $F(h)$, i.e., $h_{min} = \inf\{h : F(h) > 0\}$. Since $\sigma(h)$ is strictly increasing in $h$, the safest borrower $h_{min}$ receives the lowest incumbent rate.
+
+\textbf{Step 2: Compute $r_1^{min}$.} Define $r_1^{min} \equiv \sigma(h_{min})$ as the minimum rate offered by the incumbent. From the equilibrium strategy:
+\begin{align}
+    r_1^{min} = \sigma(h_{min}) = \lambda + \frac{1}{\mu(h_{min})}
+\end{align}
+where $\mu(h_{min}) = E[1-H \mid H > h_{min}] = E[1-H]$, since conditioning on $H > h_{min}$ is vacuous (all types satisfy this). Therefore:
+\begin{align}\label{eq:r1min}
+    r_1^{min} = \lambda + \frac{1}{E[1-H]}
+\end{align}
+
+\textbf{Step 3: Compute $r_2^{min}$.} Define $r_2^{min}$ as the lower bound of the support of the entrant's mixed strategy $G(x)$, i.e., $r_2^{min} = \inf\{x : G(x) > 0\}$.
+
+From the entrant's mixed strategy (equation \ref{eq:mixed_strategy}):
+\begin{align}
+    G(r - \lambda) = 1 - \exp\left[-\int_{\underline{r}}^{r} \frac{1-\tau(u)}{(1-\tau(u))u - 1} du\right]
+\end{align}
+At $r = \underline{r} = \sigma(h_{min})$, the integral evaluates to zero, so $G(\underline{r} - \lambda) = 1 - \exp(0) = 0$. Thus the support of $G$ begins at $x = \underline{r} - \lambda$, i.e.:
+\begin{align}\label{eq:r2min}
+    r_2^{min} = \underline{r} - \lambda = \sigma(h_{min}) - \lambda = \frac{1}{\mu(h_{min})} = \frac{1}{E[1-H]}
+\end{align}
+
+\textbf{Step 4: Compute the difference.} Subtracting (\ref{eq:r2min}) from (\ref{eq:r1min}):
+\begin{align}
+    r_1^{min} - r_2^{min} = \left(\lambda + \frac{1}{E[1-H]}\right) - \frac{1}{E[1-H]} = \lambda
+\end{align}
+\end{proof}
+
+\textbf{Practical implication:} In the data, one can estimate $\lambda$ by computing the difference between the minimum observed winning rate when the incumbent wins and the minimum observed winning rate when the entrant wins:
+\begin{align}
+    \hat{\lambda} = \min_{i: W_i = 1} r_i^{win} - \min_{i: W_i = 2} r_i^{win}
+\end{align}
+
+\begin{itemize}    
     \item \textbf{Distribution parameters $(\alpha, \beta)$:} Identified from:
     \begin{enumerate}
         \item The distribution of winning rates conditional on winner identity
