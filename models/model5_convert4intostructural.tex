@@ -1,0 +1,197 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+In this pdf we adapt model 4 to make it structural. Incorporate preference heterogeneity. 
+
+
+
+
+
+
+
+\section{Model}
+
+There are two banks, consumer utility, conditional on the consumer having previously used bank $j_0$, is: 
+
+\begin{align*}
+    u_{ij}(j_0) = - \alpha r_{ij} - \lambda \cdot 1(j \neq j_0) + \varepsilon_{ij}
+\end{align*}
+Define $h$ to be default probability, there is an informed bank (bank 1) and an uninformed bank (bank 2), which is smoothly distributed in the population according to the cdf $F(h)$ and pdf $f(h)$.   The strategies are $r_1(h) = \sigma(h): h\rightarrow r$ and $G(x) = \Pr (r_2\leq x)$, which are interest rates.
+
+Given the interest rates the probability of choosing the incumbent is: 
+\begin{align*}
+    s(\sigma(h), r_2) = \frac{\exp(-\alpha \sigma(h))}{\exp(-\alpha \sigma(h))+ \exp(-\alpha r_2- \lambda)}
+\end{align*}
+
+Then expected profits of bank 1 are: 
+
+\begin{align}
+    \pi_1(r_1(h)) &= \int [(1-h) \sigma(h) -1 ]s(\sigma(h), r_2) d G(r_2) \notag \\
+        &=  [(1-h) \sigma(h) -1 ] \int s(\sigma(h), r_2) d G(r_2) \notag 
+\end{align}
+
+The expected profits of bank 2 are: 
+
+
+\begin{align}
+    \pi_2(r_2) &= \int_h [1-s(\sigma(h), r_2)] [(1-h) r_2  -1 ] dF(h)
+\end{align}
+
+
+\section{Equilibrium Definition and Existence}
+
+\begin{definition}[Equilibrium]
+An equilibrium consists of a pure strategy $\sigma^*: [h_{min}, h_{max}] \to \mathbb{R}_+$ for the incumbent and a mixed strategy (CDF) $G^*: \mathbb{R}_+ \to [0,1]$ for the entrant such that:
+\begin{enumerate}
+    \item For each $h \in [h_{min}, h_{max}]$, $\sigma^*(h)$ maximizes the incumbent's expected profits:
+    \begin{align}
+        \sigma^*(h) \in \arg\max_{r_1 \geq 0} \; [(1-h)r_1 - 1] \int s(r_1, r_2) \, dG^*(r_2)
+    \end{align}
+    \item $G^*$ maximizes the entrant's expected profits: for all $r_2$ in the support of $G^*$,
+    \begin{align}
+        \pi_2(r_2; \sigma^*, G^*) = \max_{r_2' \geq 0} \int_{h_{min}}^{h_{max}} [1 - s(\sigma^*(h), r_2')] [(1-h)r_2' - 1] \, dF(h)
+    \end{align}
+\end{enumerate}
+\end{definition}
+
+We now state the assumptions required for the proof and establish existence.
+
+\begin{ass}\label{ass:F}
+The distribution $F$ of default probabilities has support $[h_{min}, h_{max}] \subset (0,1)$, with $F$ absolutely continuous and density $f$ bounded away from zero on $[h_{min}, h_{max}]$.
+\end{ass}
+
+\begin{ass}\label{ass:rates}
+Interest rates are restricted to a compact set $[0, \bar{r}]$ where $\bar{r} > \frac{1}{1-h_{max}}$ is sufficiently large that no bank would ever find it profitable to offer a rate above $\bar{r}$.
+\end{ass}
+
+\begin{thm}[Equilibrium Existence]\label{thm:existence}
+Under Assumptions \ref{ass:F}--\ref{ass:rates}, the model admits a Bayesian Nash equilibrium $(\sigma^*, G^*)$.
+\end{thm}
+
+\begin{proof}
+We construct an operator whose fixed point is an equilibrium and apply Schauder's fixed point theorem.
+
+\textbf{Step 1: Define the strategy spaces.}
+
+Let $\mathcal{S} = \{\sigma : [h_{min}, h_{max}] \to [0, \bar{r}] \mid \sigma \text{ is measurable}\}$ denote the set of incumbent strategies, and let $\mathcal{G} = \{G : [0, \bar{r}] \to [0,1] \mid G \text{ is a CDF}\}$ denote the set of entrant mixed strategies. The product space $\mathcal{S} \times \mathcal{G}$ is the joint strategy space.
+
+Endow $\mathcal{S}$ with the $L^1$ topology (under the measure induced by $F$) and $\mathcal{G}$ with the topology of weak convergence. Both spaces are convex. The set $\mathcal{G}$ is compact under weak convergence by Prokhorov's theorem, since all CDFs are supported on the compact set $[0, \bar{r}]$. The set $\mathcal{S}$ can be restricted to uniformly bounded measurable functions on $[h_{min}, h_{max}]$ taking values in $[0, \bar{r}]$, which is convex and compact in the weak-$*$ topology of $L^\infty([h_{min}, h_{max}])$.
+
+\textbf{Step 2: Define the best-response operator.}
+
+Define the best-response mapping $T: \mathcal{S} \times \mathcal{G} \to \mathcal{S} \times \mathcal{G}$ by $T(\sigma, G) = (T_1(\sigma, G), T_2(\sigma, G))$ where:
+
+\textit{Incumbent's best response.} For each $h$, define:
+\begin{align}
+    T_1(\sigma, G)(h) = \arg\max_{r_1 \in [0,\bar{r}]} \; [(1-h)r_1 - 1] \int_0^{\bar{r}} s(r_1, r_2) \, dG(r_2)
+\end{align}
+where $s(r_1, r_2) = \frac{\exp(-\alpha r_1)}{\exp(-\alpha r_1) + \exp(-\alpha r_2 - \lambda)}$.
+
+Note that for each fixed $h$ and $G$, the objective function is:
+\begin{align}
+    \phi(r_1; h, G) = [(1-h)r_1 - 1] \underbrace{\int_0^{\bar{r}} \frac{\exp(-\alpha r_1)}{\exp(-\alpha r_1) + \exp(-\alpha r_2 - \lambda)} dG(r_2)}_{\equiv S(r_1, G)}
+\end{align}
+The term $(1-h)r_1 - 1$ is linear (hence concave) in $r_1$. The market share $S(r_1, G)$ is a log-concave function of $r_1$ (since the logit share is log-concave in own price). Therefore $\phi(r_1; h, G)$ is the product of a non-negative concave function and a log-concave function on the region where $(1-h)r_1 - 1 \geq 0$, which ensures that the maximizer is unique for each $h$.\footnote{If $(1-h)r_1 - 1 < 0$ the bank makes negative expected profit and sets a rate to avoid this region. At $r_1 = 1/(1-h)$ the margin is zero; the optimum lies weakly above this.}
+
+\textit{Entrant's best response.} The entrant's expected profit given $\sigma$ is:
+\begin{align}
+    \Pi_2(r_2; \sigma) = \int_{h_{min}}^{h_{max}} [1 - s(\sigma(h), r_2)] [(1-h)r_2 - 1] \, dF(h)
+\end{align}
+Define $T_2(\sigma, G)$ as any CDF $G'$ supported on the set of maximizers of $\Pi_2(r_2; \sigma)$. Since $\Pi_2$ is continuous in $r_2$ on $[0, \bar{r}]$, the set of maximizers is nonempty and closed. The entrant randomizes over this set (if it contains more than one point, any mixture over maximizers is a valid best response).
+
+\textbf{Step 3: Verify the conditions of Schauder's fixed point theorem.}
+
+We verify the three conditions: (i) the domain is a nonempty, compact, convex subset of a locally convex topological vector space; (ii) the mapping $T$ maps this set into itself; and (iii) $T$ is continuous.
+
+\textit{(i) Compactness and convexity.} The set $\mathcal{S} \times \mathcal{G}$ (with the product topology) is convex by construction. Compactness follows from: $\mathcal{G}$ is compact under weak convergence (Prokhorov), and $\mathcal{S}$ (uniformly bounded measurable functions valued in $[0, \bar{r}]$) is compact in the weak-$*$ topology.
+
+\textit{(ii) $T$ maps $\mathcal{S} \times \mathcal{G}$ into itself.} For any $(\sigma, G) \in \mathcal{S} \times \mathcal{G}$: $T_1(\sigma, G)(h) \in [0, \bar{r}]$ for all $h$ (the maximizer lies in the compact action set), so $T_1(\sigma, G) \in \mathcal{S}$. Similarly, $T_2(\sigma, G)$ is a CDF on $[0, \bar{r}]$, so $T_2(\sigma, G) \in \mathcal{G}$.
+
+\textit{(iii) Continuity of $T$.} We argue each component is continuous.
+
+For $T_1$: The objective function $\phi(r_1; h, G)$ is jointly continuous in $(r_1, G)$ for each $h$ (by the continuous mapping theorem applied to the integral $\int s(r_1, r_2) dG(r_2)$ under weak convergence of $G_n \to G$) and continuous in $\sigma$ (since $T_1$ depends on $G$ but not on $\sigma$ directly—the incumbent optimizes pointwise for each $h$). By Berge's Maximum Theorem, the maximizer $T_1(\sigma, G)(h)$ is upper hemicontinuous in $G$. Since the maximizer is unique (by the concavity argument above), upper hemicontinuity implies continuity.
+
+For $T_2$: The entrant's profit $\Pi_2(r_2; \sigma)$ is continuous in $\sigma$ (under $L^1$ convergence) by the dominated convergence theorem, since $s(\sigma(h), r_2)$ is continuous in $\sigma(h)$ and bounded. Again by Berge's Maximum Theorem, the best-response correspondence is upper hemicontinuous. 
+
+\textbf{Step 4: Apply Schauder's Fixed Point Theorem.}
+
+Since $\mathcal{S} \times \mathcal{G}$ is a nonempty, compact, convex subset of a locally convex space and $T: \mathcal{S} \times \mathcal{G} \to \mathcal{S} \times \mathcal{G}$ is continuous, Schauder's Fixed Point Theorem guarantees the existence of a fixed point $(\sigma^*, G^*) = T(\sigma^*, G^*)$. By construction, this fixed point constitutes a Bayesian Nash equilibrium.
+\end{proof}
+
+\begin{remark}[Role of product differentiation]
+The logit demand structure is essential for the proof. In model 4 (without product differentiation), the borrower deterministically chooses the lower effective price, creating discontinuities in demand. The logit smoothing ensures that:
+\begin{enumerate}
+    \item Market shares $s(r_1, r_2)$ are continuous (indeed $C^\infty$) in both rates
+    \item Profit functions are continuous, enabling application of Berge's Maximum Theorem
+    \item The best-response mapping is single-valued (generically), avoiding the need for fixed point theorems for correspondences (e.g., Kakutani)
+\end{enumerate}
+As $\alpha \to \infty$, the model converges to model 4 where the borrower chooses deterministically, and the equilibrium converges to the mixed-strategy equilibrium derived previously.
+\end{remark}
+
+
+\end{document}
+

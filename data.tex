@@ -67,13 +67,21 @@ This file contains all the information I have been able to get from the data ava
 
 
 \vspace{3cm}
-
+\textcolor{red}{Questions to ask}
 
 \begin{itemize}
     \item Would I be able to observe repayment behavior? it would be super useful to determine whether there is adverse selection, which would be created by the asymmetric information. 
     
-    I am not sure D1- for example contains "monto con morosidad desde 30 a menso de 60 dias" and then other time frames. But is something I still need to properly understand 
+    I am not sure D1- for example contains "monto con morosidad desde 30 a menso de 60 dias" and then other time frames. But is something I still need to properly understand
+    
+    \item Los informes de estabilidad financiera del banco central argumentan que hay varios sitemas informacionales y que la informacion no fluye entre ellos. hay acceso a informacion positvia y negativa de creditos de casas comerciales y de cCajas de compensacion y Asignacion familiarCajas de compensacion y Asignacion familiar
+    \item Los informes de estabilidad financiera del banco central argumentan que hay varios sitemas informacionales y que la informacion no fluye entre ellos. hay acceso a informacion positvia y negativa de creditos de CC (casas comerciales) y CCAF (Cajas de compensacion y Asignacion familiar) 
 \end{itemize}
+
+
+
+
+
 \section{Data}
 
 \subsection{Sistema de deudores}
@@ -214,7 +222,21 @@ Sí, tienes que mirar el archivo D50. Este archivo desde hace algunos años (no 
 
 \end{enumerate}
 
+\section{Conversations with Erik Berwart}
+\subsection{11 feb 2026}
+\begin{enumerate}
+    \item \textbf{Mi impresión es que los archivos D10 y D32 podrían ser los que contienen información de créditos a nivel individual, pero no me queda claro cuál es la diferencia entre ellos. Mi objetivo sería poder observar los créditos de consumo e hipotecarios de una muestra de individuos, por lo que agradecería mucho tu orientación sobre cuál es el archivo adecuado para ese tipo de análisis.}
 
+la diferencia entre los archivos es el nivel de detalle de los archivos.
+En la documentaciòn que tiene la CMF y que es pùblica, puedes ver que el D32 es un archivo diario donde se pueden encontrar todas las operaciones de crèdito que se van generando para una persona, natural o jurìdica. Por esto es un archivo de flujo.
+Por otra parte el D10 es un archivo resumen para los crèditos que tiene una persona con las diferentes instituciones financieras. Por ende es un archivo de stock.
+
+\item \textbf{¿Existe alguna forma de observar el monto que un individuo mantiene en cuentas corrientes o de ahorro? Mi impresión es que el Sistema de Productos entrega información a nivel de producto, pero no a nivel individual. Quisiera confirmar si existe algún otro archivo que contenga información de depósitos a nivel de persona}
+
+
+Respecto de tu segunda pregunta, creo que para montos mantenidos mayores que cero el D51 podrìa mostrar los valores en cuentas corrientes, pero no creo que exista algo a nivel de rut para cuentas de ahorro, pero voy a revisar.
+
+\end{enumerate}
 
 
 
