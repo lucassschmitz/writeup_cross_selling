@@ -1,0 +1,608 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+%\setbeameroption{show notes on second screen=right}
+\usetheme[progressbar=frametitle]{metropolis}
+\usecolortheme{rose} %beaver, dolphin, crane, 
+
+
+\setbeamersize{text margin left=4mm, text margin right=4mm}
+
+
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+\AtBeginSection[]
+{
+  \begin{frame}{Outline}
+    \tableofcontents[currentsection]%,hideothersubsections]
+  \end{frame}
+}
+
+\setbeamercolor{item}{fg= orange!80} % Change bullet color
+\setbeamercolor{button}{bg=orange, fg=white}
+\addbibresource{../references.bib}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title info
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[Sleepy Deposits]{Dynamic Competition for Sleepy Deposits}
+\subtitle{Mark L. Egan, Ali Horta\c{c}su, Nathan A. Kaplan, Adi Sunderam, Vincent Yao\\
+NBER Working Paper 34267 (September 2025)}
+\author[Lucas Schmitz]{Lucas Schmitz}
+\institute{Yale Economics}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Title page
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Motivation and Questions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Motivation: ``Sleepy'' retail deposits}
+Retail depositors rarely shop for better terms.
+\begin{itemize}
+	\item Account turnover is low: new checking/savings accounts are roughly 8--15\% of existing accounts per year (average life $\approx$ 8 years).
+	\item Account closings are mostly idiosyncratic (e.g., inactivity, no longer needed, moving, death); only about 17\% of closures cite switching for better rates/services/fees.
+	\item Estimated share inactive each year is very high ($\approx 94\%$).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Why this matters}
+Sleepiness changes the industrial organization of deposit markets.
+\begin{itemize}
+	\item Competition: does depositor inertia soften competition, or induce dynamic ``invest vs.\ harvest'' incentives that can also intensify competition for active depositors?
+	\item Bank value: how much of the deposit franchise value is attributable to sleepy deposits?
+	\item Financial stability: how does the deposit franchise buffer banks when rates rise?
+	\item Policy relevance: regulators (e.g., UK FCA) have pushed for more pass-through of interest rates to depositors; what happens if deposit competition becomes effectively static?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{This paper: core questions}
+\begin{itemize}
+	\item How sleepy are retail depositors, and how does sleepiness vary with rates and demographics?
+	\item What does sleepiness imply for deposit market markups and their cyclicality?
+	\item How does a dynamic view change the relationship between concentration and markups?
+	\item How large is the deposit franchise value effect, and who benefits most?
+	\item What happens under counterfactuals that eliminate sleepiness / dynamic competition?
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Related literature}
+%structure: mention three strands of literature and related papers. then add why is it that the current paper adds something to the literature.
+\begin{itemize}
+    \item \textbf{Banking + IO:} \textcite{dick_demand_2008}, Egan et al. (2017), Xiao (2020), Wang et al. (2022) 
+	\begin{itemize}
+		\item Incorporates dynamics into supply and demand for bank deposits
+	\end{itemize}
+    \item \textbf{Dynamic competition + Inertia in demand:} \textcite{beggs_multi-period_1992}, \textcite{dube_switching_2009}, \textcite{mackay_consumer_2024}, \textcite{brown_why_2023} and \textcite{einav_selling_2025}
+	\begin{itemize}
+		\item Dynamic affects competition in the US deposit marketIncorporates dynamics into supply and demand for bank deposits
+	\end{itemize}
+	\item \textbf{Bank deposits:} Berger and Hannan (1991), Argyle et al. (2025), Drechsler et al. (2023)
+\end{itemize}
+\end{frame}
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data and Stylized Facts}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Explain that the account types they study are: checking accounts, savings account, $10k and $25k money market accounts, 3 and 12 month certificates of deposit. But all the estimates usie the rates from the 10k money market account. 
+
+
+
+\begin{frame}{Data sources}
+\begin{itemize}
+	\item Account-level turnover microdata from a core account processing platform: 89 banks/credit unions, 12 million deposit accounts.
+	\item FDIC Summary of Deposits (SoD), 1994-2023: deposits at the bank$\times$county$\times$year level
+	\item RateWatch (2001-June 2023): bank$\times$county$\times$year average rates by account type
+	\item Call Reports: bank-level cost shifters (salary expenses, premises/fixed-asset expenses).
+	\item Final estimation panel: 341{,}395 bank$\times$county$\times$year observations, 2002-2023 
+\end{itemize}
+\end{frame}
+
+
+%\begin{frame}
+%	\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.6\textwidth]{Figures/tab1.png}
+%    \caption{ }
+%    \label{fig:}
+%\end{figure}
+%\end{frame}
+
+
+
+\begin{frame}{Deposit rates and spreads}
+Paper’s baseline rate measure uses \textbf{\$10k money market deposit account} rates from RateWatch.
+\begin{itemize}
+	\item Deposit spread defined as $\rho_{jkt} := R_t^F - r_{jkt}$ (``price'' of deposit services).
+	\item Summary stats (baseline sample):
+	\begin{itemize}
+		\item $R_t^F$: federal funds rate
+		\item Average deposit rate $\approx$ 34 bps.
+		\item Average spread $R_t^F - r_{jkt} \approx$ 97 bps.
+		\item Average market share per bank$\times$county observation $\approx$ 16\%.
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Stylized fact 1: low account openings (turnover)}
+	\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/fig1_crop.png}
+    \caption{$\text{Avg. Life} = \frac{1}{\text{Turnover Rate}}$ where turnover rate is the fraction of newly opened accounts in a year.}
+    \label{fig:}
+\end{figure}
+
+\begin{itemize}
+	%\item 	Turnover rate (fraction of newly opened accounts) is roughly 8--15\% of existing accounts per year (life $\approx$ 8 years).
+	
+	\item Cross-sectional patterns suggest frictions (search/switching/inattention), not just persistent tastes
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Stylized fact 2: why accounts close}
+	\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/fig2_crop.png}
+    \caption{}
+    \label{fig:}
+\end{figure}
+\begin{itemize}
+	\item Banks record closure reasons for about 75\% of closures
+	\item Most reasons are idiosyncratic
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Model overview}
+Dynamic deposit market with \textbf{active vs.\ inactive} depositors.
+\begin{itemize}
+	\item Each period depositors are either awake (active) or asleep (inactive).
+	\item Active depositors choose a bank via discrete choice; inactive depositors keep last period’s bank.
+	\item Banks set deposit rates/spreads dynamically to maximize franchise value.
+	\item Sleepiness generates \textbf{invest vs.\ harvest} incentives:
+	\begin{itemize}
+		\item Harvest: inertia lowers elasticity $\Rightarrow$ lower offered rates (higher spreads).
+		\item Invest: capturing a depositor today raises future deposits (if they become inactive).
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Depositor utility and demand among active}
+Active depositor $i$ choosing bank $j$ in market $k$ at time $t$:
+\[
+u_{ijkt} = \alpha \rho_{jkt} + \delta_{jkt} + \varepsilon_{ijkt},
+\qquad \rho_{jkt} := R_t^F - r_{jkt},\quad \alpha < 0.
+\]
+With Type-I extreme value $\varepsilon_{ijkt}$, active market share:
+\[
+s^{Active}_{jkt} = \frac{\exp(\alpha \rho_{jkt} + \delta_{jkt})}{\sum_{\ell\in J_k}\exp(\alpha \rho_{\ell kt} + \delta_{\ell kt})}. \tag{3}
+\]
+\end{frame}
+%%%%%%%%%%%%%%
+\begin{frame}{Sleepiness (inactivity) process}
+
+\begin{itemize}
+	\item Depositor activity status: $D_{it} = 1$ if active, $0$ if inactive.
+	\item Activity given by: 
+	\[
+	D_{it}^* = S'_{k(i)t}\Gamma + X'_{it}\Theta + \eta_{it},
+	\qquad D_{it} = 1(D_{it}^*>0). \tag{2}
+	\]
+
+	\item $S'_{k(i)t}:$ federal funds rate, 	$ X'_{it}:$ % here include the covariates of this vector. 
+
+%I would have expected that the consumer is less sleepy the greater the switching payoff, but note that the federal funds rate cancels out at the moment of choosing bank, there is no ex-ante reason why it would affect sleepiness. 
+
+	\item Market-level inactivity share:
+	\[
+	\phi_{kt} = 1 - \mathbb{E}[D_{it}\mid S_{kt}].
+	\]
+
+	\item Interpretation: reduced-form inattention / switching frictions; empirically $\phi_{kt}$ varies with rates and demographics.
+
+\end{itemize}
+ 
+ 
+\end{frame}
+
+
+
+
+
+\begin{frame}{Total deposits: active + inactive components}
+Total deposits held by bank $j$ in market $k$ at time $t$:
+\[
+Dep_{jkt} =
+\underbrace{(1-\phi_{kt})M_{kt}s^{Active}_{jkt}}_{\text{Active depositor demand}} 
+\;+\;
+\underbrace{\phi_{kt}(1+r_{jk,t-1})Dep_{jk,t-1}}_{\text{Inactive depositor demand}}. \tag{4}
+\]
+\begin{itemize}
+	\item Active flow: $(1-\phi_{kt})M_{kt}s^{Active}_{jkt}$.
+	\item Inactive stock: last period deposits roll over and earn interest.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Banks: flow profits and franchise value}
+Banks invest deposits at bank-level return $R_{jt}$ and pay deposit rate $r_{jkt}$ and marginal servicing cost $c_{jkt}$.
+\[
+\pi_{jt}=\sum_{k\in K} Dep_{jkt}\Big((R_{jt}-R_t^F)+\rho_{jkt}-c_{jkt}\Big)\]
+Franchise value:
+\[
+V_{jt}=\mathbb{E}\Big[\sum_{s=t}^{\infty}\beta^{\,s-t}\pi_{js}\Big].
+\]
+Equilibrium: stationary Markov perfect equilibrium in pure strategies (BBL approach).
+\end{frame}
+
+\begin{frame}{Equilibrium: dynamic rate-setting game (BBL)}
+State $\mathbf{S}_{kt}$: exogenous public ($\Omega_{kt}$: fed funds rate, $\delta_{jkt}$), endogenous public ($W_{kt}$: market shares), private ($\chi_{kt}$: iid cost shocks).
+
+\smallskip
+Bank $j$'s strategy: $\sigma_j: \mathbf{S}_{kt}\times \chi_{jkt}\to \rho_{jkt}$. Franchise value satisfies:
+\[
+V(\mathbf{S}_{kt},\boldsymbol{\sigma})
+= \mathbb{E}_{\chi_{jt},R_{jt}}\Big[
+Dep(\mathbf{S}_{kt},\boldsymbol{\sigma})\big(R_{jt}-R_t^F + \sigma_j(\mathbf{S}_{kt},\chi_{jt}) - c(\mathbf{S}_{kt},\chi_{jt})\big)
+\;\Big|\;\mathbf{S}_{kt}\Big]
+\]
+\[
+\quad + \;\beta\,\mathbb{E}_{\mathbf{S}_{kt+1},\boldsymbol{\chi}_{t+1}}\Big[
+V(\mathbf{S}_{kt+1},\boldsymbol{\sigma})\;\Big|\;\boldsymbol{\sigma},\mathbf{S}_{kt}
+\Big]. \tag{5}
+\]
+
+Equilibrium: each bank prefers its strategy to any alternative Markov strategy,
+\[
+V(\mathbf{S},\boldsymbol{\sigma}) \geq V(\mathbf{S},\sigma_j',\boldsymbol{\sigma}_{-j})
+\quad \forall\;\mathbf{S},\;\forall\;\sigma_j',\;\forall\;j.
+\]
+\end{frame}
+
+\begin{frame}{Dynamic vs.\ static pricing: invest--harvest decomposition}
+Differentiating the Bellman (simplified: constant $R_t^F$, constant qualities) yields:
+\[
+\underbrace{\rho_j - c}_{\text{markup}}
+= \underbrace{\frac{-1}{\alpha(1-s_j^{Active})}}_{\text{static pricing}}
++ \underbrace{\frac{\phi}{1-\phi}\frac{s_{j,-}}{s_j^{Active}}\frac{-1}{\alpha(1-s_j^{Active})}}_{\text{harvesting incentive}}
++ \underbrace{\beta\,\nabla V_j(\mathbf{s}\mid\boldsymbol{\delta},\mathbf{c})\cdot\mathbf{d}_j}_{\text{investing incentive}}, \tag{6}
+\]
+where $\mathbf{d}_j$ is the vector of diversion ratios from bank $j$.
+\begin{itemize}
+	\item \textbf{Harvesting ($\uparrow$ markups):} captive sleepy base lowers residual demand elasticity; strength increasing in $\phi$ and lagged share $s_{j,-}$.
+	\item \textbf{Investing ($\downarrow$ markups):} winning a depositor today yields future rents if they stay asleep; strength depends on $\beta$, $\nabla V$, and diversion ratios.
+	\item Two channels push in \textbf{opposite directions} $\Rightarrow$ net effect is an empirical question.
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estimation Strategy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Estimation: three steps}
+\begin{enumerate}
+	\item \textbf{Sleepiness} $\phi_{kt}$: combine account openings/turnover microdata and deposit autocorrelation in SoD using a control function.
+	\item \textbf{Demand} (active depositors): compute active market shares using $\phi_{kt}$, estimate $(\alpha,\delta_{jkt})$ via Berry (1994).
+	\item \textbf{Costs / supply} (dynamic game): estimate reduced-form spread policy functions; recover cost parameters via BBL (Bajari et al.\ 2007) using the condition that observed policies maximize franchise value.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[label=step1sleepiness]{Step 1: identifying sleepiness from account openings}
+Under the model, new accounts identify active demand:
+\[
+NewDep_{\ell jkt} = (1-\phi(\mathbf{S}_{kt}, \mathbf{X}_{\ell kt}))M_{\ell kt}s^{Active}_{jkt}(1-s_{jk,t-1}).
+\]
+Rearrangement yields a moment linking turnover to sleepiness:
+\[
+1-\frac{NewDep_{\ell jkt}}{Dep_{\ell jkt}}\frac{1}{1-s_{jk,t-1}}
+= \phi(\mathbf{S}_{kt}, \mathbf{X}_{\ell kt})\frac{Dep_{\ell jk,t-1}}{Dep_{\ell jkt}} + e_{\ell jkt}. \tag{8}
+\]
+Key finding: $\approx 94\%$ of depositors are inactive each year; sleepiness falls when the lagged fed funds rate is higher (people ``wake up'' when returns to shopping rise).
+
+\hfill\hyperlink{appendixfig3}{\beamerbutton{Sleepiness vs.\ persistence}}
+\end{frame}
+% I still have to incorporate \ell (groups) in the notation, the subindex is never specified.
+\begin{frame}[label=step1controlfn]{Step 1: autocorrelation and control function}
+Autocorrelation in deposits confounds sleepiness with persistent quality.
+\begin{itemize}
+	\item Control function: regress spreads on cost shifters (salaries, fixed expenses) to recover latent demand:
+	\[
+	\rho_{jkt} = \lambda Z_{jt} + v_{jkt}.
+	\]
+	\item Second stage: regress deposits on lagged deposits and the control:
+	\[
+	Dep_{jkt} = (\Upsilon_1'S_{kt}+\Upsilon_2'X_{kt})(1+R_{t-1}^F-\rho_{jk,t-1})Dep_{jk,t-1}+H(v_{jkt})+\iota_{jkt}.
+	\]
+\end{itemize}
+\hfill\hyperlink{appendixcontrolfn}{\beamerbutton{Identifying assumptions}}
+\end{frame}
+
+\begin{frame}%{Sleepiness estimates}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/tab3.png}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Step 2: demand among active depositors (new)}
+
+\begin{itemize}
+	\item Compute active deposits using $\hat{\phi}_{kt}$:
+	\[
+	Dep^{Active}_{jkt} := \max\Big\{0,\; Dep_{jkt} - \hat{\boldsymbol{\Upsilon}}'\!\begin{pmatrix}\mathbf{S}_{kt}\\\tilde{\mathbf{X}}_{kt}\end{pmatrix}(1+R_{t-1}^F-\rho_{jk,t-1})Dep_{jk,t-1}\Big\}.
+	\]
+
+	\item Use \textcite{berry_estimating_1994} to estimate ($\alpha, \delta$) from: 
+	\[
+	\log(s^{Active}_{jkt}) = \alpha\rho_{jkt} + \delta_j + \mu_{kt} + e_{jkt}. \tag{11}
+	\]
+
+	\item Endogeneity of $\rho_{jkt}$: use cost shifters $\mathbf{Z}_{jt}$ as instruments
+\end{itemize}
+\end{frame}
+
+\begin{frame}%{Sleepiness estimates}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/tab4.png}
+\end{figure}
+\end{frame} 
+
+\begin{frame}{Step 3a: costs, state space, and policy function (BBL)}
+\begin{itemize}
+	\item Parameterize net marginal costs ($R_{jt} - c({S}_{kt}, \chi_{jkt})$)as: 
+	\[
+	c_{jkt} := \omega + \zeta R_t^F + \gamma'\mathbf{Z}_{jt} + \chi_{jkt}.
+	\]
+	$R_t^F$ included because lending returns may vary with the short rate; also isolates markup variation driven by invest-versus-harvest incentives.
+
+	\item \textbf{State space} $\mathbf{S}_{kt}$: (i) $R_t^F$, (ii) $R_{t-1}^F$, (iii) lagged market shares, (iv) cost shifters $\mathbf{Z}_{kt}$, (v) product qualities $\boldsymbol{\delta}_{kt}$, (vi) county demographics, (vii) private cost shocks $\chi_{jkt}$.
+
+	
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Step 3b: state transitions and forward simulation (BBL)}
+\begin{itemize}
+	\item Recover policy functions 
+	\begin{itemize}
+		\item $\sigma: \mathbf{S}_{kt}\times\chi_{jkt}\to\rho_{jkt}$: first-order polynomial in all states + sums of competitors' characteristics (costs, lagged shares)
+	\end{itemize}
+	\item State transitions: 
+	\begin{itemize}
+		\item Endogenous states: deterministic transition 
+		\item $\delta_{jkt}, Z_{jt}$ remain constant
+		\item Short term rate from FED's forecast 
+	\end{itemize}
+	\item Forward simulation: 
+	\begin{itemize}
+		\item Given policies and state transitions, forward-simulate to obtain value functions.
+		\item Pick cost parameters that rationalize observed policies 
+		\item Perturb policies and minimize the expected sum of squared violations 
+		% the idea is that a policy is optimal if the deviations produce less profits. 
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}%{Sleepiness estimates}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.44\textwidth]{Figures/tab6.png}
+\end{figure}
+\end{frame} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Counterfactual: eliminating sleepiness}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Counterfactual: static competition ($\phi=0$)}
+Compare the estimated dynamic model against a counterfactual in which \textbf{all depositors are always active} ($\phi=0$).
+\begin{itemize}
+	\item Competition becomes static Bertrand-Nash: no invest-versus-harvest tradeoff.
+	\item Isomorphic to the limiting case of the UK FCA policy requiring full pass-through of short rates into deposit rates.
+	\item Intuition: forcing full pass-through constrains banks to a single constant spread $\Rightarrow$ today's spread choice also determines tomorrow's $\Rightarrow$ dynamic link is shut down.
+\end{itemize}
+\end{frame}
+
+ 
+
+\begin{frame}{Counterfactual: markups and concentration}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/fig41).png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/fig42.png}
+    \end{subfigure}
+\end{figure}
+\begin{itemize}
+	\item Dynamic model: average markup $\approx$ 68 bps; static counterfactual: $\approx$ 32 bps (\textbf{53\% lower}).
+	\item Dynamic competition eliminates the positive concentration--markup (HHI) relationship: banks harvest sleepy bases even in low-HHI markets.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=franchisedecomp]{Counterfactual: franchise value decomposition}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/fig6_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/fig6_2.png}
+    \end{subfigure}
+\end{figure}
+\begin{itemize}
+	\item 
+	Franchise value decreases by $\approx$ \textbf{54\%} ($\approx$ \$1 trillion if implemented in 2023).
+	\item Heterogeneity: low-quality and high-cost banks lose the most from eliminating sleepiness. \hyperlink{appendixfig7}{\beamerbutton{Heterogeneity}}
+	\item Financial stability: for JPM, BofA, Wells Fargo, default probabilities rise $\approx$10 pp in normal times and $>$\textbf{20 pp} during the 2022--23 tightening cycle.
+\end{itemize}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Conclusion}
+\begin{itemize}
+	\item Retail depositors are extremely inactive; most switching is not active shopping.
+	\item A dynamic model with sleepiness rationalizes invest-versus-harvest incentives.
+	\item Sleepiness substantially raises average markups and makes them procyclical.
+	\item Dynamic competition changes the mapping from concentration to markups.
+	\item Sleepiness explains a large share of deposit franchise value and matters for stability.
+\end{itemize}
+\end{frame}
+
+ \begin{frame}{Comments}
+\begin{itemize}
+	\item There are persisten idiosyncratic tastes
+	\item Banks are multi-product firms; low prices might not only reflect inves-harvest but also cross-subsidization from other products (e.g., credit cards, mortgages)
+	\item Banks use introductory pricing, the invest-harvest tradeoff might not be the most important
+	\begin{itemize}
+		\item Price discrimination could be a first order concer 
+		% if banks can set introductory pricing for new depositors and set a price for all the old customers, then when increasing prices they trade off the active customers who switch with the inactive who dont
+		\item Spread increasing on time 
+		% in the model if a consumer who has been for long with a bank has a high sleepiness likelihood, hence the bank should increase the spread for them. 
+	\end{itemize}
+	\item Intensive margin: people do not close account they might stop using them
+\end{itemize}
+\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[label=appendixfig3]{Sleepiness vs.\ persistent preferences}
+	\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/fig3.png}
+    \caption{}
+    \label{fig:fig3}
+\end{figure}
+\hyperlink{step1sleepiness}{\beamerbutton{Back}}
+\end{frame}
+
+\begin{frame}[label=appendix2]{Comments}
+\begin{itemize}
+	\item They estimate sleepiness at the group level ($\ell$)
+	\item They do not observe the balance in the account, hence they estimate sleepiness from the number of accounts, not from the amount of deposits. 
+	\item 
+\end{itemize}
+
+
+	\hyperlink{step1sleepiness}{\beamerbutton{Back}}
+\end{frame}
+
+\begin{frame}[label=appendixcontrolfn]{Control function: identifying assumptions}
+\textbf{Problem:} naive regression of deposits on lagged deposits is biased---banks with persistently high quality $\delta_{jkt}$ have both high deposits and high spreads, confounding sleepiness with persistent demand.
+
+\medskip
+\textbf{Control function approach} (eqs.\ 9--10):
+\[
+\text{First stage:}\quad \rho_{jkt} = \lambda \mathbf{Z}_{jt} + \underbrace{v_{jkt}}_{\text{latent demand}} \tag{9}
+\]
+\[
+\text{Second stage:}\quad Dep_{jkt} = (\boldsymbol{\Upsilon}_1'\mathbf{S}_{kt}+\boldsymbol{\Upsilon}_2'\mathbf{X}_{kt})(1+R_{t-1}^F-\rho_{jk,t-1})Dep_{jk,t-1}+H(v_{jkt})+\iota_{jkt} \tag{10}
+\]
+
+\textbf{Two identifying assumptions:}
+\begin{enumerate}
+	\item Control function correctly specified: $\mathbb{E}[v_{jkt}\mid \mathbf{Z}_{jt}]=0$. Cost shifters $\mathbf{Z}_{jt}$ (salaries, fixed expenses) affect spreads but not demand directly.
+	\item Latent demand correctly specified: $\mathbb{E}[(1+R_{t-1}^F - \rho_{jk,t-1})Dep_{jk,t-1}\cdot \iota_{jkt}]=0$. After controlling for $H(v_{jkt})$, lagged deposits are uncorrelated with the residual.
+\end{enumerate}
+
+\hfill\hyperlink{step1controlfn}{\beamerbutton{Back}}
+\end{frame}
+
+\begin{frame}[label=appendixfig7]{Heterogeneity: who benefits most from sleepiness?}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/fig7_1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/fig7_2.png}
+    \end{subfigure}
+\end{figure}
+\hyperlink{franchisedecomp}{\beamerbutton{Back}}
+\end{frame}
+
+\end{document}
+
+%things I should add at some point 
+% depositor types are combinations of i) individual over 65, ii) opens account with initial balance lower than $50.000, iii) signed up for internet banking. 
+
+
+%sleepines only depends on lagged fed fudns rate and depositor characs [page 19]

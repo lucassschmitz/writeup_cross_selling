@@ -13,12 +13,37 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\usepackage{amsmath, amssymb, bm}
-\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
 \usepackage{graphicx}
-\usepackage{ragged2e}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
 \usepackage{hyperref}
-%\hypersetup{colorlinks=true, urlcolor=blue}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
 
 
 \AtBeginSection[]
@@ -30,6 +55,7 @@
 
 \setbeamercolor{item}{fg= orange!80} % Change bullet color
 \setbeamercolor{button}{bg=orange, fg=white}
+\addbibresource{../references.bib}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,19 +111,54 @@ Sleepiness changes the industrial organization of deposit markets.
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}{Related literature}
+%structure: mention three strands of literature and related papers. then add why is it that the current paper adds something to the literature.
+\begin{itemize}
+    \item \textbf{Banking + IO:} \textcite{dick_demand_2008}, Egan et al. (2017), Xiao (2020), Wang et al. (2022) 
+	\begin{itemize}
+		\item Incorporates dynamics into supply and demand for bank deposits
+	\end{itemize}
+    \item \textbf{Dynamic competition + Inertia in demand:} \textcite{beggs_multi-period_1992}, \textcite{dube_switching_2009}, \textcite{mackay_consumer_2024}, \textcite{brown_why_2023} and \textcite{einav_selling_2025}
+	\begin{itemize}
+		\item Dynamic affects competition in the US deposit marketIncorporates dynamics into supply and demand for bank deposits
+	\end{itemize}
+	\item \textbf{Bank deposits:} Berger and Hannan (1991), Argyle et al. (2025), Drechsler et al. (2023)
+\end{itemize}
+\end{frame}
+
+
+ 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data and Stylized Facts}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Data sources (and market definition)}
+%% Explain that the account types they study are: checking accounts, savings account, $10k and $25k money market accounts, 3 and 12 month certificates of deposit. But all the estimates usie the rates from the 10k money market account. 
+
+
+
+\begin{frame}{Data sources}
 \begin{itemize}
 	\item Account-level turnover microdata from a core account processing platform: 89 banks/credit unions, 12 million deposit accounts.
-	\item FDIC Summary of Deposits (SoD), 1994--2023: branch deposits aggregated to bank$\times$county$\times$year.
-	\item RateWatch (2001--June 2023): bank$\times$county$\times$year average rates by account type.
+	\item FDIC Summary of Deposits (SoD), 1994-2023: deposits at the bank$\times$county$\times$year level
+	\item RateWatch (2001-June 2023): bank$\times$county$\times$year average rates by account type
 	\item Call Reports: bank-level cost shifters (salary expenses, premises/fixed-asset expenses).
-	\item Final estimation panel: 341{,}395 bank$\times$county$\times$year observations, 2002--2023 (dropping single-bank markets).
+	\item Final estimation panel: 341{,}395 bank$\times$county$\times$year observations, 2002-2023 
 \end{itemize}
 \end{frame}
+
+
+%\begin{frame}
+%	\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.6\textwidth]{Figures/tab1.png}
+%    \caption{ }
+%    \label{fig:}
+%\end{figure}
+%\end{frame}
+
+
 
 \begin{frame}{Deposit rates and spreads}
 Paper’s baseline rate measure uses \textbf{\$10k money market deposit account} rates from RateWatch.
@@ -105,6 +166,7 @@ Paper’s baseline rate measure uses \textbf{\$10k money market deposit account}
 	\item Deposit spread defined as $\rho_{jkt} := R_t^F - r_{jkt}$ (``price'' of deposit services).
 	\item Summary stats (baseline sample):
 	\begin{itemize}
+		\item $R_t^F$: federal funds rate
 		\item Average deposit rate $\approx$ 34 bps.
 		\item Average spread $R_t^F - r_{jkt} \approx$ 97 bps.
 		\item Average market share per bank$\times$county observation $\approx$ 16\%.
@@ -113,32 +175,32 @@ Paper’s baseline rate measure uses \textbf{\$10k money market deposit account}
 \end{frame}
 
 \begin{frame}{Stylized fact 1: low account openings (turnover)}
-\begin{itemize}
-	\item New checking/savings accounts are roughly 8--15\% of existing accounts per year (life $\approx$ 8 years).
-	\item Time deposits turn over faster (natural maturity).
-	\item Cross-sectional patterns suggest frictions (search/switching/inattention), not just persistent tastes:
-	\begin{itemize}
-		\item Higher turnover for business and large-balance accounts.
-		\item Lower turnover for age 65+.
-	\end{itemize}
-\end{itemize}
+	\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/fig1_crop.png}
+    \caption{$\text{Avg. Life} = \frac{1}{\text{Turnover Rate}}$ where turnover rate is the fraction of newly opened accounts in a year.}
+    \label{fig:}
+\end{figure}
 
-\vspace{0.3em}
-\centering
-%\maybegraphics[width=0.85\textwidth]{Figures/fig_account_life.pdf}
+\begin{itemize}
+	%\item 	Turnover rate (fraction of newly opened accounts) is roughly 8--15\% of existing accounts per year (life $\approx$ 8 years).
+	
+	\item Cross-sectional patterns suggest frictions (search/switching/inattention), not just persistent tastes
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Stylized fact 2: why accounts close}
-\begin{itemize}
-	\item Banks record closure reasons for about 75\% of closures.
-	\item Most common: \textit{inactivity} (bank closes on customer’s behalf).
-	\item Moves and deaths account for $>$20\% of closures.
-	\item Only about 17\% cite switching for better rates/services/fees.
-\end{itemize}
 
-\vspace{0.3em}
-\centering
-%\maybegraphics[width=0.85\textwidth]{Figures/fig_closure_reasons.pdf}
+\begin{frame}{Stylized fact 2: why accounts close}
+	\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/fig2_crop.png}
+    \caption{}
+    \label{fig:}
+\end{figure}
+\begin{itemize}
+	\item Banks record closure reasons for about 75\% of closures
+	\item Most reasons are idiosyncratic
+\end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,7 +216,7 @@ Dynamic deposit market with \textbf{active vs.\ inactive} depositors.
 	\item Sleepiness generates \textbf{invest vs.\ harvest} incentives:
 	\begin{itemize}
 		\item Harvest: inertia lowers elasticity $\Rightarrow$ lower offered rates (higher spreads).
-		\item Invest: capturing an active depositor today raises future deposits (if they become inactive).
+		\item Invest: capturing a depositor today raises future deposits (if they become inactive).
 	\end{itemize}
 \end{itemize}
 \end{frame}
@@ -170,19 +232,36 @@ With Type-I extreme value $\varepsilon_{ijkt}$, active market share:
 s^{Active}_{jkt} = \frac{\exp(\alpha \rho_{jkt} + \delta_{jkt})}{\sum_{\ell\in J_k}\exp(\alpha \rho_{\ell kt} + \delta_{\ell kt})}.
 \]
 \end{frame}
-
+%%%%%%%%%%%%%%
 \begin{frame}{Sleepiness (inactivity) process}
-Depositor activity depends on observables and an idiosyncratic shock:
-\[
-D_{it}^* = S'_{k(i)t}\Gamma + X'_{it}\Theta + \eta_{it},
-\qquad D_{it} = 1(D_{it}^*>0).
-\]
-Market-level inactivity share:
-\[
-\phi_{kt} = 1 - \mathbb{E}[D_{it}\mid S_{kt}].
-\]
-Interpretation: reduced-form inattention / switching frictions; empirically $\phi_{kt}$ varies with rates and demographics.
+
+\begin{itemize}
+	\item Depositor activity status: $D_{it} = 1$ if active, $0$ if inactive.
+	\item Activity given by: 
+	\[
+	D_{it}^* = S'_{k(i)t}\Gamma + X'_{it}\Theta + \eta_{it},
+	\qquad D_{it} = 1(D_{it}^*>0).
+	\]
+
+	\item $S'_{k(i)t}:$ federal funds rate, 	$ X'_{it}:$
+
+%I would have expected that the consumer is less sleepy the greater the switching payoff, but note that the federal funds rate cancels out at the moment of choosing bank, there is no ex-ante reason why it would affect sleepiness. 
+
+	\item Market-level inactivity share:
+	\[
+	\phi_{kt} = 1 - \mathbb{E}[D_{it}\mid S_{kt}].
+	\]
+
+	\item Interpretation: reduced-form inattention / switching frictions; empirically $\phi_{kt}$ varies with rates and demographics.
+
+\end{itemize}
+ 
+ 
 \end{frame}
+
+
+
+
 
 \begin{frame}{Total deposits: active + inactive components}
 Total deposits held by bank $j$ in market $k$ at time $t$:
@@ -200,15 +279,31 @@ Dep_{jkt} = (1-\phi_{kt})M_{kt}s^{Active}_{jkt}
 \begin{frame}{Banks: flow profits and franchise value}
 Banks invest deposits at bank-level return $R_{jt}$ and pay deposit rate $r_{jkt}$ and marginal servicing cost $c_{jkt}$.
 \[
-\pi_{jt}=\sum_{k\in K} Dep_{jkt}\Big((R_{jt}-R_t^F)+\rho_{jkt}-c_{jkt}\Big),
-\quad \rho_{jkt}=R_t^F-r_{jkt}.
-\]
+\pi_{jt}=\sum_{k\in K} Dep_{jkt}\Big((R_{jt}-R_t^F)+\rho_{jkt}-c_{jkt}\Big)\]
 Franchise value:
 \[
 V_{jt}=\mathbb{E}\Big[\sum_{s=t}^{\infty}\beta^{\,s-t}\pi_{js}\Big].
 \]
 Equilibrium: stationary Markov perfect equilibrium in pure strategies (BBL approach).
 \end{frame}
+
+
+
+\begin{frame}{Banks: flow profits and franchise value}
+State space: 
+\begin{itemize}
+	\item Exogenous public state ($\Omega_{kt}$): federal funds rate and $\delta_{jkt}$
+	\item Endogenous public states($W_{kt}$): market shares
+	\item Private states ($\xi_{kt}$): iid cost shifters
+\end{itemize}
+
+
+
+
+
+\end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Estimation Strategy}
@@ -393,23 +488,19 @@ Re-estimate demand when active depositors are forward-looking.
 \end{itemize}
 \end{frame}
 
- 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\appendix
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[plain,noframenumbering]
-\centering
-{\Large Appendix}
+ \begin{frame}{Comments}
+\begin{itemize}
+	\item Banks are multi-product firms; low prices might not only reflect inves-harvest but also cross-subsidization from other products (e.g., credit cards, mortgages)
+	\item Banks use introductory pricing, the invest-harvest tradeoff might not be the most important
+	\begin{itemize}
+		\item Price discrimination could be a first order concer 
+		% if banks can set introductory pricing for new depositors and set a price for all the old customers, then when increasing prices they trade off the active customers who switch with the inactive who dont
+		\item Spread increasing on time 
+		% in the model if a consumer who has been for long with a bank has a high sleepiness likelihood, hence the bank should increase the spread for them. 
+	\end{itemize}
+	\item Intensive margin: people do not close account they might stop using them
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Appendix A: extra figures (placeholders)}
-\centering
-%\maybegraphics[width=0.9\textwidth]{Figures/fig_appendix_placeholder_1.pdf}
-\end{frame}
- 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
