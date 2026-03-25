@@ -1,0 +1,479 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+\section*{Model 5 (v3): Estimation Without Observing Public Covariates}
+
+This document addresses the identification and estimation of the structural model developed in v2 (\texttt{M5\_convert4intostructural\_v2.tex}) when the econometrician does \emph{not} observe---or only partially observes---the public covariates $\mathbf{x}$. Section~\ref{sec:problem} states the problem. Section~\ref{sec:suffstat} establishes a key theoretical result: the entrant's rate $r_2$ is a sufficient statistic for $\mathbf{x}$ in the stage-2 equilibrium. Section~\ref{sec:estimation} develops the estimation approach. Section~\ref{sec:simulation} validates the identification strategy through Monte Carlo simulation.
+
+
+%===========================================================================
+%  SECTION 1: THE PROBLEM
+%===========================================================================
+
+\section{The Problem}\label{sec:problem}
+
+\subsection{Model Recap}
+
+The structural model (v2) features two banks competing for a borrower. Bank~1 (informed/incumbent) observes both public covariates $\mathbf{x}$ and private covariates $\mathbf{x}'$, and therefore knows the borrower's default probability $h = h(\mathbf{x}, \mathbf{x}')$; Bank~2 (uninformed/entrant) observes only $\mathbf{x}$ and faces the conditional distribution $F(h \mid \mathbf{x})$. Demand is logit:
+\begin{align}\label{eq:share}
+    s(r_1, r_2) = \frac{1}{1 + \exp\!\big(\alpha(r_1 - r_2) - \lambda\big)}
+\end{align}
+In equilibrium:
+\begin{align}
+    \sigma^*(h;\mathbf{x}) &= \frac{1}{1-h} + \frac{1}{\alpha\big(1-s(\sigma^*(h;\mathbf{x}), r_2^*(\mathbf{x}))\big)} \label{eq:sigma}\\[4pt]
+    r_2^*(\mathbf{x}) &= \frac{1}{1 - \tilde{h}(\mathbf{x})} + \frac{1}{\alpha}\cdot\frac{\int (1-s)(1-h)\, dF(\cdot|\mathbf{x})}{\int s\,(1-s)(1-h)\, dF(\cdot|\mathbf{x})} \label{eq:r2}
+\end{align}
+The structural parameters are $\theta = (\alpha, \lambda, F(\cdot|\mathbf{x}))$.
+
+\subsection{Identification with Observable $\mathbf{x}$ (v2 Result)}
+
+When the econometrician observes $(r_i^{\text{win}}, W_i, D_i, \mathbf{x}_i)$, identification proceeds by conditioning on $\mathbf{x}$ (see v2, Section~7). 
+
+\subsection{What Breaks Without $\mathbf{x}$}\label{sec:breaks}
+
+If the econometrician does not observe $\mathbf{x}$, the identification argument breaks at multiple steps:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{1.5cm}p{12.5cm}}
+\toprule
+\textbf{Step} & \textbf{Why it breaks} \\
+\midrule
+Step 1 & $r_2^*(\mathbf{x}_i)$ varies across borrowers. Among bank~2 winners, the econometrician observes a \emph{distribution} of winning rates rather than a single constant rate. Without $\mathbf{x}$, one cannot determine which rate corresponds to which ``market.'' \\[4pt]
+Step 2 & Bank~1's strategy $\sigma^*(h; \mathbf{x})$ depends on $\mathbf{x}$ through $r_2^*(\mathbf{x})$. Two bank~1 winners with the same winning rate $r_1$ but different $\mathbf{x}$ have different types $h$. Without conditioning on $\mathbf{x}$: $E[D_i \mid r_1, W_i = 1] \neq h_i$ in general; it is a weighted average over the different $(h, \mathbf{x})$ pairs that produce rate $r_1$. The clean type-recovery step fails. \\[4pt]
+Steps 3--4 & Without clean identification of $\sigma^*(\cdot; \mathbf{x})$ and $r_2^*(\mathbf{x})$, the identifying restriction and distribution recovery cannot be applied. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%===========================================================================
+%  SECTION 2: THE SUFFICIENT STATISTIC
+%===========================================================================
+
+\newpage
+\section{The Sufficient Statistic Result}\label{sec:suffstat}
+
+The following result is the key to both estimation approaches developed below. It says that the entrant's rate $r_2^*(\mathbf{x})$ encodes all the information about $\mathbf{x}$ that matters for the stage-2 equilibrium behavior.
+
+\begin{prop}[Sufficient statistic]\label{prop:suffstat}
+In the stage-2 equilibrium, the public covariates $\mathbf{x}$ affect bank~1's pricing rule $\sigma^*$ and the market shares $s$ only through the entrant's rate $r_2^*(\mathbf{x})$. Formally, for any two covariate vectors $\mathbf{x}_a, \mathbf{x}_b \in \mathcal{X}$ with $r_2^*(\mathbf{x}_a) = r_2^*(\mathbf{x}_b) = r_2$:
+\begin{align}\label{eq:suffstat}
+    \sigma^*(h; \mathbf{x}_a) = \sigma^*(h; \mathbf{x}_b) = \sigma^*(h; r_2), \qquad s(\sigma^*(h; \mathbf{x}_a), r_2) = s(\sigma^*(h; \mathbf{x}_b), r_2)
+\end{align}
+for all $h$.
+\end{prop}
+
+\begin{proof}
+Immediate from the bank~1 FOC \eqref{eq:sigma}:
+\begin{align*}
+    \sigma^*(h; \mathbf{x}) = \frac{1}{1-h} + \frac{1}{\alpha\big(1-s(\sigma^*(h;\mathbf{x}), r_2^*(\mathbf{x}))\big)}
+\end{align*}
+The right side depends on $\mathbf{x}$ only through $r_2^*(\mathbf{x})$. Since bank~1's best response is the unique solution to this fixed-point equation, and the equation is identical for all $\mathbf{x}$ with the same $r_2^*$, the solution $\sigma^*(h; \mathbf{x})$ is the same.
+\end{proof}
+
+\begin{remark}[Interpretation]\label{rem:suffstat_interp}
+Proposition~\ref{prop:suffstat} states that from bank~1's perspective---and from the consumer's perspective---all that matters about $\mathbf{x}$ is its effect on the competitor's rate $r_2^*(\mathbf{x})$. Two borrowers with different credit scores, incomes, or employment status but facing the same entrant rate $r_2^*$ experience the same equilibrium pricing from bank~1. This is economically natural: bank~1's optimal pricing trade-off between margin and retention depends on the competitive alternative $r_2^*$, not on why $r_2^*$ takes that value.
+\end{remark}
+
+\begin{remark}[What $r_2^*$ does not capture]\label{rem:suffstat_limit}
+The sufficient statistic result applies to bank~1's strategy and market shares, but \emph{not} to the full equilibrium. Bank~2's FOC \eqref{eq:r2} depends on $F(h|\mathbf{x})$, which is not a function of $r_2^*$ alone. Two different $\mathbf{x}$ values can lead to different $F(h|\mathbf{x})$ but the same optimal $r_2^*$.\footnote{This is analogous to different cost distributions generating the same equilibrium price in a standard pricing model.} However, for the econometrician's identification problem, we show below that conditioning on $r_2$ is sufficient.
+\end{remark}
+
+\medskip\noindent
+\textbf{A key consequence:} The sufficient statistic result implies that the econometrician can replace $\mathbf{x}$ with $r_2$ as the conditioning variable throughout the identification argument. This motivates the two approaches below, organized by what data is available.
+
+
+
+%===========================================================================
+%  SECTION 3: ESTIMATION
+%===========================================================================
+
+\newpage
+\section{Estimation}\label{sec:estimation}
+
+\subsection{Data}\label{sec:data}
+
+For each borrower $i$, the econometrician observes:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\textbf{Variable} & \textbf{Description} & \textbf{Values} \\
+\midrule
+$r_i^{\text{win}}$ & Interest rate charged by the chosen bank & $\mathbb{R}_+$ \\
+$W_i$ & Identity of the chosen bank & $\{1, 2\}$ \\
+$D_i$ & Default indicator & $\{0, 1\}$ \\
+$\mathbf{z}_i$ & Observed public covariates (possibly empty) & $\mathbb{R}^{d_z}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip\noindent
+The econometrician may observe all, some, or none of the public covariates~$\mathbf{x}$. We partition $\mathbf{x} = (\mathbf{z}, \mathbf{w})$, where $\mathbf{z}$ is observed and $\mathbf{w}$ is not. The special case $\mathbf{z} = \emptyset$ (no covariates observed) is included.
+
+\medskip\noindent
+\textbf{Key asymmetry:}
+\begin{itemize}
+    \item When $W_i = 2$: we observe $r_i^{\text{win}} = r_2^*(\mathbf{x}_i)$, so the entrant's rate is directly revealed.
+    \item When $W_i = 1$: we observe $r_i^{\text{win}} = \sigma^*(h_i; r_2^*(\mathbf{x}_i))$, which depends on the borrower's type $h_i$ \emph{and} the latent entrant rate $r_2^*(\mathbf{x}_i)$.
+\end{itemize}
+
+\subsection{Notation and the Role of the Sufficient Statistic}\label{sec:prelim}
+
+By Proposition~\ref{prop:suffstat}, bank~1's equilibrium pricing strategy $\sigma^*(h;\mathbf{x})$ depends on $\mathbf{x}$ only through $r_2^*(\mathbf{x})$, so we write $\sigma^*(h; r_2)$ without ambiguity. This has a critical implication: the mapping from the borrower's type $h$ to the incumbent's rate $r_1$ is fully determined by the scalar $r_2$.
+
+\begin{definition}[Type-recovery function]\label{def:tau}
+For fixed $r_2$, define $\tau(r_1; r_2)$ as the inverse of $\sigma^*(\cdot\,; r_2)$ with respect to~$h$:
+\begin{align}\label{eq:tau_def}
+    \tau\!\big(\sigma^*(h; r_2);\, r_2\big) = h \qquad \text{for all } h \in [\underline{h}(r_2),\, \bar{h}(r_2)]
+\end{align}
+Since $\sigma^*(\cdot; r_2)$ is strictly increasing in $h$ (higher default probability $\Rightarrow$ higher rate), $\tau(\cdot; r_2)$ is well-defined and strictly increasing in $r_1$.
+\end{definition}
+
+\medskip\noindent
+\textbf{Interpretation.} Given an observed bank~1 winning rate $r_1$ and a hypothesized entrant rate $r_2$, the function $\tau(r_1; r_2)$ returns the unique default probability $h$ that would generate rate $r_1$ in equilibrium. Without the sufficient statistic result, this inverse would also depend on the full vector~$\mathbf{x}$, making the likelihood intractable.
+
+\medskip\noindent
+The Jacobian of the transformation is:
+\begin{align}\label{eq:tau_prime}
+    \tau'(r_1; r_2) \equiv \frac{\partial \tau}{\partial r_1}(r_1; r_2) = \frac{1}{\sigma^*_h\!\big(\tau(r_1;r_2);\, r_2\big)} > 0
+\end{align}
+which is needed for the change-of-variables from $h$ to $r_1$ in the likelihood.
+
+\subsection{Information from Bank~2 Winners}\label{sec:bank2}
+
+Among bank~2 winners, $r_i^{\text{win}} = r_2^*(\mathbf{x}_i)$ is directly observed. This reveals two objects:
+
+\begin{enumerate}
+    \item \textbf{Distribution of entrant rates (under selection).} The empirical distribution of $r_i^{\text{win}}$ among bank~2 winners with covariates $\mathbf{z}$ identifies:
+    \begin{align}\label{eq:g2}
+        g_{r_2|W=2,\mathbf{z}}(r_2) = \frac{g(r_2|\mathbf{z}) \cdot \Pr(W=2 \mid r_2, \mathbf{z})}{\Pr(W=2 \mid \mathbf{z})}
+    \end{align}
+    where $g(r_2|\mathbf{z})$ is the density of $r_2^*(\mathbf{x})$ conditional on $\mathbf{z}$ and $\Pr(W=2 \mid r_2, \mathbf{z}) = \int (1-s(\sigma^*(h;r_2), r_2)) \, dF(h|r_2, \mathbf{z})$ is the aggregate switching probability.
+    
+    This is informative about $g(\cdot|\mathbf{z})$ but confounded by selection: borrowers facing lower $r_2$ (more competitive entrants) are more likely to switch, so the observed distribution among bank~2 winners is shifted downward relative to the population distribution.
+    
+    \item \textbf{Default rates conditional on $r_2$.} For each value of $r_2$ (and $\mathbf{z}$):
+    \begin{align}\label{eq:d2}
+        E[D_i \mid r_i^{\text{win}} = r_2, W_i = 2, \mathbf{z}] = \frac{\int h\,(1-s(\sigma^*(h;r_2),r_2))\, dF(h|r_2, \mathbf{z})}{\int (1-s(\sigma^*(h;r_2),r_2))\, dF(h|r_2, \mathbf{z})}
+    \end{align}
+    This is the adverse-selection-weighted default rate. It is \emph{not} the unconditional mean $E[h \mid r_2, \mathbf{z}]$ because the switching probability $1-s$ varies with $h$: borrowers with lower $h$ (good types) face a lower $r_1 = \sigma^*(h; r_2)$, closer to the entrant's $r_2$, making them more price-sensitive and more likely to switch. This creates adverse selection \emph{for the incumbent}: the borrowers who leave are disproportionately good.
+\end{enumerate}
+
+\subsection{The Challenge for Bank~1 Winners}\label{sec:challenge}
+
+Among bank~1 winners, the observed rate $r_1 = \sigma^*(h_i; r_2^*(\mathbf{x}_i))$ depends on two unobservables: the type $h_i$ and the entrant rate $r_2^*(\mathbf{x}_i)$. Even conditioning on $\mathbf{z}$, the entrant rate $r_2$ varies through the unobserved $\mathbf{w}$.
+
+\medskip\noindent
+\textbf{The fundamental identification problem.} The same winning rate $r_1$ can arise from different $(h, r_2)$ combinations:
+\begin{itemize}
+    \item A borrower with low $h$ (good type) facing a low $r_2$ (competitive entrant): bank~1 offers a low rate to retain this good borrower against strong competition.
+    \item A borrower with higher $h$ (riskier type) facing a higher $r_2$ (less competitive entrant): bank~1 charges more because both the cost of lending and the competitive slack are higher.
+\end{itemize}
+Both scenarios can produce the same observed $r_1$. The expected default rate conditional on observing $r_1$ among bank~1 winners is therefore a \emph{mixture}:
+\begin{align}\label{eq:mixture}
+    E[D_i \mid r_i^{\text{win}} = r_1, W_i = 1, \mathbf{z}] = \frac{\int_{\mathcal{R}_2(r_1)} \tau(r_1; r_2) \cdot s(r_1, r_2) \cdot f(\tau(r_1;r_2)|r_2, \mathbf{z}) \cdot \tau'(r_1;r_2) \cdot g(r_2|\mathbf{z})\, dr_2}{\int_{\mathcal{R}_2(r_1)} s(r_1, r_2) \cdot f(\tau(r_1;r_2)|r_2, \mathbf{z}) \cdot \tau'(r_1;r_2) \cdot g(r_2|\mathbf{z})\, dr_2}
+\end{align}
+where $\mathcal{R}_2(r_1) = \{r_2: \tau(r_1; r_2) \in [\underline{h}(r_2), \bar{h}(r_2)]\}$. This weighted average over $r_2$ does \emph{not} equal $h_i$ for any individual borrower, so the clean type-recovery step from v2 fails.
+
+\medskip\noindent
+\textbf{The role of $\mathbf{z}$.} Conditioning on observed covariates $\mathbf{z}$ reduces the residual variation in $r_2$ (since $r_2$ varies only through $\mathbf{w}$ conditional on $\mathbf{z}$), which tightens the mixture. In the limit where $\mathbf{z} = \mathbf{x}$ (all public covariates observed), $r_2^*(\mathbf{x})$ is deterministic given $\mathbf{z}$, the mixture collapses, and we recover the nonparametric identification of v2. However, nonparametric identification fails whenever any component of $\mathbf{x}$ is unobserved, necessitating parametric structure.
+
+\subsection{Parametric Specification}\label{sec:parametric}
+
+Since nonparametric identification fails without fully observing $r_2$ for bank~1 winners, we impose parametric structure on two objects.
+
+\begin{ass}[Parametric specification]\label{ass:parametric}
+\begin{enumerate}
+    \item[(i)] \textbf{Type distribution.} $h \mid (r_2, \mathbf{z})$ follows a parametric family $F(h;\, \theta_F(r_2, \mathbf{z}))$, where $\theta_F(r_2, \mathbf{z})$ collects the distribution parameters. For example, $h \mid (r_2, \mathbf{z}) \sim \text{Beta}(a(r_2, \mathbf{z}),\, b(r_2, \mathbf{z}))$, where $a$ and $b$ are functions of $(r_2, \mathbf{z})$ specified up to finite-dimensional parameters.\footnote{Flexible alternatives include the Kumaraswamy distribution on $[\underline{h}(r_2), \bar{h}(r_2)]$ or a beta regression specification.}
+    
+    \item[(ii)] \textbf{Mixing distribution.} $r_2 \mid \mathbf{z} \sim G(\cdot \mid \mathbf{z};\, \phi)$ belongs to a parametric family.
+\end{enumerate}
+When no covariates $\mathbf{z}$ are observed, the conditioning on $\mathbf{z}$ is dropped: $F(h;\, \theta_F(r_2))$ and $G(r_2;\, \phi)$.
+\end{ass}
+
+\begin{remark}[Nature of the two parametric choices]\label{rem:assumptions}
+Parts (i) and (ii) play different roles:
+\begin{itemize}
+    \item Part~(i) is the substantive economic restriction. It constrains how the distribution of borrower types varies with the competitive environment $r_2$ and observable characteristics~$\mathbf{z}$. This determines the relationship between rates, defaults, and market shares that the model must fit.
+    \item Part~(ii) characterizes the population distribution of competitive conditions. While~$r_2$ is directly observed among bank~2 winners, those observations are selected (borrowers who switched), so recovering the unconditional mixing density $g(r_2|\mathbf{z})$ from the observed $g(r_2|W\!=\!2, \mathbf{z})$ requires knowing the selection probability $\Pr(W\!=\!2 | r_2, \mathbf{z})$, which depends on all the structural parameters. Consequently, $G$ cannot be estimated independently of the rest of the model, and a parametric specification is needed for the mixture integral in the bank~1 winner likelihood.
+\end{itemize}
+\end{remark}
+
+\noindent
+The full parameter vector is $\theta = (\alpha, \lambda, \theta_F, \phi)$.
+
+\subsection{Likelihood Derivation}\label{sec:likelihood}
+
+We derive the likelihood for each observation. The logic differs by which bank wins.
+
+\subsubsection{Bank~1 wins ($W_i = 1$): observed $r_i^{\text{win}} = \sigma^*(h_i; r_2)$, latent $r_2$}
+
+Consider a borrower with type $h$ and entrant rate $r_2$, with observed covariates~$\mathbf{z}$. The ``complete data'' density for observing $(r_1, r_2, W\!=\!1, D)$ factorizes as:
+\begin{align}\label{eq:complete}
+    p(r_1, r_2, W\!=\!1, D \mid \mathbf{z}, \theta) = \underbrace{f\!\big(\tau(r_1;r_2) \mid r_2, \mathbf{z};\theta_F\big) \cdot \tau'(r_1;r_2)}_{\substack{\text{density of type } h = \tau(r_1;r_2) \\ \text{transformed to the rate scale}}} \;\cdot\; \underbrace{s(r_1, r_2)}_{\substack{\text{prob.\ bank~1}\\\text{wins}}} \;\cdot\; \underbrace{h^{D}(1\!-\!h)^{1-D}}_{\text{default outcome}} \;\cdot\; \underbrace{g(r_2 \mid \mathbf{z};\phi)}_{\substack{\text{density of}\\ \text{entrant rate}}}
+\end{align}
+where $h = \tau(r_1; r_2)$ throughout. The first term applies the change-of-variables formula: $h$ has density $f(h|r_2, \mathbf{z})$; transforming to $r_1 = \sigma^*(h;r_2)$ yields density $f(\tau(r_1;r_2)|r_2, \mathbf{z}) \cdot \tau'(r_1;r_2)$.
+
+\medskip\noindent
+Since $r_2$ is \textbf{unobserved} for bank~1 winners, we marginalize:
+\begin{align}\label{eq:L1}
+    \boxed{\mathcal{L}_i^{(1)}(\theta) = \int_{\mathcal{R}_2(r_i^{\text{win}})} f\!\big(\tau(r_i^{\text{win}}; r_2) \mid r_2, \mathbf{z}_i;\theta_F\big) \cdot \tau'(r_i^{\text{win}}; r_2) \cdot s(r_i^{\text{win}}, r_2) \cdot h^{D_i}(1\!-\!h)^{1-D_i} \cdot g(r_2 \mid \mathbf{z}_i;\phi)\, dr_2}
+\end{align}
+with $h = \tau(r_i^{\text{win}}; r_2)$ inside the integrand. The integration domain $\mathcal{R}_2(r_i^{\text{win}})$ is the set of entrant rates $r_2$ for which the implied type $\tau(r_i^{\text{win}}; r_2)$ lies in the support of $F(\cdot|r_2, \mathbf{z}_i)$.
+
+\subsubsection{Bank~2 wins ($W_i = 2$): observed $r_i^{\text{win}} = r_2$, latent $h$}
+
+When bank~2 wins, the entrant rate $r_i^{\text{win}} = r_2$ is directly observed, but the borrower's type $h$ is latent---we only see the default outcome $D_i$. Integrating over all types that could have switched:
+\begin{align}\label{eq:L2}
+    \boxed{\mathcal{L}_i^{(2)}(\theta) = g(r_i^{\text{win}} \mid \mathbf{z}_i;\phi) \cdot \int_{\underline{h}(r_i^{\text{win}})}^{\bar{h}(r_i^{\text{win}})} \big(1-s(\sigma^*(h;r_i^{\text{win}}), r_i^{\text{win}})\big) \cdot h^{D_i}(1-h)^{1-D_i} \cdot f(h \mid r_i^{\text{win}}, \mathbf{z}_i;\theta_F)\, dh}
+\end{align}
+The first factor $g(r_i^{\text{win}} \mid \mathbf{z}_i;\phi)$ is the density of drawing a borrower with entrant rate $r_i^{\text{win}}$ from the subpopulation with covariates $\mathbf{z}_i$. The integral averages over all types $h$ consistent with that entrant rate, weighted by: (i)~the probability that type $h$ switches to bank~2, i.e., $1-s$; (ii)~the default likelihood $h^{D_i}(1-h)^{1-D_i}$; and (iii)~the type density $f(h|r_2, \mathbf{z}_i)$.
+
+\subsubsection{Full log-likelihood}
+
+\begin{align}\label{eq:L_full}
+    \ell(\theta) = \sum_{i=1}^N \Big[\mathbf{1}(W_i=1)\ln \mathcal{L}_i^{(1)}(\theta) + \mathbf{1}(W_i=2)\ln \mathcal{L}_i^{(2)}(\theta)\Big]
+\end{align}
+
+\subsection{Identification}\label{sec:identification}
+
+Although fully nonparametric identification fails, the parametric model is identified from several independent data features:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{3cm}p{9.5cm}}
+\toprule
+\textbf{Parameter(s)} & \textbf{Identifying variation} \\
+\midrule
+$\phi$ \newline (distribution of $r_2$) & The distribution of winning rates among bank~2 winners. This is the most directly informative data feature, though it is confounded by selection into bank~2. \\[4pt]
+$\theta_F$ \newline (type distribution) & Default rates among bank~2 winners at different $r_2$ levels, which reveal $E[h|r_2, \mathbf{z}, W\!=\!2]$---the adverse-selection-weighted mean type. Combined with the distribution of rates and defaults among bank~1 winners, which depends on $F$ through the mixture \eqref{eq:L1}. \\[4pt]
+$\alpha$ \newline (rate sensitivity) & The elasticity of bank~2's market share with respect to rate differentials. When $\alpha$ is large, small rate differences strongly affect switching, compressing the distribution of winning rates and increasing the share of bank~2 winners. \\[4pt]
+$\lambda$ \newline (switching cost) & The overall share of bank~1 winners (baseline retention rate). A higher $\lambda$ shifts demand toward the incumbent, increasing $\Pr(W\!=\!1)$ at all rate levels. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}[Role of default data]\label{rem:defaults}
+Default outcomes $D_i$ play a crucial identifying role. Without defaults, the econometrician observes only rates, winner identity, and market shares, which creates a severe identification problem: many $(\alpha, \lambda, F, G)$ combinations can generate similar rate distributions. The default indicator provides a noisy signal of the \emph{type} $h$, which disciplines the mixture decomposition. In particular, high default rates among bank~1 winners with high rates confirms that those rates correspond to risky types (and not merely to weak competition from the entrant).
+\end{remark}
+
+\begin{remark}[Identification power from bank~2 winners]\label{rem:bank2_id}
+Bank~2 winners provide disproportionate identifying power: they directly reveal $r_2$, pinning down $g(\cdot|\mathbf{z};\phi)$ and the conditional relationship between $r_2$ and defaults. The more bank~2 winners in the sample, the better the identification of the mixing distribution $g$ and hence the better the disentangling of $(h, r_2)$ for bank~1 winners.
+\end{remark}
+
+\subsection{The Role of Observed Covariates}\label{sec:covariates}
+
+The richer $\mathbf{z}$ is, the better the estimation performs, through three channels:
+
+\begin{enumerate}
+    \item \textbf{Cross-$\mathbf{z}$ variation.} The structural parameters $(\alpha, \lambda)$ are common across all values of~$\mathbf{z}$, while $F(h|r_2, \mathbf{z})$ and $G(r_2|\mathbf{z})$ vary. Each $\mathbf{z}$-stratum generates an independent set of moments for $(\alpha, \lambda)$, providing overidentification.
+    
+    \item \textbf{Tighter mixture.} Conditioning on $\mathbf{z}$ reduces the residual variance of the latent~$r_2$, since $r_2^*(\mathbf{z}, \mathbf{w})$ varies only through $\mathbf{w}$ conditional on~$\mathbf{z}$. This concentrates the integral in \eqref{eq:L1} on a narrower range, improving the mapping from observed rate $r_1$ to type~$h$.
+    
+    \item \textbf{Nonparametric limit.} When $\mathbf{z} = \mathbf{x}$ (all public covariates observed), $r_2^*(\mathbf{x})$ is deterministic given~$\mathbf{z}$, the mixing distribution $G(r_2|\mathbf{z})$ degenerates to a point mass, the integral in \eqref{eq:L1} collapses, and estimation reduces to the nonparametric v2 identification. As $\mathbf{z}$ becomes richer, the approach smoothly interpolates toward this nonparametric limit.
+\end{enumerate}
+
+\begin{remark}[No covariates: $\mathbf{z} = \emptyset$]\label{rem:no_covariates}
+When no covariates are observed, the conditioning on $\mathbf{z}$ is dropped everywhere: $f(h|r_2, \mathbf{z})$ becomes $f(h|r_2)$ and $g(r_2|\mathbf{z})$ becomes $g(r_2)$. The likelihood equations \eqref{eq:L1}--\eqref{eq:L2} remain valid with this simplification. This is the most data-constrained case: the mixture integral for bank~1 winners spans the \emph{full} range of $r_2$ in the population, and identification relies entirely on the parametric assumptions for $F$ and $G$.
+\end{remark}
+
+\begin{remark}[Practical data sources for $\mathbf{z}$]\label{rem:data}
+In Chilean administrative credit data (CMF), likely candidates for $\mathbf{z}$ include:
+\begin{itemize}
+    \item Credit bureau score (publicly available to all lenders)
+    \item Loan amount and term (observed in regulatory filings)
+    \item Geographic region or bank branch
+    \item Year/month of origination (controls for time-varying market conditions)
+\end{itemize}
+Internal bank variables such as checking account balance, payment history on existing products, and detailed employer verification are examples of~$\mathbf{w}$: observed by both banks but typically not available to the econometrician.
+\end{remark}
+
+\subsection{Computational Strategy}\label{sec:computation}
+
+The likelihood for bank~1 winners requires a one-dimensional numerical integral over $r_2$ at each observation and each parameter evaluation. Combined with the inner equilibrium solve $\sigma^*(h; r_2)$ and the inversion $\tau(r_1; r_2)$, this is computationally expensive. A practical strategy:
+\begin{enumerate}
+    \item Pre-compute $\sigma^*(h; r_2)$ on a fine grid of $(h, r_2)$ values.
+    \item Construct $\tau(r_1; r_2)$ by numerical inversion on the same grid.
+    \item Evaluate the integral in \eqref{eq:L1} by quadrature over the pre-computed grid.
+    \item Re-compute the grid only when $(\alpha, \lambda)$ change; the type distribution parameters $\theta_F$ do not affect $\sigma^*$ or $\tau$, so the grid can be reused across many likelihood evaluations.
+\end{enumerate}
+
+
+%===========================================================================
+%  SECTION 4: MONTE CARLO SIMULATION
+%===========================================================================
+
+\newpage
+\section{Monte Carlo Simulation}\label{sec:simulation}
+
+To verify that the identification strategy developed in Section~\ref{sec:estimation} can recover the structural parameters from finite samples, we conduct a Monte Carlo exercise. The procedure has three steps: specify the true data generating process, compute the equilibrium and generate simulated data, and check whether the identifying restrictions hold.
+
+\subsection{Data Generating Process}\label{sec:dgp}
+
+\textbf{Grids.} The public covariate $x$ (scalar for the simulation) and default probability $h$ are each discretized on equally spaced grids:
+\begin{align*}
+    x \in \{x_1, \ldots, x_{N_x}\} \subset [x_{\min}, x_{\max}], \qquad
+    h \in \{h_1, \ldots, h_{N_h}\} \subset [h_{\min}, h_{\max}]
+\end{align*}
+
+\textbf{Joint distribution.} The joint distribution of $(x, h)$ is specified directly through a probability matrix $\mathbf{P} \in \mathbb{R}^{N_x \times N_h}$ with $P_{jk} = P(x = x_j,\, h = h_k) \geq 0$ and $\sum_{j,k} P_{jk} = 1$. This is the most flexible discrete specification: it imposes no parametric structure on the joint distribution and allows arbitrary dependence between $x$ and $h$. The marginal $P(x = x_j) = \sum_k P_{jk}$ and the conditional $P(h = h_k \mid x = x_j) = P_{jk} / P(x = x_j)$ are derived objects.
+
+For the baseline simulation, $\mathbf{P}$ is constructed so that higher $x$ corresponds to riskier borrowers (stochastic dominance of $h \mid x$ shifting right as $x$ increases). Any matrix satisfying $\sum_{j,k} P_{jk} = 1$ with $P_{jk} > 0$ can be used.
+
+\textbf{True parameters.}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llll}
+\toprule
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Description} \\
+\midrule
+Price sensitivity & $\alpha$ & 10 & Logit demand coefficient \\
+Switching cost & $\lambda$ & 0.5 & In rate units \\
+Grid sizes & $N_x, N_h$ & 5, 30 & Public covariate and type grids \\
+Support & $[h_{\min}, h_{\max}]$ & $[0.02, 0.40]$ & Default probability range \\
+ & $[x_{\min}, x_{\max}]$ & $[0.1, 0.9]$ & Public covariate range \\
+Joint distribution & $\mathbf{P}$ & $N_x \times N_h$ matrix & See code for construction \\
+Sample size & $N$ & 5000 & Number of simulated borrowers \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Equilibrium Computation}\label{sec:eq_comp}
+
+For each covariate value $x_j$, we solve for the equilibrium $(\sigma^*(\cdot; x_j), r_2^*(x_j))$ using the following nested algorithm:
+
+\begin{enumerate}
+    \item \textbf{Initialize} $r_2$ at the break-even rate for the average type plus a markup: $r_2^{(0)} = \frac{1}{1-\bar{h}(x_j)} + \frac{1}{\alpha}$.
+    
+    \item \textbf{Inner solve.} For the current $r_2^{(t)}$, solve bank~1's FOC \eqref{eq:sigma} for $\sigma^*(h_k; r_2^{(t)})$ at each grid point $h_k$, using a scalar root-finder (Brent's method on $\sigma - \frac{1}{1-h} - \frac{1}{\alpha(1-s(\sigma, r_2))} = 0$).
+    
+    \item \textbf{Update $r_2$.} Compute shares $s_k = s(\sigma^*(h_k; r_2^{(t)}), r_2^{(t)})$ and update:
+    \begin{align*}
+        r_2^{(t+1)} = \frac{1}{1-\tilde{h}} + \frac{1}{\alpha} \cdot \frac{\sum_k (1-s_k)(1-h_k)\, p_k}{\sum_k s_k(1-s_k)(1-h_k)\, p_k}
+    \end{align*}
+    where $\tilde{h} = \frac{\sum_k h_k\, s_k(1-s_k)\, p_k}{\sum_k s_k(1-s_k)\, p_k}$ and $p_k = P(h = h_k \mid x_j)$.
+    
+    \item \textbf{Iterate} with damping ($r_2 \leftarrow 0.7\, r_2^{(t)} + 0.3\, r_2^{(t+1)}$) until $|r_2^{(t+1)} - r_2^{(t)}| < \varepsilon$.
+\end{enumerate}
+
+\begin{remark}[Computational structure]
+The inner solve (Step~2) requires $N_h$ scalar root-finding problems per iteration. Since $\sigma^*$ is monotone in $h$ for fixed $r_2$, each is well-conditioned. The outer loop (Steps~3--4) typically converges in 10--30 iterations with damping. The total cost is $N_x$ equilibrium solves, each requiring $\mathcal{O}(\text{outer iterations} \times N_h)$ root-finding calls. With the baseline parameters ($N_x = 5$, $N_h = 30$), the computation takes a few seconds.
+\end{remark}
+
+\subsection{Data Generation}\label{sec:data_gen}
+
+Given the equilibrium, generate $N$ borrowers:
+\begin{enumerate}
+    \item Draw $(x_i, h_i)$ from the joint distribution.
+    \item Look up equilibrium rates: $r_{1i} = \sigma^*(h_i; r_2^*(x_i))$ and $r_{2i} = r_2^*(x_i)$.
+    \item Draw winner: $W_i = 1$ with probability $s(r_{1i}, r_{2i})$, else $W_i = 2$.
+    \item Draw default: $D_i \sim \text{Bernoulli}(h_i)$.
+    \item Record observables: $(r_i^{\text{win}}, W_i, D_i, x_i)$, where $r_i^{\text{win}} = r_{1i}$ if $W_i = 1$ and $r_i^{\text{win}} = r_{2i}$ if $W_i = 2$.
+\end{enumerate}
+
+\subsection{Identification Checks}\label{sec:id_checks}
+
+The simulated data is used to verify the key predictions from the identification argument:
+
+\begin{enumerate}
+    \item \textbf{Bank~2 rate is constant within $x$.} Among bank~2 winners, all borrowers with the same $x$ should receive the same winning rate $r_i^{\text{win}} = r_2^*(x_i)$. This is the model prediction from Step~1 of the identification argument.
+    
+    \item \textbf{Type recovery.} Among bank~1 winners, $E[D_i \mid r_i^{\text{win}}, x_i]$ should equal $h_i = \tau(r_i^{\text{win}}; r_2^*(x_i))$. In finite samples, the conditional default rate at each winning rate should track the underlying default probability.
+    
+    \item \textbf{Linear identifying restriction.} The relationship
+    \begin{align}\label{eq:id_check}
+        \ln\!\big(\alpha\, m(h;\mathbf{x}) - 1\big) = \lambda - \alpha\, \Delta(h;\mathbf{x})
+    \end{align}
+    should hold across all $(h, x)$ pairs, where $m = \sigma^*(h) - \frac{1}{1-h}$ is the markup and $\Delta = \sigma^*(h) - r_2^*$ is the rate gap. In the $(\Delta, \ln(\alpha m - 1))$ plane, all points should lie on a line with slope $-\alpha$ and intercept $\lambda$.
+    
+    \item \textbf{Adverse selection.} Bank~2 winners should have strictly higher default rates than bank~1 winners within every $x$-stratum: $E[D_i \mid W_i\!=\!2, x_i] > E[D_i \mid W_i\!=\!1, x_i]$.
+\end{enumerate}
+
+\noindent
+The simulation code is implemented in \texttt{Code/model6/simulate\_model6.m}.
+
+
+%===========================================================================
+%  SECTION 5: DISCUSSION
+%===========================================================================
+
+\newpage
+
+\subsection{Extensions}\label{sec:extensions}
+
+Several model extensions could improve estimation:
+
+\begin{enumerate}
+    \item \textbf{Multi-product data.} If the same borrower has multiple loans (or a loan and a credit card), the model can be estimated across products. The \emph{same} $(\mathbf{x}, \mathbf{x}')$ generates correlated rates across products, providing additional moments for identification.
+    
+    \item \textbf{Panel data on the same borrower.} If the borrower's $\mathbf{x}$ changes over time (e.g., income changes, credit score updates) but their $\mathbf{x}'$ is stable (persistent account behavior), within-borrower variation in $r_2^*$ (driven by $\mathbf{x}$ changes) can be used to condition on $r_2$ over time.
+\end{enumerate}
+
+
+\end{document}

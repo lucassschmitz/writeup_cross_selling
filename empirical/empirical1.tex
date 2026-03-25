@@ -46,39 +46,6 @@
 
 In this document I will present what we are learnign from out empirical work. 
 
-Before presenting our results it is important to clarify the sample selection criteria. We always first store the file without the sampling selection and then a second file with the sample selection. 
-
-\begin{enumerate}
-    \item We use the data in "1.solicitudes" to obtain the savings, age and other buyer characteristics. We store two files "1\_solicitudes" with all the requests and then another "1\_solicitudes\_yytoyyRV" with initial and final years and only the requests for annuities. 
-
-    \item I use the data in "2.ofertas" \textcolor{red}{CURRENTLY WORKING ON BEING ABLE TO USE THE WHOLE DATA AND NOT ONLY THE REDUCED SAMPLE}
-    
-    The file '2\_ofertas\_muestra\_sol' contains a sample of offers for which requests were made, but it is not useful, because some of the requests lead to no offers or to offers that were not accepted. Hence we only use the file '2\_ofertas\_muestra\_acep'. 
-
-    In the file '2\_ofertas\_muestra\_acep' we do the following sample selection: 1) kept only 'cod\_modalidad\_pension == 1' which are \textit{RV inmediata} 
-
-
-    \item \textbf{Aceptaciones} just dropped sec\_beneficiario and kept one obs. per id\_certificado\_saldo because there was one per sec\_beneficiario. 
-    \textcolor{red}{NOT CLEAR WHAT SEC\_BENEFICIARIO MEANS}
-
-    \item \textbf{Clasificacion de riesgo} no sample selection
-
-    \item[5.] In beneficiarios we do not do any sample selection. 
-\end{enumerate}
-
-
-
-For our main analysis we use the following sample selection criteria: 
-
-Our sample consists on 8176 individuals and 497,000 offers, hence indiiduals receive on average 61 annuities offers. This offers differ on the number of guaranteed months and the withdrawal amount (ELD: excedente de libre disposicion). Hence we restrict our sample to offers with 0 guaranteed months and 0 ELD. Then the average individual receives 13 offers. 
-
-
-
-
-
-
-
-\section{IE 0}
 
 
 \end{document}

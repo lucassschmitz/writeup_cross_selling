@@ -1,0 +1,315 @@
+%\documentclass[notes,10pt,aspectratio=169]{beamer}
+
+%\documentclass[notes, 10pt,aspectratio=169]{beamer}
+\documentclass[10pt,aspectratio=169]{beamer}
+
+
+% Add this line to your preamble
+%\setbeameroption{show notes on second screen=right}
+
+%\usetheme{Singapore} %Boadilla, Madrid, default, etc. 
+\usetheme[progressbar=frametitle]{metropolis}
+\usecolortheme{rose} %beaver, dolphin, crane, 
+
+
+%\setbeamersize{text margin left=4mm, text margin right=4mm}
+
+
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{booktabs} % Required for \toprule, \midrule, \bottomrule
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+\tikzstyle{block} = [rectangle, draw, text width=4cm, align=center, rounded corners, minimum height=1cm]
+\tikzstyle{decision} = [rectangle, draw, text width=5cm, align=center, fill=blue!10, rounded corners, minimum height=1cm]
+\tikzstyle{terminal} = [rectangle, draw, text width=4.5cm, align=center, fill=yellow!30, rounded corners, minimum height=1cm]
+\tikzstyle{end} = [rectangle, draw, text width=5cm, align=center, fill=green!30, rounded corners, minimum height=1cm]
+\tikzstyle{arrow} = [->, thick]
+
+
+
+\usepackage{adjustbox}
+%2. change the bullets 
+\setbeamertemplate{itemize item}[triangle] %circle, square,... 
+
+
+% 1. Define custom colors and set colors 
+%\definecolor{myblue}{HTML}{003366}
+\definecolor{accent}{RGB}{78,205,196}
+
+%\setbeamercolor{title}{fg=white,bg=myblue}
+\setbeamercolor{frametitle}{fg=black,bg=white}
+%\setbeamercolor{normal text}{fg=mygray}
+\setbeamercolor{block title}{fg=black,bg=blue}
+%\setbeamercolor{block body}{fg=black,bg=white}
+
+\setbeamercolor{item}{fg= orange!80} % Change bullet color
+\setbeamercolor{button}{bg=orange, fg=white}
+
+
+
+
+
+% 3. BibLaTeX settings
+\usepackage[
+  backend=biber,
+  style=apa,
+  citestyle=authoryear
+]{biblatex}
+\addbibresource{../references.bib}
+
+\title{Meeting with Steve}
+%\subtitle{Model 5: Structural Logit with Asymmetric Information}
+
+\author{%
+ Lucas Condeza
+\inst{1} \and
+   %\and
+%  Coauthor Three\inst{3}
+}
+\institute{
+  \inst{1} Yale University \\
+}
+
+\date{\today}
+
+\begin{document}
+
+%\begin{frame}
+%  \titlepage
+%\end{frame}
+
+
+\begin{frame}{Last meeting}
+\textbf{Last meeting:}
+\begin{itemize}
+    \item Presented auction-style model following Hendricks and Porter (1988) 
+    \item Discussed some reduced form evidence 
+    \item To do: extend model to differentiated products and think about identification
+\end{itemize}
+
+\textbf{Today's meeting:}
+\begin{itemize}
+    \item Show model and identification strategy
+    \item Are information asymmetries plausible? 
+\end{itemize}
+\end{frame}
+
+
+
+%-------------------------------
+% MODEL SETUP
+%-------------------------------
+\begin{frame}{Model Setup}
+
+\textbf{Two-stage game:}
+\begin{itemize}
+    \item \textbf{Stage 1:} Banks compete for customer via introductory product
+    \item \textbf{Stage 2:} Home  (informed) and non-home (uninformed) compete for a loan
+\end{itemize}
+
+\vspace{0.2cm}
+\textbf{Stage 2 primitives:}
+\begin{itemize}
+    \item Bank 1 (home) observes default probability $h \sim F(h)$ on $[h_{\min}, h_{\max}]$ and plays $\sigma(h)$
+    \item Bank 2 (non-home) only knows $F(h)$ and plays $r_2$ for all borrowers
+    \item Consumer utility from bank $j$:
+    $$u_{ij} = -\alpha\, r_{ij} - \lambda \cdot \mathbf{1}(j \neq 1) + \varepsilon_{ij}$$
+    \item Market share of incumbent (bank 1):
+    $$s(r_1, r_2) = \frac{1}{1 + \exp\!\big(\alpha(r_1 - r_2) - \lambda\big)}$$
+\end{itemize}
+\end{frame}
+
+
+%-------------------------------
+% DEMAND (Previous Version)
+%-------------------------------
+\begin{frame}{Logit Demand and Market Shares (Previous Version)}
+\begin{itemize}
+\item Profit functions:
+\begin{align*}
+    \pi_1(r_1; h, r_2) &= \big[(1-h)r_1 - 1\big] \cdot s(r_1, r_2) \\
+    \pi_2(r_2; \sigma) &= \int_{h_{\min}}^{h_{\max}} \big[(1-h)r_2 - 1\big] \cdot \big[1 - s(\sigma(h), r_2)\big] \, dF(h) 
+\end{align*}
+
+\item Equilibrium strategies:
+$$\sigma^*(h) = \underbrace{\frac{1}{1-h}}_{\text{break-even}} + \underbrace{\frac{1}{\alpha\big(1-s(\sigma^*(h),\, r_2^*)\big)}}_{\text{markup}}$$
+
+$$r_2^* = \frac{1}{1 - \tilde{h}} + \frac{1}{\alpha}\cdot\frac{\displaystyle\int (1-s)(1-h)\, dF}{\displaystyle\int s\,(1-s)(1-h)\, dF}$$
+where $\tilde{h} = \frac{\int h\, s(1-s)\, dF}{\int s(1-s)\, dF}$ and all shares evaluated at $(\sigma^*(h), r_2^*)$.
+\end{itemize}
+\end{frame}
+
+
+%-------------------------------
+% DEMAND (New Version 2 — General formula)
+%-------------------------------
+\begin{frame}{Demand and Equilibrium Prices}
+\begin{itemize}
+\item Profit functions:
+\begin{align*}
+    \pi_1(r_1; h, r_2) &= \big[(1-h)r_1 - 1\big] \cdot s(r_1, r_2) \\
+    \pi_2(r_2; \sigma) &= \int_{h_{\min}}^{h_{\max}} \big[(1-h)r_2 - 1\big] \cdot \big[1 - s(\sigma(h), r_2)\big] \, dF(h) 
+\end{align*}
+
+\item Equilibrium strategies: 
+$$\sigma^*(h) = \underbrace{\frac{1}{1-h}}_{\text{break-even}} + \underbrace{m_1(\sigma^*(h), r_2^*)}_{\text{markup}}$$
+$$r_2^* = \underbrace{\frac{1}{1-\hat{h}}}_{\text{break-even}} + \underbrace{E_w[m_2]}_{\text{weighted avg.\ markup}}$$
+\item $\hat{h} = \frac{\int h\, s_2\, dF}{\int s_2\, dF}$: default prob. of marginal borrower. \quad $E_w[m_2] = \frac{\int m_2\, s_2(1-h)\, dF}{\int s_2(1-h)\, dF}$
+is the markups of the marginal borrower adjusted for their repyament probability.
+where  $m_1 \equiv \frac{s}{-s_1}, m_2 \equiv \frac{s_2}{-s_2}$ are the inverse semi-elasticities
+
+\end{itemize}
+\end{frame}
+
+
+%-------------------------------
+% EQUILIBRIUM
+%-------------------------------
+\begin{frame}{Equilibrium Characterization}
+
+
+\vspace{0.3cm}
+\textbf{Key properties:}
+\begin{itemize}
+    \item $\sigma^*(h)$ is strictly increasing in $h$ 
+    \item Markup is \emph{decreasing} in $h$: riskier borrowers are more contested
+    \item Adverse selection: $\bar{h}_1 < E[h] < \bar{h}_2$ 
+\end{itemize}
+
+\end{frame}
+
+
+%-------------------------------
+% STAGE 1 BACKWARD INDUCTION
+%-------------------------------
+\begin{frame}{Stage 1: Backward Induction}
+
+\textbf{Continuation values from Stage 2:}
+\begin{align*}
+    V^I &= \int \big[(1-h)\sigma^*(h) - 1\big] \cdot s(\sigma^*(h), r_2^*) \, dF(h) & \text{(incumbent)} \\
+    V^E &= \pi_2(r_2^*; \sigma^*) & \text{(entrant)}
+\end{align*}
+Net value of acquiring the customer: $\Delta V = V^I - V^E > 0$
+
+\vspace{0.3cm}
+\textbf{Stage 1 pricing:} Each bank sets introductory price $p^{(1)}$ solving:
+$$\max_{p^{(1)}} \; q(p^{(1)}, p^{(1)}_{-j}) \cdot \big[p^{(1)} - (c^{(1)} - \Delta V)\big]$$
+\begin{itemize}
+    \item Effective marginal cost is $c^{(1)} - \Delta V < c^{(1)}$ : \textbf{loss-leading} on the introductory product
+    \item Higher $\lambda$ or information asymmetry $\Rightarrow$ higher $\Delta V$ $\Rightarrow$ lower introductory prices
+    \item Net welfare effect is ambiguous
+\end{itemize}
+
+\end{frame}
+
+
+%-------------------------------
+% IDENTIFICATION: OVERVIEW
+%-------------------------------
+\begin{frame}{Identification: Overview}
+
+\textbf{Observables:} winning rate $r_i^{\text{win}}$, winner identity $W_i \in \{1,2\}$, default $D_i \in \{0,1\}$
+
+\vspace{0.2cm}
+\textbf{Sequential identification in 4 steps:}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lll}
+\toprule
+\textbf{Object} & \textbf{Identified from} & \textbf{Step} \\
+\midrule
+$r_2^*$ & Winning rate when $W_i = 2$ (constant) & 1 \\
+$\sigma^*(h)$, $\tau(r)$ & $E[D \mid r, W\!=\!1]$ (defaults reveal types) & 2 \\
+$\alpha$ & Markup curvature across types & 3 \\
+$\lambda$ & Markup level given $\alpha$ & 3 \\
+$F(h)$ & Selection-corrected type distribution & 4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+
+%-------------------------------
+% IDENTIFICATION: STEPS 1-2
+%-------------------------------
+\begin{frame}{Identification: Steps 1--2}
+
+\textbf{Step 1: $r_2^*$ is directly observed.}
+\begin{itemize}
+    \item Bank 2 plays a single rate $\Rightarrow$ all bank-2 winners have the same $r_i^{\text{win}} = r_2^*$
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Step 2: $\sigma(h)$ from defaults among bank-1 winners.}
+\begin{itemize}
+    \item When bank 1 wins: $r_i^{\text{win}} = \sigma^*(h_i)$ and $D_i \sim \text{Bernoulli}(h_i)$
+    \item Conditional default rate reveals the type:
+    $$E[D_i \mid r_i^{\text{win}} = r, \; W_i = 1] = h_i = \tau(r)$$
+    \item This recovers $\tau = \sigma^{-1}$ \textbf{nonparametrically}
+    \item Yields data objects: $h_i = \tau(r_i^{\text{win}})$, markup $m_i = r_i^{\text{win}} - \frac{1}{1-h_i}$, rate gap $\Delta_i = r_i^{\text{win}} - r_2^*$
+\end{itemize}
+
+\end{frame}
+
+
+%-------------------------------
+% IDENTIFICATION: STEP 3
+%-------------------------------
+\begin{frame}{Identification: Step 3 --- $\alpha$ and $\lambda$}
+
+\begin{itemize}
+    \item From home bank FOC: 
+    $$\ln\!\big(\alpha\, m(h) - 1\big) = \lambda - \alpha\, \Delta(h)$$
+    \begin{itemize}
+        \item Must hold for \emph{every} type $h$
+        \item $m(h)$ and $\Delta(h)$ are data; $\alpha$ and $\lambda$ are unknowns
+    \end{itemize}
+    \item Separating $\alpha$ from $\lambda$:
+\begin{itemize}
+    \item Evaluate at two types $h_a \neq h_b$ and subtract:
+    $$\ln\frac{\alpha\, m(h_a) - 1}{\alpha\, m(h_b) - 1} = \alpha\,\big(\Delta(h_b) - \Delta(h_a)\big)$$
+    \item Single equation in single unknown $\alpha$ 
+    \item Then recover: $\lambda = \ln(\alpha\, m(h) - 1) + \alpha\, \Delta(h)$
+\end{itemize}
+\end{itemize}
+
+\vspace{0.2cm}
+\textbf{Intuition:}
+\begin{itemize}
+    \item $\alpha$ $=$ \emph{slope}: how markup responds to rate gap across types
+    \item $\lambda$ $=$ \emph{level}: uniform shift in markups for all types
+\end{itemize}
+
+\end{frame}
+
+
+%-------------------------------
+% IDENTIFICATION: STEP 4
+%-------------------------------
+\begin{frame}{Identification: Step 4 --- Type Distribution $F(h)$}
+
+With $\alpha, \lambda$ known, market shares are identified:
+$$s(h) = \frac{1}{1 + \exp\!\big(\alpha\,\Delta(h) - \lambda\big)}$$
+
+\textbf{Selection correction:} Among bank-1 winners, the density of types is:
+$$f_{h|W=1}(h) = \frac{s(h)\, f(h)}{\Pr(W_i = 1)}$$
+
+Inverting:
+$$f(h) = \frac{f_{h|W=1}(h) \cdot \Pr(W_i = 1)}{s(h)}$$
+
+\begin{itemize}
+    \item $f_{h|W=1}$ is estimated from the empirical distribution of $h_i = \tau(r_i^{\text{win}})$ among bank-1 winners
+    \item $s(h) > 0$ for all $h$ (logit) $\Rightarrow$ every type observed among bank-1 winners
+\end{itemize}
+\end{frame}
+
+
+\end{document}

@@ -1,0 +1,501 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+\section*{Model 7: Structural Heterogeneity Without Borrower Observables}
+
+\textbf{Motivation.} In Model~5, the uninformed bank (bank~2) sets a single interest rate $r_2^*$ for all borrowers. This is a direct consequence of its information structure: since bank~2 cannot observe individual default probabilities, its optimal rate is a single scalar that pools across all types. While theoretically clean, this prediction is counterfactual---in the data, we observe substantial variation in entrant bank rates across borrowers.
+
+Model~6 addresses this by introducing observable borrower characteristics $X_i$ (income, credit score, etc.) on which both banks condition. This generates systematic variation: bank~2 sets $r_2^*(X)$, a different rate per observable group. However, the identification challenge in M6 is that the econometrician may not observe $X$---or may observe a limited set of covariates that does not coincide with the full information set banks use. When $X$ is unobserved, the M6 model is not directly estimable.
+
+This document proposes an \textbf{alternative approach}: generating variation in bank~2's rate through channels that \emph{do not require observing borrower characteristics}. Instead, we exploit variation in (1)~loan-level cost of funds (Section~\ref{sec:cost}) and (2)~supply-side pricing shocks (Section~\ref{sec:pricing_errors}). These sources of heterogeneity are either directly observable (cost shifters like maturity, collateral, and market conditions) or explicitly modeled as structural errors. Section~\ref{sec:combined} presents the recommended specification. Section~\ref{sec:id_implications} discusses identification, and Section~\ref{sec:likelihood} develops the likelihood.
+
+Throughout, we maintain the core M5 structure: borrowers are drawn from a population distribution $F(h)$, the informed incumbent (bank~1) plays a type-contingent strategy $\sigma(h)$, and the uninformed entrant (bank~2) cannot condition on $h$. The key departure is that the cost of funding a loan varies across loans through observable loan characteristics $Z$, and residual rate variation is absorbed by structural errors.
+
+
+%===========================================================================
+%  SECTION 1: COST-OF-FUNDS HETEROGENEITY
+%===========================================================================
+
+
+\section{Cost-of-Funds Heterogeneity}\label{sec:cost}
+
+\subsection{Motivation}
+
+In M5, the cost of funds is normalized to unity: a loan to a type-$h$ borrower at rate $r$ yields expected revenue $(1-h)r$ against a unit cost, giving margin $(1-h)r - 1$ and break-even rate $c(h) = \frac{1}{1-h}$. In practice, the cost of funding a loan varies across loans for reasons that are orthogonal to default risk:
+
+\begin{itemize}
+    \item \textbf{Maturity.} Longer-term loans must be funded with longer-duration liabilities, which carry a term premium. A 5-year consumer loan has a higher cost of funds than a 1-year loan, even for the same borrower.
+    \item \textbf{Collateral and regulatory capital.} Secured loans (e.g., auto loans, mortgages) require less regulatory capital than unsecured consumer credit, reducing the effective cost. Basel risk weights differ substantially across loan categories.
+    \item \textbf{Market conditions at origination.} Loans originated in different weeks or months face different benchmark rates (e.g., the central bank policy rate, interbank rates, or swap rates). This time-varying cost component is common across banks but varies across loans.
+    \item \textbf{Bank-specific funding costs.} Different banks fund themselves through different mixes of deposits, wholesale funding, and securitization, leading to bank-specific cost differentials.
+\end{itemize}
+
+\noindent
+Crucially, these cost shifters are \emph{observable to both banks}---market rates are public, maturity and collateral are specified in the loan contract, and regulatory capital rules are common knowledge. But they vary across loans, generating variation in each bank's optimal rate.
+
+\subsection{Model Extension}
+
+Let $Z_i \in \mathbb{R}^P$ denote the vector of cost-relevant loan characteristics for borrower $i$ (maturity, collateral type, origination date proxying for market rates). The cost of funds is:
+\begin{align}\label{eq:cof}
+    c_{0i} = \bar{c}_0 + Z_i'\delta
+\end{align}
+where $\bar{c}_0$ is the baseline cost and $\delta \in \mathbb{R}^P$ captures how each characteristic shifts the cost. Both banks observe $Z_i$.
+
+\medskip\noindent
+The profit function for bank~$j$ lending to borrower $i$ at rate $r$ becomes:
+\begin{align}\label{eq:profit_cost}
+    \pi_j(r;\, h_i,\, Z_i) = (1-h_i)\,r - c_{0i} = (1-h_i)\,r - \bar{c}_0 - Z_i'\delta
+\end{align}
+and the break-even rate is:
+\begin{align}\label{eq:breakeven_cost}
+    c(h, Z) = \frac{\bar{c}_0 + Z'\delta}{1-h}
+\end{align}
+
+\subsection{Equilibrium Conditional on $Z$}
+
+Since both banks observe $Z_i$, the equilibrium is the M5 equilibrium evaluated at cost $c_{0i}$ instead of unit cost. Bank~2's optimal rate becomes:
+\begin{align}\label{eq:r2_cost}
+    r_2^*(Z) = \frac{c_{0}(Z)}{1 - \tilde{h}} + E_{w}[m_2]
+\end{align}
+where $c_0(Z) = \bar{c}_0 + Z'\delta$, $\tilde{h}$ is the $s(1-s)$-weighted average default probability, and $E_w[m_2]$ is the weighted-average markup---both computed from the population distribution $F(h)$ exactly as in M5. Two borrowers with different loan maturities ($Z$) receive different entrant rates because their loans cost different amounts to fund, even though bank~2 has no information distinguishing their types.
+
+\medskip\noindent
+Bank~1's strategy also shifts:
+\begin{align}\label{eq:sigma_cost}
+    \sigma^*(h;\, Z) = \frac{c_0(Z)}{1-h} + \frac{1}{\alpha\big(1 - s(\sigma^*(h; Z),\, r_2^*(Z))\big)}
+\end{align}
+
+\begin{remark}[Separability]
+Cost shifters $Z$ enter the equilibrium in a particularly tractable way: they shift the \emph{level} of all rates (through the break-even rate) without changing the \emph{competitive structure} (markups, adverse selection patterns). The equilibrium markup schedule $\sigma^*(h; Z) - c(h, Z)$ is invariant to $Z$---only the cost baseline shifts. This separability simplifies both computation and identification: the equilibrium needs to be solved only once (for the competitive structure), and then adjusted for each $Z$ by shifting all rates.
+\end{remark}
+
+\subsection{Identification of $\delta$}\label{sec:id_delta}
+
+The cost parameters $\delta$ are identified from the variation in bank~2's rate across loans with different $Z$:
+\begin{align}\label{eq:delta_id}
+    E[r_{2i}^{\text{obs}} \mid Z] - E[r_{2i}^{\text{obs}} \mid Z'] = \frac{(Z - Z')'\delta}{1 - \tilde{h}}
+\end{align}
+Since $\tilde{h}$ is identified from the population default rate (see Section~\ref{sec:id_implications}), $\delta$ is identified from the regression of bank~2 winner rates on $Z$.
+
+\medskip\noindent
+\textbf{Key identification advantage.} Cost shifters $Z$ (especially time-varying market rates) are arguably \emph{exogenous} to borrower type $h$: the central bank's policy rate on the day a borrower applies for a loan does not depend on that borrower's default probability. This provides clean identifying variation that does not require observing borrower characteristics.
+
+\medskip\noindent
+\textbf{Potential concern: endogeneity of maturity and collateral.} Some components of $Z$ (particularly maturity and loan type) may be \emph{chosen} by the borrower and could correlate with default risk. For example, riskier borrowers might select shorter maturities. If so, the loan characteristics are not purely cost shifters---they partly reflect borrower type. Two responses:
+\begin{enumerate}
+    \item \textbf{Restrict $Z$ to exogenous components.} Use only time-varying market conditions (origination-date fixed effects or benchmark rates) as cost shifters. These are clearly exogenous to individual borrower type.
+    \item \textbf{Test conditional exogeneity.} Among bank~1 winners (where $h$ is revealed through default outcomes), one can test whether maturity or collateral predict default conditional on the observed rate. If they do not, these $Z$ components are valid cost shifters.
+\end{enumerate}
+
+\begin{remark}[What $Z$ variation buys for structural parameters]
+Cost-of-funds variation is valuable beyond fitting the data. It provides variation in the \emph{level} of bank~2's rate that is uncorrelated with the adverse selection channel. This helps disentangle bank~2's break-even component (driven by costs and expected default) from its markup component (driven by competitive position). In the M5 identification, these two components are separated using the functional form of the markup equation. Cost variation provides a complementary, more robust source of identification that does not rely on borrower-level observables.
+\end{remark}
+
+
+%===========================================================================
+%  SECTION 2: PRICING SHOCKS
+%===========================================================================
+
+\section{Pricing Shocks (Supply-Side Structural Errors)}\label{sec:pricing_errors}
+
+Even after conditioning on cost shifters $Z$ and equilibrium behavior, residual variation in rates will remain in the data. This is standard in structural IO estimation and is handled by introducing \emph{pricing shocks}---structural errors on the supply side.
+
+\subsection{Motivation}
+
+Several real-world frictions generate rate variation outside the model:
+\begin{itemize}
+    \item \textbf{Internal risk models.} Banks use proprietary credit scoring algorithms that translate borrower data into risk assessments. Different banks' internal models produce different risk estimates, leading to different optimal rates. This is a form of \emph{private bank-side information} (about model quality or risk appetite) that the econometrician does not observe.
+    \item \textbf{Pricing discretion.} Loan officers typically have authority to adjust rates within policy guidelines (e.g., $\pm 50$ basis points around the algorithm's recommendation). These adjustments depend on soft information from the application process, branch-level targets, or negotiation dynamics---none of which enter the structural model.
+    \item \textbf{Temporal micro-variation.} Within an origination period (say, a month), the bank's marginal cost of funds fluctuates with daily liquidity conditions, deposit inflows, and pipeline management. Two loans approved on different days of the same month face slightly different internal transfer prices.
+    \item \textbf{Strategic noise.} Banks may not perfectly optimize---they use pricing rules of thumb, committee decisions, or automated systems with discrete rate grids. The resulting rates approximate but do not exactly equal the theoretical optimum.
+\end{itemize}
+
+\subsection{Specification}
+
+We consider two approaches to modeling pricing shocks, differing in their economic interpretation and econometric implications.
+
+\subsubsection{Approach A: Additive Rate Shocks (Optimization Error)}\label{sec:approach_A}
+
+The simplest approach treats the observed rate as the optimal rate plus noise:
+\begin{align}\label{eq:r2_shock_add}
+    r_{2i}^{\text{obs}} = r_2^*(Z_i) + \omega_i, \qquad \omega_i \sim \mathcal{N}(0, \sigma_\omega^2)
+\end{align}
+where $r_2^*(Z_i)$ is the model-predicted optimal rate and $\omega_i$ is a loan-specific pricing error. The shock $\omega_i$ is independent of $(Z_i, h_i)$.
+
+\medskip\noindent
+\textbf{Incumbent bank.} Similarly, for bank~1:
+\begin{align}\label{eq:r1_shock_add}
+    r_{1i}^{\text{obs}} = \sigma^*(h_i;\, Z_i) + \eta_i, \qquad \eta_i \sim \mathcal{N}(0, \sigma_\eta^2)
+\end{align}
+
+\textbf{Interpretation.} Additive shocks are ``reduced-form'' errors: they do not correspond to a specific economic primitive. Their appeal is computational simplicity and flexibility---they absorb any source of unexplained rate variation. The cost is that the pricing error $\omega_i$ is not consistent with the bank optimizing given a perturbed environment; it is a deviation from optimality.
+
+\textbf{Econometric role.} Even if $\omega_i$ has no deep structural interpretation, it plays an essential role by smoothing the likelihood. Without it, the model predicts a deterministic $r_2^*$ for each $Z$-cell, and the likelihood assigns zero density to any observed rate that deviates from the prediction. The pricing shock converts this point prediction into a smooth density, making maximum likelihood feasible.
+
+\subsubsection{Approach B: Unobserved Market Heterogeneity}\label{sec:approach_B}
+
+A more structural approach models the pricing shock as arising from unobserved variation in the competitive environment. If borrowers are in different local markets $m$ (e.g., geographic regions, bank branch catchment areas), market-level unobservables affect the equilibrium:
+\begin{align}\label{eq:market_het}
+    \lambda_{im} = \bar{\lambda} + \zeta_m, \qquad \zeta_m \sim G_\zeta
+\end{align}
+Switching costs may vary across markets due to:
+\begin{itemize}
+    \item \textbf{Branch density.} In areas with many competing branches, the physical cost of switching is lower.
+    \item \textbf{Digital banking penetration.} In markets with high digital adoption, the incumbent's informational advantage may be weaker (more data available to entrants through open banking).
+    \item \textbf{Relationship intensity.} Rural areas with fewer banking options may exhibit stronger lock-in.
+\end{itemize}
+
+\noindent
+This generates variation in $r_2^*(Z, m)$ through the equilibrium response to different competitive intensity. The entrant's rate is higher in markets with high switching costs (where its effective demand is lower) and lower in competitive markets.
+
+\medskip\noindent
+\textbf{Econometric implementation.} If the market $m$ is observed (e.g., geographic region), $\zeta_m$ can be treated as a fixed effect or estimated as a random effect. If $m$ is unobserved, $\zeta_m$ acts as a structural error that varies at some grouping level, and the model integrates over its distribution.
+
+\medskip\noindent
+\textbf{Propagation through equilibrium.} Unlike additive rate shocks, market heterogeneity propagates through the full equilibrium: a different $\lambda_m$ changes both banks' strategies, the market shares, the severity of adverse selection, and the markups. This makes the model more realistic but also more computationally demanding, since the equilibrium must be re-solved for each value of $\zeta_m$.
+
+\subsection{Comparison of Approaches}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{3.5cm}p{5cm}p{5cm}}
+\toprule
+& \textbf{Approach A: Additive Shocks} & \textbf{Approach B: Market Heterogeneity} \\
+\midrule
+\textbf{Economic content} & Optimization error, no structural interpretation & Variation in competitive environment \\
+\textbf{What varies} & Rate level only & Full equilibrium (rates, shares, markups) \\
+\textbf{Consistency} & Bank~2 not optimizing at realized rate & Bank~2 optimizes given local $\lambda_m$ \\
+\textbf{Computation} & Trivial (add noise ex post) & Expensive (re-solve equilibrium per $\zeta_m$) \\
+\textbf{Identification} & $\sigma_\omega^2$ from residual variance & $G_\zeta$ from cross-market rate dispersion \\
+\textbf{Counterfactuals} & Cannot simulate policy changing $\lambda$ at local level & Can simulate spatially heterogeneous policy \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip\noindent
+\textbf{Recommendation.} Start with Approach~A for computational tractability. If the data exhibit spatial patterns in rate dispersion (e.g., entrant rates systematically differ across regions in ways not explained by $Z$), upgrade to Approach~B.
+
+
+%===========================================================================
+%  SECTION 3: COMBINED SPECIFICATION
+%===========================================================================
+
+\section{Recommended Specification}\label{sec:combined}
+
+This section presents the full M7 model, building directly on M5 by adding cost heterogeneity and pricing shocks---without relying on borrower observables.
+
+\subsection{Full Model}
+
+\textbf{Primitives:}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\textbf{Component} & \textbf{Parameter} & \textbf{Source of $r_2$ variation} \\
+\midrule
+Type distribution & $F(h)$ on $[h_{\min}, h_{\max}]$ & Pooling composition \\
+Cost of funds & $\bar{c}_0$, $\delta$ & Break-even rate level \\
+Demand parameters & $\alpha$, $\lambda$ & Level of markups \\
+Pricing shocks & $\sigma_\omega^2$ & Residual within-$Z$ variation \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip\noindent
+\textbf{Borrower type:} $h_i \sim F(h)$ on $[h_{\min}, h_{\max}]$, as in M5. No borrower observables enter. The incumbent observes $h_i$; the entrant does not.
+
+\medskip\noindent
+\textbf{Cost of funds:}
+\begin{align}\label{eq:combined_cost}
+    c_{0i} = \bar{c}_0 + Z_i'\delta
+\end{align}
+
+\medskip\noindent
+\textbf{Bank~1's strategy:} For each $(Z, h)$:
+\begin{align}\label{eq:combined_sigma}
+    \sigma^*(h;\, Z) = \frac{c_0(Z)}{1-h} + \frac{1}{\alpha\big(1 - s(\sigma^*(h; Z),\, r_2^*(Z))\big)}
+\end{align}
+
+\textbf{Bank~2's strategy:} For each $Z$:
+\begin{align}\label{eq:combined_r2}
+    r_2^*(Z) = \frac{c_0(Z)}{1 - \tilde{h}} + E_{w}[m_2]
+\end{align}
+where $\tilde{h}$ and $E_w[m_2]$ are computed from $F(h)$ exactly as in M5 (they do not depend on $Z$).
+
+\textbf{Observed rates:}
+\begin{align}
+    r_{1i}^{\text{obs}} &= \sigma^*(h_i;\, Z_i) + \eta_i, \qquad \eta_i \sim \mathcal{N}(0, \sigma_\eta^2) \label{eq:combined_r1_obs}\\
+    r_{2i}^{\text{obs}} &= r_2^*(Z_i) + \omega_i, \qquad\;\;\; \omega_i \sim \mathcal{N}(0, \sigma_\omega^2) \label{eq:combined_r2_obs}
+\end{align}
+
+\subsection{Sources of Variation in the Observed Entrant Rate}
+
+The observed $r_{2i}^{\text{obs}}$ varies across borrowers through two channels:
+\begin{enumerate}
+    \item \textbf{Cost variation via $Z_i$:} Loan-level cost differences shift the break-even rate. Two loans originated in different months or with different maturities receive different entrant rates, even if the borrower pools are identical. This is systematic, observable variation.
+    \item \textbf{Residual variation via $\omega_i$:} The pricing shock captures within-$Z$ variation due to loan officer discretion, internal model differences, and other unmodeled factors. This is the residual that the structural model cannot explain.
+\end{enumerate}
+
+\subsection{Parameter Vector}
+
+The full structural parameter vector is:
+\begin{align}\label{eq:theta}
+    \theta = \big(\underbrace{\alpha,\, \lambda}_{\text{demand}},\;\; \underbrace{F(\cdot)}_{\text{type distribution}},\;\; \underbrace{\bar{c}_0,\, \delta}_{\text{cost of funds}},\;\; \underbrace{\sigma_\omega^2,\, \sigma_\eta^2}_{\text{pricing shocks}}\big)
+\end{align}
+In a parametric specification (e.g., Kumaraswamy or Beta for $F$), the total dimension is $P + 6 + \dim(F\text{-params})$ where $P = \dim(\delta)$.
+
+\subsection{Nested Models}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llll}
+\toprule
+\textbf{Model} & \textbf{Restrictions} & \textbf{Sources of $r_2$ variation} \\
+\midrule
+M5 & $\delta = 0,\; \sigma_\omega^2 = 0,\; \bar{c}_0 = 1$ & None (single $r_2^*$) \\
+M7 (this model) & --- & $Z$ and $\omega$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%===========================================================================
+%  SECTION 4: IDENTIFICATION
+%===========================================================================
+
+\section{Identification}\label{sec:id_implications}
+
+The M5 identification strategy proceeds in four steps: (1)~identify $r_2^*$ from entrant winners, (2)~recover the $h \leftrightarrow r_1$ mapping from defaults, (3)~identify $\alpha$ and $\lambda$ from the markup equation, (4)~recover $F(h)$. We discuss how the M7 additions---cost heterogeneity $Z$ and pricing shocks $\omega$---affect each step.
+
+\subsection{Step 1: Identification of $r_2^*$ and $\delta$}
+
+In M5, bank~2's rate is a single constant directly readable from entrant winners. In M7, bank~2's rate varies with $Z$:
+\begin{align*}
+    r_{2i}^{\text{obs}} = \underbrace{\frac{\bar{c}_0 + Z_i'\delta}{1 - \tilde{h}}}_{\text{break-even}} + \underbrace{E_w[m_2]}_{\text{markup}} + \omega_i
+\end{align*}
+Since $Z_i$ is observed and $\omega_i$ is mean-zero noise, regressing $r_{2i}^{\text{obs}}$ on $Z_i$ among bank~2 winners identifies:
+\begin{itemize}
+    \item \textbf{The cost passthrough $\frac{\delta}{1-\tilde{h}}$} from the regression slope.
+    \item \textbf{The pricing shock variance $\sigma_\omega^2$} from the residual variance.
+    \item \textbf{The baseline $\frac{\bar{c}_0}{1-\tilde{h}} + E_w[m_2]$} from the regression intercept.
+\end{itemize}
+
+\medskip\noindent
+\textbf{Exogenous variation.} The cleanest source of identifying variation for $\delta$ is temporal variation in market rates. If the dataset spans multiple months or quarters, the benchmark rate at origination (a component of $Z_i$) varies exogenously across loans. Two borrowers with identical type $h$ who happen to originate in different months face different costs, generating rate variation that identifies the cost passthrough.
+
+\subsection{Step 2: Type Recovery}
+
+The type recovery step is unchanged from M5. Among bank~1 winners, the observed rate is $r_{1i}^{\text{obs}} = \sigma^*(h_i; Z_i) + \eta_i$. By separability, $\sigma^*(h; Z) = \frac{c_0(Z)}{1-h} + m_1(h)$ where the markup $m_1(h)$ does not depend on $Z$. Therefore:
+\begin{align}\label{eq:type_recovery}
+    h_i = \tau(r_{1i}^{\text{obs}},\, Z_i) \quad\text{is identified from}\quad E[D_i \mid r_{1i}^{\text{obs}} = r,\; W_i = 1,\; Z_i = Z]
+\end{align}
+Conditioning on $Z$ is important because the same rate $r$ corresponds to different types depending on the cost level: a high rate for a low-cost loan ($Z$ implies low $c_0$) signals a risky borrower, while the same rate for a high-cost loan may reflect a safe borrower paying a high cost of funds.
+
+\medskip\noindent
+\textbf{If $\sigma_\eta^2 > 0$} (incumbent pricing shock), the observed rate does not perfectly reveal $h_i$. The type recovery becomes a deconvolution problem:
+\begin{align}\label{eq:type_recovery_noisy}
+    E[D_i \mid r_{1i}^{\text{obs}} = r,\; W_i = 1,\; Z] = E[h \mid \sigma^*(h; Z) + \eta = r]
+\end{align}
+This is handled by either assuming $\sigma_\eta^2 = 0$ (baseline, type recovery is exact) or estimating $\sigma_\eta^2 > 0$ (the likelihood integrates over $\eta$, and $\sigma_\eta^2$ is identified from the smoothness of the conditional default function).
+
+\subsection{Step 3: Identification of $\alpha$ and $\lambda$}
+
+The M5 identifying restriction is:
+\begin{align}\label{eq:id_linear_Z}
+    \ln\!\big(\alpha\, m(h) - 1\big) = \lambda - \alpha\, \Delta(h;\, Z)
+\end{align}
+where $m(h) = \sigma^*(h; Z) - \frac{c_0(Z)}{1-h}$ is the markup (which does \emph{not} depend on $Z$ by separability) and $\Delta(h; Z) = \sigma^*(h; Z) - r_2^*(Z)$ is the rate gap.
+
+\medskip\noindent
+\textbf{Cost heterogeneity provides additional identifying variation.} In M5, $\alpha$ is identified by comparing two types $h_a \neq h_b$ (exploiting the variation in markups across types). In M7, cost variation provides a \emph{second, independent} source of identification: two loans for the same borrower type $h$ but with different $Z$ produce the same markup $m(h)$ but different rate gaps $\Delta(h; Z)$ (because $r_2^*(Z)$ shifts with $Z$ while $\sigma^*(h; Z)$ shifts by the same amount). This traces out the linear relationship \eqref{eq:id_linear_Z} more precisely.
+
+\medskip\noindent
+Formally, subtracting \eqref{eq:id_linear_Z} at $(h, Z)$ and $(h, Z')$:
+\begin{align}\label{eq:alpha_from_Z}
+    0 = -\alpha\big(\Delta(h; Z) - \Delta(h; Z')\big) = -\alpha\big(r_2^*(Z') - r_2^*(Z)\big)
+\end{align}
+Wait---by separability, both $\sigma^*$ and $r_2^*$ shift by the same $\frac{\Delta c_0}{1-\tilde{h}}$ vs.\ $\frac{\Delta c_0}{1-h}$, so $\Delta(h;Z)$ \emph{does} change with $Z$ unless $h = \tilde{h}$. Specifically:
+\begin{align*}
+    \Delta(h; Z) - \Delta(h; Z') = (Z-Z')'\delta \left(\frac{1}{1-h} - \frac{1}{1-\tilde{h}}\right)
+\end{align*}
+This difference is nonzero whenever $h \neq \tilde{h}$, providing identifying variation for $\alpha$ from cost shifters.
+
+\subsection{Step 4: Identification of $F(h)$}
+
+The type distribution $F(h)$ is identified exactly as in M5: among bank~1 winners, the selection-corrected distribution recovers $f(h)$:
+\begin{align*}
+    f(h) = \frac{f_{h|W=1}(h) \cdot \Pr(W_i = 1)}{s(h)}
+\end{align*}
+where $s(h) = s(\sigma^*(h; Z), r_2^*(Z))$ (which does not depend on $Z$ by separability of the logit share in rate differences).
+
+\medskip\noindent
+With cost variation, $F(h)$ can be estimated separately within each $Z$-cell and compared. Since $Z$ is a cost characteristic (not a borrower characteristic), the population distribution of $h$ should \emph{not depend on $Z$}---at least for the exogenous components of $Z$ (like origination date). This provides a testable restriction: $\hat{F}(h \mid Z) = \hat{F}(h \mid Z')$ for exogenous $Z$ components.
+
+\subsection{Overidentification}
+
+The M7 model generates testable restrictions beyond M5:
+\begin{enumerate}
+    \item \textbf{Cost separability.} The model predicts that $Z$ shifts $r_2^*$ linearly without changing the markup schedule. This implies that the regression of $r_2^{\text{obs}}$ on $Z$ should be linear, and the slope should equal $\frac{\delta}{1-\tilde{h}}$ where $\tilde{h}$ is identified independently from the competitive structure.
+    \item \textbf{Type distribution invariance.} For exogenous components of $Z$ (e.g., origination date), the recovered $F(h)$ should be the same across $Z$-cells. Variation indicates either that $Z$ is not exogenous or that the model is misspecified.
+    \item \textbf{Pricing shock symmetry.} If bank~1 and bank~2 draw from similar operational environments, one might expect $\sigma_\eta^2 \approx \sigma_\omega^2$. A large discrepancy may indicate model misspecification.
+    \item \textbf{Bank~2's FOC check.} Having identified all primitives, the model predicts a specific $r_2^*(Z)$. Comparing this to the observed entrant rates tests the equilibrium assumption.
+\end{enumerate}
+
+
+%===========================================================================
+%  SECTION 5: LIKELIHOOD
+%===========================================================================
+
+\section{Likelihood}\label{sec:likelihood}
+
+\subsection{Bank~1 Wins ($W_i = 1$)}
+
+\textbf{Case 1: No incumbent pricing shock ($\sigma_\eta^2 = 0$).} The observed rate $r_{1i}^{\text{obs}} = \sigma^*(h_i; Z_i)$ reveals $h_i = \tau(r_{1i}^{\text{obs}}; Z_i)$ exactly:
+\begin{align}\label{eq:L1_noshock}
+    \mathcal{L}_i^{(1)} = f\!\big(\tau(r_i; Z_i)\big) \cdot |\tau'(r_i; Z_i)| \cdot s\!\big(r_i,\, r_2^*(Z_i)\big) \cdot h_i^{D_i}(1-h_i)^{1-D_i}
+\end{align}
+
+\textbf{Case 2: With incumbent pricing shock ($\sigma_\eta^2 > 0$).} The type is no longer revealed, so we integrate:
+\begin{align}\label{eq:L1_het}
+    \mathcal{L}_i^{(1)} = \int \underbrace{f(h)}_{\text{type density}} \cdot \underbrace{s\!\big(\sigma^*(h; Z_i),\, r_2^*(Z_i)\big)}_{\text{choice prob.}} \cdot \underbrace{h^{D_i}(1-h)^{1-D_i}}_{\text{default}} \cdot \underbrace{\phi_{\sigma_\eta}\!\big(r_{1i}^{\text{obs}} - \sigma^*(h; Z_i)\big)}_{\text{rate shock density}} \, dh
+\end{align}
+
+\subsection{Bank~2 Wins ($W_i = 2$)}
+
+The winning rate is $r_{2i}^{\text{obs}} = r_2^*(Z_i) + \omega_i$. The type $h_i$ is unobserved:
+\begin{align}\label{eq:L2_het}
+    \mathcal{L}_i^{(2)} = \underbrace{\phi_{\sigma_\omega}\!\big(r_{2i}^{\text{obs}} - r_2^*(Z_i)\big)}_{\text{pricing shock density}} \cdot \int \underbrace{\big(1-s(\sigma^*(h; Z_i),\, r_{2i}^{\text{obs}})\big)}_{\text{prob.\ choose bank~2}} \cdot \underbrace{h^{D_i}(1-h)^{1-D_i}}_{\text{default}} \cdot f(h)\, dh
+\end{align}
+
+\textbf{Key role of $\omega_i$:} Without the pricing shock ($\sigma_\omega^2 = 0$), the model assigns all bank~2 winners with the same $Z$ the same predicted rate. The pricing shock density $\phi_{\sigma_\omega}$ converts this point prediction into a smooth likelihood, penalizing observations whose observed rate is far from the prediction. This is the standard role of structural errors in IO estimation (analogous to the $\xi_j$ in BLP).
+
+\subsection{Full Log-Likelihood}
+
+\begin{align}\label{eq:loglik}
+    \ell(\theta) = \sum_{i=1}^{N} \bigg[\mathbf{1}(W_i = 1) \cdot \ln \mathcal{L}_i^{(1)} + \mathbf{1}(W_i = 2) \cdot \ln \mathcal{L}_i^{(2)}\bigg]
+\end{align}
+
+
+%===========================================================================
+%  SECTION 6: PRACTICAL CONSIDERATIONS
+%===========================================================================
+
+\section{Practical Considerations}\label{sec:practical}
+
+\subsection{Computational Strategy}
+
+\begin{enumerate}
+    \item \textbf{Equilibrium computation.} By the separability property, the competitive structure (markups, adverse selection) depends only on $(\alpha, \lambda, F)$---not on $Z$. Solve the equilibrium once (as in M5) to obtain the markup schedule and $\tilde{h}$. For each $Z$-value, the equilibrium rates are then obtained by shifting the cost level: $\sigma^*(h; Z) = \frac{c_0(Z)}{1-h} + m_1(h)$ and $r_2^*(Z) = \frac{c_0(Z)}{1-\tilde{h}} + E_w[m_2]$. This means M7 has essentially the same computational cost as M5.
+    
+    \item \textbf{Likelihood evaluation.} For bank~1 winners with $\sigma_\eta^2 = 0$, the likelihood is in closed form (no integral). For bank~2 winners, a one-dimensional integral over $h$ is required. For bank~1 winners with $\sigma_\eta^2 > 0$, a one-dimensional integral over $h$ is also needed.
+    
+    \item \textbf{Practical $Z$ variables.} A minimal specification: $Z_i = (\text{origination month FE},\; \mathbf{1}(\text{secured}))$. Origination month captures time-varying market rates; the secured indicator captures regulatory capital differences.
+\end{enumerate}
+
+\subsection{Implementation Phases}
+
+\medskip\noindent
+\textbf{Phase 1: Cost shifters only, no pricing shocks.} Estimate $(\alpha, \lambda, F, \bar{c}_0, \delta)$ with $\sigma_\omega^2 = \sigma_\eta^2 = 0$. This assumes the model perfectly predicts each bank's rate given $Z$. Check residuals: compute $\hat{\omega}_i = r_{2i}^{\text{obs}} - r_2^*(Z_i)$ and test whether these residuals are small and mean-zero.
+
+\medskip\noindent
+\textbf{Phase 2: Add pricing shocks.} If the Phase~1 residuals have substantial variance, add $\sigma_\omega^2 > 0$ (and possibly $\sigma_\eta^2 > 0$). Re-estimate the full M7 model.
+
+\subsection{Comparison with M6}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{3.5cm}p{5cm}p{5cm}}
+\toprule
+& \textbf{M6 (Borrower observables)} & \textbf{M7 (Cost heterogeneity)} \\
+\midrule
+\textbf{Source of $r_2$ variation} & Conditional type distribution $F(h \mid X)$ shifts across $X$-groups & Cost of funds $c_0(Z)$ shifts across loan types \\
+\textbf{Data requirement} & Borrower characteristics $X$ (income, credit score, etc.) & Loan characteristics $Z$ (maturity, collateral, market rates) \\
+\textbf{Identification challenge} & $X$ may not be observed by econometrician & $Z$ readily observable; temporal variation is exogenous \\
+\textbf{Economic mechanism} & Bank~2 pools different type distributions & Bank~2 faces different funding costs \\
+\textbf{Markup variation} & Markups vary across $X$-groups (different competitive structure) & Markups invariant to $Z$ (cost separability) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The key advantage of M7 over M6 is that $Z$ is directly observable in standard loan-level data, whereas the full $X$ used by banks may not be available to the econometrician. M7 trades economic richness (no variation in competitive structure across groups) for identification feasibility.
+
+\subsection{Summary}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{p{3.8cm}p{3.5cm}p{3cm}p{3cm}}
+\toprule
+\textbf{Extension} & \textbf{Source of $r_2$ variation} & \textbf{New parameters} & \textbf{Data requirement} \\
+\midrule
+Cost heterogeneity (\S\ref{sec:cost}) & Break-even rate shifts & $\bar{c}_0$, $\delta$ & Maturity, collateral, origination date \\
+Pricing shocks (\S\ref{sec:pricing_errors}) & Residual noise & $\sigma_\omega^2$, $\sigma_\eta^2$ & --- (always available) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\end{document}

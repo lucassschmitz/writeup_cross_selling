@@ -1,0 +1,279 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{LastRevised=Sunday, April 28, 2024 18:12:38}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{Language=American English}
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+
+
+
+\addbibresource{../references.bib}
+
+
+\begin{document}
+
+
+%\title{{\Large Cross-selling financial products}}
+%\author{Lucas Schmitz\thanks{Yale University \texttt{lucas.schmitz@yale.edu}}} 
+%\date{}
+%\maketitle
+
+
+{\makeatletter
+\renewcommand{\@maketitle}{%
+  \vspace*{-1cm}% Adjust this value (negative moves up)
+  \begin{center}%
+    {\Large \@title \par}%
+    \vskip 1em%
+    {\normalsize \@author \par}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\title{Cross-selling financial products}
+\author{Lucas Schmitz\thanks{Yale University \texttt{lucas.schmitz@yale.edu}}}
+\date{}
+\maketitle
+}
+
+\section{Framework}
+
+The research question is what are the impacts of the policy. 
+
+To think about: 
+\begin{itemize}
+  \item Why do we need a model? 
+  \item Are the effects ambiguous?
+  
+  Yes, because it could reduce the financial inclusion that was provided by the credit cards. 
+\end{itemize}
+
+
+\section{Institutional context}
+\label{sec:institutional}
+
+\subsection{Chile's Consumer Credit Market}
+
+Chile has one of the most developed consumer credit markets in Latin America, yet one characterized by significant lender heterogeneity. Bank household lending grew from approximately 5\% of GDP in 1983 to 28\% of GDP in 2021, driven almost entirely by mortgage credit (housing loans reached 28\% of GDP; consumer bank loans reached 8\%).\footnote{CMF, based on Banco Central de Chile data. Cited in Berstein, Solange. ``Proyecto de Ley Registro de Deuda Consolidada, Bolet\'in N\textdegree{} 14.743-03.'' CMF, July 5, 2022, slide 3. [File: \texttt{SB Deuda Consolidada.pdf}]. Identical chart in Cowan, Kevin. ``Proyecto de Ley Registro de Deuda Consolidada.'' CMF, January 2022, slide 3. [File: \texttt{Kevin Cowan (CMF).pdf}].} At the aggregate level, Chile's total household indebtedness stood at approximately 48\% of GDP as of 2020, broadly in line with its income per capita relative to other countries.\footnote{CMF, Informe de Endeudamiento 2020, cited in Berstein (2022), slide 4; and Cowan (2022), slide 4. The cross-country scatter uses Mbaye et al.\ (2018) and World Bank (2020) for income data.}
+
+Beyond banks, a large share of consumer credit was extended by non-bank credit providers (``Oferentes de Cr\'edito No Bancarios,'' OCNBs)—including retail lenders (\textit{casas comerciales}), compensation funds (\textit{cajas de compensaci\'on}), insurance companies, automotive credit providers, savings cooperatives, and factoring and leasing firms. Despite representing only 2\% of total financial assets, OCNBs accounted for more than 60\% of consumer credit relative to the banking system's consumer loan portfolios.\footnote{Banco Central de Chile, IEF Primer Semestre 2021, cited in Marcel, Mario. ``Proyecto de ley que crea un Registro de Deuda Consolidada.'' Ministerio de Hacienda, June 28, 2022, slide 7. [File: \texttt{Marcel - Proyecto de ley que crea un Registro de Deuda Consolidada.pdf}].} As of December 2020, OCNBs excluded from the existing registry—cajas de compensaci\'on, factoring, leasing, casas comerciales, and automotive lenders—represented more than 30\% of the consumer credit market.\footnote{Marcel (2022), slide 7.} The 2017 Encuesta Financiera de Hogares showed that 37\% of households held consumer debt with casas comerciales and 12\% with cajas de compensaci\'on or cooperatives; 57\% of households held non-bank credit cards.\footnote{Marcel (2022), slide 4. Source cited therein: Elaboraci\'on propia en base a la Encuesta Financiera de Hogares (EFH) 2017.}
+
+Despite aggregate indebtedness figures that appear moderate by international standards, disaggregated data revealed serious over-indebtedness at the individual level. According to the CMF's 2021 Informe de Endeudamiento, 15.5\% of bank debtors carried a financial burden exceeding 50\% of income, and 22.5\% exceeded 40\%. By June 2021, approximately 247,000 bank debtors (4.95\% of the total) had at least one day of unpaid debt.\footnote{CMF, Informe de Endeudamiento 2021, cited in Marcel (2022), slide 2.} More granularly, CMF data from 2020 indicated that approximately 800,000 people spent more than 50\% of their income servicing debt.\footnote{CMF, Informe de Endeudamiento 2020, cited in Berstein (2022), slide 5; and Cowan (2022), slide 5.}
+
+\subsection{Pre-REDEC Credit Information Architecture}
+
+Prior to Law 21680, Chile's credit information system comprised two distinct and complementary but limited mechanisms.\footnote{This architecture is described in Berstein (2022), slides 9--10; and Cowan (2022), slides 6--7.}
+
+\paragraph{The N\'omina de Deudores (CMF).} Under existing banking law (Ley General de Bancos, Art.\ 14), banks and other CMF-supervised entities—large savings cooperatives (\textit{CACs}) with patrimony above 400,000 UF and Sociedades de Apoyo al Giro—were required to report both positive (current) and negative (delinquent) credit information to the CMF. The CMF aggregated this data weekly and returned it to all reporters for credit risk management. Access was strictly limited to CMF-supervised entities; the information was legally confidential, with criminal penalties for disclosure to third parties.\footnote{Cowan (2022), slide 10.} This system covered 82.4\% of total household debt by outstanding amount: mortgage bank loans (69.8\%), consumer bank loans (7.9\%), bank credit cards (3.6\%), bank credit lines (1.1\%), retail credit cards of SAG-supervised entities (1.8\%), and savings cooperatives (1.2\%).\footnote{Cowan (2022), slide 7, table ``Las brechas en la informaci\'on de deuda.''}
+
+\paragraph{The Bolet\'in Comercial (DS N\textdegree{} 950).} A private registry regulated under Decreto Supremo N\textdegree{} 950, the Bolet\'in Comercial collected exclusively negative information—delinquencies and protests of commercial instruments—from CMF-supervised entities plus other creditors. This data was distributed to private credit bureaus (``distribuidores de informaci\'on'') who produced commercial credit reports. Crucially, neither the Bolet\'in Comercial nor the private distributors were regulated or supervised by the CMF.\footnote{Berstein (2022), slide 9.}
+
+The combined architecture left significant information gaps. Approximately 17.6\% of total household debt carried only negative reporting or none at all: mutuarias (5.7\% of total debt), cajas de compensaci\'on (0.4\%), consumer loans from casas comerciales (1.0\%), automotive credit (1.5\%), other lenders (1.1\%), and educational debt (4.9\%) were all absent from positive reporting.\footnote{Cowan (2022), slide 7, table.} Non-bank lenders had no access to the CMF's N\'omina de Deudores, creating an asymmetric information advantage for large banks and CACs—the only entities with access to comprehensive positive credit histories.\footnote{Marcel (2022), slide 8; Berstein (2022), slide 8.} The World Bank, IMF (2004, 2011, 2021), and OECD (2018) had repeatedly highlighted the importance of expanding Chile's credit registry to prevent over-indebtedness, promote competition, and strengthen financial stability.\footnote{Cowan (2022), slide 7.}
+
+This architecture also generated a form of informational lock-in for borrowers. A person who had demonstrated excellent repayment behavior at a caja de compensaci\'on—or any other non-bank lender—could not leverage that history to obtain better credit terms from other institutions, since those institutions had no means to observe the payment record.\footnote{Cowan (2022), slide 9, example ``Condiciones crediticias.''} Similarly, lenders could not determine a prospective borrower's full level of indebtedness across the financial system, since obligations at OCNBs were invisible, raising the risk of inadvertently contributing to over-indebtedness.\footnote{Cowan (2022), slide 9, example ``Protecci\'on ante sobreendeudamiento.''}
+
+\subsection{Law 21680: The Registro de Deuda Consolidada (REDEC)}
+
+Law 21680—``Crea un Registro de Deuda Consolidada''—was promulgated on June 25, 2024 and published on July 3, 2024, signed by President Gabriel Boric Font and Minister of Finance Mario Marcel Cullell.\footnote{Ley 21680, Biblioteca del Congreso Nacional de Chile, \url{https://bcn.cl/3kzgw}, p.\ 11. [File: \texttt{Ley-21680\_03-JUL-2024.pdf}].} The law takes effect on April 1, 2026—the first day of the 21st month following publication. The CMF is required to have the REDEC operational before the 16th month (i.e., by November 2025), and has 12 months from publication to issue implementing regulations.\footnote{Ley 21680, Art\'iculos primero, segundo, and tercero transitorios.}
+
+The law pursues three stated objectives: (1) improving the credit information system by broadening reporting and access; (2) providing regulatory and supervisory tools to the CMF; and (3) strengthening debtor rights over their own credit data.\footnote{Marcel (2022), slide 10.}
+
+\paragraph{Who must report.} The law designates as ``reportantes'' (Art.\ 2(e)): banks, insurance companies, endorsed mortgage loan administrators (\textit{agentes administradores de mutuos hipotecarios endosables}), CMF-supervised credit card issuers, cajas de compensaci\'on de asignaci\'on familiar, CMF-supervised savings and credit cooperatives (\textit{cooperativas de ahorro y cr\'edito}), securitizing companies, and any other CMF-regulated entity designated by the CMF via general regulation. Additionally, any natural or legal person that—in the prior calendar year—granted reportable credit as a creditor and meets thresholds established by the CMF (minimum 100,000 UF in annual credit, or more than 1,000 annual operations) is also a reportante. The Banco Central de Chile and the Tesorer\'ia General de la Rep\'ublica are explicitly excluded.\footnote{Ley 21680, Art.\ 2(e).}
+
+\paragraph{What is reported.} Reportantes must disclose to the CMF all ``obligaciones reportables''—credit money operations as defined in Ley N\textdegree{} 18.010—including the debtor's identity, the nature and principal terms of the obligation, maturities, guarantees, payment status, and other information the CMF may determine. Reporting to the CMF does not require debtor consent. Data provided by reportantes is deemed current and official.\footnote{Ley 21680, Arts.\ 1 and 4.}
+
+\paragraph{Who can access.} A reportante's access to a specific debtor's information in the REDEC requires prior, express, and unambiguous consent from the debtor, given verbally, in writing, or electronically, and valid only for a specific credit evaluation period determined by the CMF. If credit is granted, consent extends through the life of the obligation for risk management and provisioning purposes.\footnote{Ley 21680, Art.\ 5.} Without consent, reporters may only access anonymized aggregate data for statistical and risk analysis. Information on obligations extinguished or overdue for more than five years is not accessible.\footnote{Ley 21680, Art.\ 5.} Access is available to reporters, debtors themselves, and authorized mandataries (e.g., credit risk assessors contracted by reporters).\footnote{Ley 21680, Arts.\ 5 and 6. See also Cowan (2022), slide 11.}
+
+
+\subsection{Economic Significance}
+
+The REDEC addresses two distinct market failures directly relevant to this paper's empirical analysis.
+
+First, it reduces information asymmetry across lenders. The pre-REDEC system gave large incumbent banks and CMF-supervised CACs privileged access to comprehensive positive credit histories, while entrant lenders and OCNBs could only observe negative signals from the Bolet\'in Comercial. By mandating positive reporting from a broad set of creditors—and granting access to the consolidated registry to all registered entities—the law levels the informational playing field.\footnote{Berstein (2022), slide 8; Marcel (2022), slide 8.}
+
+Second, and of central importance for this paper, the registry reduces informational lock-in for borrowers. Before REDEC, a borrower's payment history at one institution was largely invisible to competitors, conferring a form of proprietary information advantage on incumbents—what the economic literature identifies as informational hold-up (see, e.g., Sharpe, 1990; Padilla and Pagano, 1997; Dell'Ariccia and Marquez, 2006). By enabling borrowers to effectively ``port'' their credit histories across institutions, REDEC alters the competitive dynamics of Chilean consumer credit markets: it weakens the incumbency advantage derived from private information and reduces switching costs that borrowers face when seeking better credit terms from new lenders.\footnote{Marcel (2022), slide 8 (``premiar a los buenos pagadores''); Berstein (2022), slide 7 (``pueden `portar' su historial crediticio y beneficiarse de \'el'').} This paper studies these two effects—the reduction in information asymmetry and the change in switching cost-driven competition—using the REDEC as a quasi-experimental policy intervention.
+
+\section{Data}
+
+ The CMF's \textit{Sistema de Deudores} collects monthly reports from all regulated financial institutions—banks, large savings cooperatives, and retail credit issuers—covering the universe of credit obligations in the Chilean banking system. All amounts are reported in Chilean pesos.\footnote{CMF, \textit{Sistema de Deudores: Instrucciones Generales}, Carta Circular N\textdegree{} 9/2015. [File: \texttt{articles-29209\_doc\_pdf.pdf}].}
+
+The analysis uses two complementary files. The first is \textbf{D32} (\textit{Tasas de inter\'es diarias por operaciones}), a daily flow file in which each observation is a newly originated credit. It contains, at the individual level (identified by RUT), the loan amount, contracted interest rate, maturity, loan type (consumer, mortgage, commercial), and the issuing institution. This file is available monthly from approximately 2012--2013.\footnote{Conversations with Cristian Rojas and Erik Berwart (both CMF), February 11, 2026. [File: \texttt{writeup\_cross\_selling/data.tex}].} The second is \textbf{D10} (\textit{Sistema de Deudores}, stock file), a monthly panel that tracks each individual's outstanding debt balance—disaggregated into current (\textit{al d\'ia}) and delinquent (\textit{en mora})—with each regulated institution, for as long as the obligation remains active. This file is available from approximately 2010.\footnote{Ibid.} Together, D32 provides origination-level contract terms and D10 provides the subsequent repayment history, allowing reconstruction of loan performance at the borrower--institution--month level.
+
+Both files include a bank identifier and an individual identifier (RUT), enabling observation of whether a borrower holds simultaneous relationships with multiple institutions, originates a new loan from a non-incumbent lender, or exits a relationship. For the welfare analysis, we also plan to use \textbf{D50/D51}, which contain individual-level deposit account balances (available from approximately 2020),\footnote{Ibid.} and \textbf{I06}, which records branch locations and ATM presence, used to construct geographic instruments for banking access.
+
+The key limitation of these data is that they cover only CMF-regulated lenders. As discussed in Section~\ref{sec:institutional}, non-bank lenders (OCNBs) were absent from this registry prior to REDEC. This is both a constraint and a feature of the research design: the policy-induced entry of OCNBs into reporting generates the identifying variation we exploit, and the pre-REDEC data provide a clean pre-period with a well-defined information environment.
+
+\section{Reduced form evidence}
+
+This section outlines three pieces of reduced form evidence to be estimated around the April 2026 implementation of REDEC. The identifying variation is the discrete shift in information availability generated by Law 21680: after implementation, OCNBs—previously absent from any positive credit registry—begin reporting to the CMF, and all registered lenders gain access to the consolidated histories. Throughout, let $i$ denote borrowers, $j$ denote banks, and $t$ denote calendar months. $Post_t \equiv \mathbf{1}[t \geq \text{April 2026}]$. The main data sources are D32 (loan originations, individual-level) and D10 (outstanding balances, individual-level monthly panel).
+
+\subsection{The hold-up premium falls for long-duration incumbent borrowers}
+
+\paragraph{Motivation.} The informational hold-up literature (Sharpe, 1990; Rajan, 1992; von Thadden, 2004) predicts that incumbent lenders extract a premium from borrowers whose quality is private information: entrant lenders face a winner's curse when poaching, since offers disproportionately attract borrowers the better-informed incumbent has chosen not to retain. The longer the relationship, the greater the incumbent's informational stock and the larger the hold-up premium.
+
+In Chile's pre-REDEC information architecture, however, the scope for this mechanism depends on \textit{which} institutions compete and \textit{what} each can observe. Within the banking sector, the N\'omina de Deudores already provided reciprocal positive credit information among all CMF-supervised entities: any bank could observe a borrower's outstanding balances and delinquency status at every other bank and large CAC (Ley General de Bancos, Art.\ 14; Cowan, 2022, slide 10).\footnote{The N\'omina covered 82.4\% of total household debt (Cowan, 2022, slide 7). The CMF aggregated submissions weekly and returned them to all supervised reporters.} This inter-bank information sharing limits---but does not eliminate---the classic hold-up channel \textit{among banks}, since the N\'omina reports aggregate balances and delinquency status rather than the granular soft information (e.g., internal credit scores, transaction patterns, deposit behavior) that an incumbent bank accumulates over a relationship.
+
+Two features of the pre-REDEC architecture substantially enlarge the scope for hold-up. First, OCNBs---representing over 30\% of the consumer credit market---had \textit{no access} to the N\'omina  (Marcel, 2022, slide~7; Berstein, 2022, slide~8).\footnote{OCNBs could observe only negative signals from the Bolet\'in Comercial (DS N\textdegree{} 950), which tracked delinquencies and protested commercial paper but provided no positive payment history (Berstein, 2022, slide~9).} This means that OCNBs could not function as informed competitors for bank customers: unable to assess a prospective borrower's creditworthiness from positive repayment history, they could not credibly undercut an incumbent bank's offer. Incumbent banks therefore faced a truncated competitive threat in precisely the consumer loan segment where OCNBs are most active.\footnote{As of December 2020, cajas de compensaci\'on, casas comerciales, automotive lenders, and other OCNBs represented more than 30\% of the consumer credit market (Marcel, 2022, slide~7). The 2017 EFH found that 37\% of households held consumer debt with casas comerciales and 57\% held non-bank credit cards (Marcel, 2022, slide~4).} Second, banks themselves could not observe a borrower's OCNB obligations---those debts fell outside the N\'omina entirely---meaning banks could not assess total leverage across the financial system even for their own incumbent customers (Cowan, 2022, slide~9).
+
+REDEC addresses both gaps simultaneously. By mandating positive reporting from OCNBs and granting all \textit{reportantes} access to the consolidated registry (with borrower consent), the law (i) enables OCNBs to become credible, informed competitors for bank borrowers, and (ii) allows all lenders to assess borrowers' full indebtedness.\footnote{Ley 21680, Arts.\ 4--5. Access requires prior, express consent of the debtor for a specific credit evaluation period (Art.\ 5).} The hold-up premium at incumbent banks should therefore compress post-REDEC, particularly for long-tenure customers where the incumbent's accumulated information advantage was largest and where the pre-REDEC absence of OCNB competition was most consequential.
+
+\paragraph{Regression.} Let $r_{ijt}$ be the interest rate on a new consumer loan originated by borrower $i$ at institution $j$ in month $t$ (from D32), and let $Tenure_{ij,pre}$ be the number of years borrower $i$ maintained a continuous credit relationship with institution $j$ prior to REDEC (constructed from the D10 panel as the count of months with positive outstanding balance at $j$ before April 2026, divided by 12). The baseline specification is:
+\begin{align}
+    r_{ijt} = \beta_1 \cdot Tenure_{ij,pre} + \beta_2 \cdot \bigl(Post_t \times Tenure_{ij,pre}\bigr) + \gamma \cdot X_{it} + \delta_i + \mu_j + \theta_t + \varepsilon_{ijt},
+\label{eq:holdup_baseline}
+\end{align}
+where $X_{it}$ includes loan amount, loan maturity, and local economic conditions (county unemployment rate); $\delta_i$, $\mu_j$, and $\theta_t$ are borrower, bank, and time fixed effects. Standard errors are clustered at the borrower level. The coefficient $\beta_1$ captures the pre-REDEC tenure--rate gradient (the hold-up premium, or its net of relationship benefits), and the coefficient of interest $\beta_2$ captures the change in this gradient after REDEC.
+
+To isolate the OCNB competition channel---the mechanism specific to REDEC, as opposed to the inter-bank information already in the N\'omina---we estimate a heterogeneous specification:
+\begin{align}
+    r_{ijt} = \beta_2 \cdot \bigl(Post_t \times Tenure_{ij,pre}\bigr) + \beta_3 \cdot \bigl(Post_t \times Tenure_{ij,pre} \times OCNB\_Share_{c(i)}\bigr) + \gamma \cdot X_{it} + \delta_i + \mu_j + \theta_t + \varepsilon_{ijt},
+\label{eq:holdup_ocnb}
+\end{align}
+where $OCNB\_Share_{c(i)}$ is the share of consumer credit provided by OCNBs in borrower $i$'s county $c(i)$, measured in the pre-REDEC period (e.g., from the 2017 Encuesta Financiera de Hogares or Banco Central aggregate data).\footnote{The 2017 EFH provides household-level data on debt holdings by lender type, which can be aggregated to the county (\textit{comuna}) level.} In counties with high OCNB market share, REDEC introduces more newly informed competitors, so the reduction in bank hold-up should be larger.
+
+\paragraph{Sample.} The estimation sample comprises all new consumer loan originations in D32 where the borrower is at their incumbent institution---defined as an institution with which the borrower had a positive outstanding balance in D10 for at least 6 of the 12 months preceding origination. We restrict to \textbf{consumer loans} (installment credit, consumer credit lines, and credit card advances) for three reasons: (i) consumer credit is the segment where OCNBs compete most actively with banks, so REDEC-induced entry of informed competitors is most relevant here; (ii) mortgage loans are collateralized, which mitigates information asymmetry and reduces the scope for hold-up pricing; and (iii) consumer loan pricing allows the most discretion for risk-based rate adjustments.
+
+We exclude borrowers whose first appearance in D10 occurs after April 2026, since their pre-REDEC tenure is unobserved. We also exclude originations at institutions that first enter D10 post-REDEC (the newly reporting OCNBs themselves), since the test concerns hold-up by pre-existing incumbents, not pricing at newly visible lenders. The pre-period window is 24 months before REDEC (April 2024--March 2026) and the post-period is 24 months after (April 2026--March 2028), yielding a symmetric event window. An event-study version replaces $Post_t$ with monthly indicators to test for pre-trends.
+
+For the heterogeneous specification in equation~\ref{eq:holdup_ocnb}, we assign borrowers to counties using the branch location recorded in D32 as a proxy for local market, or individual address data in D10 if available.
+
+\paragraph{Expected sign.} $\hat{\beta}_2 < 0$: the interest rate premium associated with longer incumbent tenure should shrink after REDEC. Pre-REDEC, long-tenure borrowers face a higher hold-up premium because their incumbent has accumulated relationship-specific information and faces limited competitive discipline from uninformed OCNBs. Post-REDEC, OCNBs become informed, credible competitors and credit histories become portable, weakening the incumbent's market power and compressing the tenure--rate gradient. $\hat{\beta}_3 < 0$ in the heterogeneous specification: the hold-up compression should be larger in counties with higher pre-REDEC OCNB market share, where REDEC introduces more newly informed competitors into the local credit market.
+
+Note that the pre-REDEC tenure premium $\hat{\beta}_1$ is itself informative. A positive $\hat{\beta}_1 > 0$ is consistent with the hold-up hypothesis (cf.\ Ioannidou and Ongena, 2010, who document tenure-related rate increases in Bolivian credit registry data). A negative $\hat{\beta}_1$ would indicate that relationship benefits (monitoring efficiency, reduced screening costs) dominate hold-up, as in Berger and Udell (1995)---in which case $\hat{\beta}_2$ tests whether REDEC shifts the balance further toward relationship benefits by eroding whatever hold-up component exists.
+
+
+\subsection{Credit access and pricing improve for informationally excluded borrowers}
+
+\paragraph{Motivation.} 
+
+
+After REDEC, banks can observe each borrower's outstanding obligations and current payment status across all reporting institutions---including OCNBs---conditional on borrower consent (Ley 21680, Art.\ 5).\footnote{\textcolor{red}{\textbf{Assumption to verify:} The law mandates that reportantes disclose \textit{current} obligations and their payment status (Ley 21680, Arts.\ 1 and 4), and that information on obligations extinguished or overdue for more than five years is excluded (Art.\ 5). However, the law does not explicitly specify whether OCNBs must backfill \textit{historical} repayment records from before the April 2026 implementation date. If REDEC only records obligations and payment status from implementation forward, then at launch banks observe each OCNB borrower's current balance and whether it is al d\'ia or en mora, but not the full pre-REDEC repayment trajectory. The good/bad type separation assumed in this section requires at minimum that banks can observe whether the borrower has any currently delinquent OCNB debt at the time of credit evaluation---which the current payment status field provides---but not necessarily the 12-month repayment history used to construct $Good_i$ as a researcher variable from SUSESO data. Over time, as REDEC accumulates monthly reports, the informational content deepens. The empirical predictions below hold under either interpretation: even a snapshot of current OCNB delinquency status is informative relative to the pre-REDEC baseline of zero OCNB information. The quantitative effects may be larger in later post-periods as REDEC builds a longer track record. This assumption should be verified with the CMF's implementing regulations (Norma de Car\'acter General), which specify the exact data fields and historical depth required of newly reporting entities.}} This enables risk-based pricing: the bank can separate the good-type OCNB borrower (clean repayment record) from the bad-type (delinquent record) and price accordingly. Two effects follow. For \textit{good-type} OCNB borrowers: (i) credit access at banks increases (they are no longer pooled with bad types) and (ii) the interest rate falls (now priced on their true, lower risk). For \textit{bad-type} OCNB borrowers: (i) credit access may \textit{tighten} (banks can now see their delinquencies) and (ii) the interest rate rises (repriced to reflect revealed risk). This \textit{separating effect} is distinctive to the adverse selection channel and produces opposite-signed predictions across borrower types---a feature we exploit in the regression design.
+
+\paragraph{Data.} For borrowers whose credit histories reside at OCNBs, the key pre-REDEC data source is SUSESO (\textit{Superintendencia de Seguridad Social}), which supervises cajas de compensaci\'on and collects borrower-level data on their lending operations.\footnote{Marcel (2022), slide 7, uses SUSESO data on cajas de compensaci\'on lending volumes. SUSESO maintains individual-level records on caja de compensaci\'on loan originations, outstanding balances, and delinquency status.} We use SUSESO data to construct each borrower's pre-REDEC OCNB repayment history and match it to the CMF data (D10 and D32) via RUT. Post-REDEC, the REDEC itself provides consolidated data across all reporting institutions, so the OCNB histories become directly observable in the CMF data.
+
+\paragraph{Regression.} Define $Good_i \equiv \mathbf{1}[\text{borrower } i$  had zero delinquent balances at any OCNB in the 12 months before April 2026], constructed from SUSESO records.
+
+For credit access, restricting the sample to OCNB-only borrowers:
+\begin{align}
+    NewBank_{it} = \alpha + \beta^{A} \cdot \bigl(Post_t \times Good_i\bigr) + \gamma \cdot X_{it} + \delta_i + \theta_t + \varepsilon_{it},
+\label{eq:access_hetero}
+\end{align}
+where $NewBank_{it} = 1$ if borrower $i$ originates a loan at a bank (CMF-supervised institution) in month $t$ for the first time (or the first time in 24+ months), constructed from D32. Borrower fixed effects $\delta_i$ absorb $Good_i$ (time-invariant); month fixed effects $\theta_t$ absorb $Post_t$. The coefficient $\beta^{A}$ captures the differential change in bank credit access for good- vs.\ bad-type OCNB borrowers after REDEC.
+
+For the pricing margin, again restricting to OCNB-only borrowers and conditioning on origination:
+\begin{align}\label{eq:pricing_hetero}
+    r_{ijt} = \alpha + \beta^{P} \cdot \bigl(Post_t \times Good_i\bigr) + \gamma \cdot X_{it} + \mu_j + \theta_t + \varepsilon_{ijt},
+\end{align}
+where $r_{ijt}$ is the contracted interest rate on a new bank consumer loan from D32, and $\mu_j$ is a bank fixed effect. Controls $X_{it}$ include loan amount, loan maturity, and the borrower's total OCNB balance (from SUSESO) to control for leverage effects separately from the information channel. Standard errors are clustered at the borrower level.
+
+\paragraph{Sample.} The sample consists of all OCNB-only borrowers: those who held at least one active OCNB relationship (from SUSESO data) but had no active bank relationship in D10 during the 24 months before REDEC.
+
+
+\paragraph{Expected sign.}
+
+\textit{Credit access (equation~\ref{eq:access_hetero}):} $\hat{\beta}^{A} > 0$. Pre-REDEC, banks cannot screen OCNB applicants, so adverse selection implies bad types switch to banks at a higher rate than good types (the winner's curse). Post-REDEC, banks observe repayment histories and can distinguish types, so the good-type disadvantage in bank access is eliminated. The coefficient $\beta^{A}$ captures the differential change in  bank access for good types relative to bad types.
+
+\textit{Pricing (equation~\ref{eq:pricing_hetero}):} $\hat{\beta}^{P} < 0$. Pre-REDEC, banks charge a pooling rate to all OCNB applicants. Post-REDEC, good types are priced on their revealed lower risk and receive lower rates; bad types are priced on their revealed higher risk and face higher rates. The coefficient $\beta^{P}$ captures the differential rate change: good types gain a larger rate reduction (or a reduction vs.\ an increase) relative to bad types.\footnote{This opposite-signed prediction across types is the hallmark of the adverse selection channel. In a pure switching cost model without information asymmetry, REDEC would affect all OCNB borrowers equally regardless of repayment quality, yielding $\beta^{P} = 0$.}
+
+
+\subsection{Bank switching rates}
+
+\paragraph{Motivation.} REDEC's primary effect on competition is introducing OCNBs as informed competitors for bank borrowers. Pre-REDEC, OCNBs had no access to positive credit information and could not assess bank borrowers' creditworthiness, effectively removing them from the competitive set.\footnote{OCNBs could observe only negative signals from the Bolet\'in Comercial (Berstein, 2022, slide~9). Without positive repayment data, an OCNB cannot credibly undercut an incumbent bank's offer.} Post-REDEC, OCNBs with REDEC access can evaluate bank borrowers and make informed offers, increasing the contestability of the consumer credit market.
+
+The effect on bank-to-bank switching is theoretically ambiguous. In the standard hold-up model (Sharpe, 1990; von Thadden, 2004), information asymmetry between incumbent and entrant \textit{generates} switching: the entrant, unable to distinguish borrower types, plays a mixed strategy and sometimes bids low enough to poach. Reducing asymmetry weakens this winner's curse and can \textit{reduce} the entrant's incentive to bid aggressively, lowering switching. Simultaneously, the entry of newly-informed OCNBs as competitors expands the set of outside options, which can \textit{increase} switching. The net effect depends on which force dominates---an empirical question.
+
+What is identified is the \textit{cross-sectional} prediction: in counties where the pre-REDEC OCNB market share was higher, REDEC introduces more newly-informed competitors, so whatever effect REDEC has on switching should be stronger.
+
+\paragraph{Regression.} From D10, we construct a monthly panel of banking relationships for existing bank borrowers. Define $Switch_{it} = 1$ if borrower $i$ originates a new loan in month $t$ (from D32) at a bank other than their primary incumbent (the bank with the largest outstanding balance in D10). To avoid mechanical effects from the data expansion---post-REDEC, D10 includes newly-reporting OCNBs---we restrict the outcome to \textit{bank-to-bank} switching only (originations at CMF-supervised institutions that reported pre-REDEC). We estimate:
+\begin{align}
+    Switch_{it} = \alpha + \beta^{S} \cdot \bigl(Post_t \times OCNB\_Share_{c(i)}\bigr) + \gamma \cdot X_{it} + \delta_i + \theta_t + \varepsilon_{it},
+\label{eq:switch}
+\end{align}
+where $OCNB\_Share_{c(i)}$ is the pre-REDEC share of consumer credit provided by OCNBs in borrower $i$'s county (from the 2017 EFH or Banco Central aggregate data). Borrower fixed effects $\delta_i$ absorb $OCNB\_Share_{c(i)}$; month fixed effects $\theta_t$ absorb $Post_t$. Controls $X_{it}$ include total outstanding balance, number of existing bank relationships, and loan amount. Standard errors are clustered at the county level.
+
+\paragraph{Sample.} All bank borrowers who had at least one active bank relationship in D10 during the 12 months before REDEC. We track their new loan originations in D32 over a 24-month symmetric window (April 2024--March 2028). An event-study version replaces $Post_t$ with monthly indicators to test for pre-trends.
+
+\paragraph{Expected sign.} The sign of $\hat{\beta}^{S}$ is theoretically ambiguous and therefore informative. $\hat{\beta}^{S} > 0$ would indicate that the entry of informed OCNB competitors dominates: more outside options increase the probability that borrowers switch banks. $\hat{\beta}^{S} \leq 0$ would indicate that the reduction in information asymmetry dominates: with less winner's curse, entrant banks bid less aggressively, and incumbents retain borrowers more easily despite the new OCNB competition.
+
+\paragraph{Importance.} The sign of $\hat{\beta}^{S}$ adjudicates between two channels that have opposite implications for the structural model. If $\hat{\beta}^{S} > 0$, REDEC's primary competitive effect operates through new entry (expanding the set of informed competitors), and the structural switching cost parameter $\lambda$ should fall post-REDEC. If $\hat{\beta}^{S} \leq 0$, the dominant effect is the resolution of information asymmetry within the existing competitive set, which reduces inefficient switching driven by the winner's curse but does not necessarily lower real switching costs. This distinction is crucial for welfare: the first scenario implies allocative gains (borrowers find better-matched lenders); the second implies informational gains (less adverse selection in switching) without necessarily increasing mobility.
+
+\subsection{Delinquency falls as adverse selection in bank lending is resolved}
+
+\paragraph{Motivation.} Pre-REDEC, banks could not observe a borrower's OCNB obligations, which fell entirely outside the N\'omina (Cowan, 2022, slide~9). This information gap generated a classic lemons problem in bank lending. When borrowers with OCNB debt applied for bank credit, the bank could not distinguish a borrower who was current on all OCNB obligations from one who was delinquent and seeking bank credit precisely to roll over unsustainable positions. Adverse selection implies that bad types---those delinquent at OCNBs---had the strongest incentive to seek bank credit, since their OCNB lenders were tightening terms or cutting access. Banks, unable to screen on this dimension, unknowingly extended credit to these lemons. The result: loans originated to borrowers with hidden OCNB delinquencies defaulted at elevated rates.
+
+Post-REDEC, banks observe each applicant's OCNB obligations and payment status before extending credit (Ley 21680, Arts.\ 1 and 4). The lemons are revealed: banks can reject applicants with delinquent OCNB debt or price accordingly.
+
+\paragraph{Regression.}  For each new bank consumer loan originated in D32, define $Delinq_{ijt}^{(H)} = 1$ if borrower $i$'s loan at institution $j$ originated in month $t$ becomes delinquent (positive \textit{en mora} balance in D10) within $H$ months of origination (e.g., $H = 12$). We estimate:
+\begin{align}
+    Delinq_{ijt}^{(H)} = \alpha + \beta^{D} \cdot \bigl(Post_t \times OCNB\_Debt_{i,pre}\bigr) + \gamma \cdot X_{it} + \mu_j + \theta_t + \varepsilon_{ijt},
+\label{eq:delinquency}
+\end{align}
+where $OCNB\_Debt_{i,pre}$ is borrower $i$'s total outstanding OCNB balance from SUSESO in the 12 months preceding April 2026. Borrowers with no OCNB obligations have $OCNB\_Debt_{i,pre} = 0$ and serve as the control group---their loans were not subject to hidden leverage and hence not affected by the lemons problem. Controls $X_{it}$ include loan amount, loan maturity, the borrower's total \textit{bank} balance at origination (from D10), and number of active bank relationships. Bank fixed effects $\mu_j$ absorb lender-specific underwriting standards; month fixed effects $\theta_t$ absorb aggregate credit conditions. Standard errors are clustered at the borrower level.
+
+\paragraph{Sample.} All new bank consumer loan originations in D32 over the 24-month symmetric window around REDEC (April 2024--March 2028). We require that post-period originations have at least $H$ months of follow-up in D10 to measure the delinquency outcome (i.e., originations up to month $T - H$). Borrowers are matched to SUSESO records via RUT to construct $OCNB\_Debt_{i,pre}$.
+
+\paragraph{Expected sign.} $\hat{\beta}^{D} < 0$.  pre-REDEC, there was an adverse selection issue, hence having hidden debt at the OCNB was a predictor of delinquency, this is not longer the case after REDEC, hence the effect of OCNB debt on delinquency should be smaller after REDEC. 
+
+
+\end{document}

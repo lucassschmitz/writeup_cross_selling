@@ -1,0 +1,419 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+\section*{Identification of Model 5}
+
+This document analyzes the identification of the structural logit model with information asymmetry and switching costs developed in \texttt{model5\_convert4intostructural\_v3.tex}.
+
+
+\section{Model Recap}
+
+Two banks compete for a borrower. Bank~1 (informed/incumbent) observes the borrower's default probability $h$; Bank~2 (uninformed/entrant) does not. Utility:
+\begin{align*}
+    u_{i1} &= -\alpha\, r_{i1} + \varepsilon_{i1}, \qquad u_{i2} = -\alpha\, r_{i2} - \lambda + \varepsilon_{i2}
+\end{align*}
+with $\varepsilon_{ij}$ i.i.d.\ Type~I extreme value, giving logit market shares:
+\begin{align}\label{eq:share}
+    s(r_1, r_2) = \frac{1}{1 + \exp\!\big(\alpha(r_1 - r_2) - \lambda\big)}
+\end{align}
+
+In equilibrium, bank~1 plays a pure strategy $\sigma^*(h)$ and bank~2 plays a single rate $r_2^*$, characterized by:
+\begin{align}
+    \sigma^*(h) &= \frac{1}{1-h} + \frac{1}{\alpha\big(1-s(\sigma^*(h), r_2^*)\big)} \label{eq:sigma}\\[4pt]
+    r_2^* &= \frac{1}{1 - \tilde{h}} + \frac{1}{\alpha}\cdot\frac{\int (1-s)(1-h)\, dF}{\int s\,(1-s)(1-h)\, dF} \label{eq:r2}
+\end{align}
+Key equilibrium properties: $\sigma^*(h)$ is strictly increasing and the markup $\sigma^*(h) - \frac{1}{1-h}$ is decreasing in $h$.
+
+
+\section{Estimation Primitives}\label{sec:primitives}
+
+The structural parameters to be estimated are:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Description} & \textbf{Dimension} \\
+\midrule
+$\alpha$ & Price sensitivity & Scalar \\
+$\lambda$ & Switching cost & Scalar \\
+$F(\cdot)$ & CDF of default probabilities on $[h_{\min}, h_{\max}]$ & Function \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip\noindent
+In a parametric approach, $F$ is specified by a finite-dimensional parameter (e.g., Kumaraswamy($a,b$) on $[h_{\min}, h_{\max}]$), so the full parameter vector is $\theta = (\alpha, \lambda, a, b, h_{\min}, h_{\max})$. We first establish nonparametric identification---where $F$ is treated as an infinite-dimensional object---and then discuss parametric estimation.
+
+\medskip\noindent
+All other model objects are \emph{derived} from these primitives:
+\begin{itemize}
+    \item The equilibrium strategy $\sigma^*(h)$ is determined by $(\alpha, \lambda, F)$ through the system \eqref{eq:sigma}--\eqref{eq:r2}.
+    \item Market shares $s(\sigma^*(h), r_2^*)$, markups, default rates, and profits follow.
+\end{itemize}
+
+
+\section{Observable Data}\label{sec:data}
+
+For each borrower $i = 1, \ldots, N$, we observe:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\textbf{Variable} & \textbf{Description} & \textbf{Values} \\
+\midrule
+$r_i^{\text{win}}$ & Interest rate charged by the chosen bank & $\mathbb{R}_+$ \\
+$W_i$ & Identity of the chosen bank & $\{1, 2\}$ \\
+$D_i$ & Default indicator & $\{0, 1\}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip\noindent
+\textbf{What is NOT observed:}
+\begin{enumerate}
+    \item The borrower's true default probability $h_i$ (latent type)
+    \item The losing bank's rate offer
+    \item Bank profits
+\end{enumerate}
+
+\begin{remark}[Data structure]
+When bank~1 wins ($W_i = 1$), the winning rate $r_i^{\text{win}} = \sigma^*(h_i)$ varies across borrowers because bank~1 conditions on $h_i$. When bank~2 wins ($W_i = 2$), the winning rate $r_i^{\text{win}} = r_2^*$ is the \emph{same} for all bank~2 winners. This asymmetry is a direct consequence of the information structure and is a distinctive feature of the data.
+\end{remark}
+
+
+\section{Identification Argument}\label{sec:id}
+
+We establish identification sequentially: each step uses objects identified in previous steps.
+
+\begin{thm}[Identification]\label{thm:id}
+The structural parameters $(\alpha, \lambda, F)$ are identified from the joint distribution of $(r_i^{\text{win}}, W_i, D_i)$.
+\end{thm}
+
+The proof proceeds in four steps.
+
+\subsection{Step 1: Identification of $r_2^*$}
+
+\begin{prop}\label{prop:r2}
+The entrant's rate $r_2^*$ is identified from the data.
+\end{prop}
+
+\begin{proof}
+Bank~2 plays a single rate for all borrowers. When $W_i = 2$, the winning rate is $r_i^{\text{win}} = r_2^*$. In the data, $r_2^*$ is therefore the common value of $r_i^{\text{win}}$ among all observations with $W_i = 2$.
+\end{proof}
+
+
+\subsection{Step 2: Identification of $\sigma(\cdot)$ and the Mapping $h \leftrightarrow r_1$}
+
+\begin{prop}\label{prop:sigma}
+The informed bank's pricing function $\sigma(\cdot)$ and its inverse $\tau(\cdot) = \sigma^{-1}(\cdot)$ are identified from $(r_i^{\text{win}}, D_i)$ conditional on $W_i = 1$.
+\end{prop}
+
+\begin{proof}
+When bank~1 wins, the observed rate is $r_i^{\text{win}} = \sigma^*(h_i)$ and the default outcome is $D_i \sim \text{Bernoulli}(h_i)$. Since default is conditionally independent of other variables given $h_i$:
+\begin{align}\label{eq:h_from_D}
+    E[D_i \mid r_i^{\text{win}} = r,\; W_i = 1] = h_i = \tau(r)
+\end{align}
+This identifies the inverse pricing function: the conditional default rate at each observed rate $r$ among bank~1 winners equals the default probability of the type that receives rate $r$. Since $\sigma^*$ is strictly monotone (by the equilibrium characterization), $\tau = \sigma^{-1}$ is well-defined.\footnote{In finite samples, $E[D|r, W=1]$ is estimated nonparametrically, e.g., by kernel regression of $D_i$ on $r_i^{\text{win}}$ among bank~1 winners.}
+\end{proof}
+
+\begin{remark}[No functional form needed]
+Step 2 does not require any parametric assumption on $F$, $\sigma$, or the equilibrium. It uses only the fact that default probability equals the conditional expectation of default, and that $\sigma$ is invertible.
+\end{remark}
+
+After Step 2, for each bank~1 winner we can compute:
+\begin{itemize}
+    \item $h_i = \tau(r_i^{\text{win}})$: the inferred type
+    \item $m_i \equiv r_i^{\text{win}} - \frac{1}{1-h_i} = \sigma^*(h_i) - c(h_i)$: the observed \emph{markup}
+    \item $\Delta_i \equiv r_i^{\text{win}} - r_2^* = \sigma^*(h_i) - r_2^*$: the \emph{rate gap}
+\end{itemize}
+These are data objects, computed without knowledge of $\alpha$ or $\lambda$.
+
+
+\subsection{Step 3: Joint Identification of $\alpha$ and $\lambda$}
+
+This is the key step. The equilibrium FOC imposes a restriction linking the data objects $m(h)$ and $\Delta(h)$ to the structural parameters $\alpha$ and $\lambda$.
+
+\begin{prop}\label{prop:alpha_lambda}
+The parameters $\alpha$ and $\lambda$ are jointly identified from the pricing function $\sigma^*(\cdot)$, the break-even rate $c(h) = \frac{1}{1-h}$, and the entrant rate $r_2^*$.
+\end{prop}
+
+\begin{proof}
+\textbf{Deriving the identifying restriction.} From the FOC \eqref{eq:sigma}, the markup satisfies:
+\begin{align*}
+    m(h) = \sigma^*(h) - \frac{1}{1-h} = \frac{1}{\alpha(1-s)}
+\end{align*}
+Substituting the logit share $1-s = \frac{e^{\alpha\Delta(h)-\lambda}}{1+e^{\alpha\Delta(h)-\lambda}}$:
+\begin{align*}
+    m(h) = \frac{1+e^{\alpha\Delta(h)-\lambda}}{\alpha\, e^{\alpha\Delta(h)-\lambda}} = \frac{1}{\alpha}\left(e^{\lambda - \alpha\Delta(h)} + 1\right)
+\end{align*}
+Rearranging:
+\begin{align}\label{eq:id_restriction}
+    \alpha\, m(h) - 1 = e^{\lambda - \alpha\,\Delta(h)}
+\end{align}
+Taking logarithms:
+\begin{align}\label{eq:id_linear}
+    \boxed{\;\ln\!\big(\alpha\, m(h) - 1\big) = \lambda - \alpha\, \Delta(h)\;}
+\end{align}
+This must hold for \emph{every} type $h \in [h_{\min}, h_{\max}]$. Both $m(h)$ and $\Delta(h)$ are known data objects (from Steps 1--2), while $\alpha$ and $\lambda$ are the two unknowns.
+
+\medskip\noindent
+\textbf{Separation of $\alpha$ and $\lambda$.} Evaluating \eqref{eq:id_linear} at any two distinct types $h_a \neq h_b$ and subtracting:
+\begin{align}\label{eq:alpha_id}
+    \ln\frac{\alpha\, m(h_a) - 1}{\alpha\, m(h_b) - 1} = \alpha\,\big(\Delta(h_b) - \Delta(h_a)\big)
+\end{align}
+This is a \emph{single equation in the single unknown $\alpha$}, since $m(h_a), m(h_b), \Delta(h_a), \Delta(h_b)$ are all data.
+
+\medskip\noindent
+\textbf{Uniqueness.} Define $\psi(\alpha) \equiv \ln(\alpha\, m_a - 1) - \ln(\alpha\, m_b - 1) - \alpha(\Delta_b - \Delta_a)$ where we abbreviate $m_j = m(h_j)$, $\Delta_j = \Delta(h_j)$. Without loss of generality take $h_a < h_b$, so that $m_a > m_b$ (markups are declining) and $\Delta_a < \Delta_b$ ($\sigma^*$ is increasing). We verify:
+\begin{itemize}
+    \item \emph{Domain:} We need $\alpha m_j > 1$ for both $j$. From the equilibrium, $\alpha\, m(h) = \frac{1}{1-s(h)} > 1$ always, so this holds for the true $\alpha$ and indeed for any $\alpha > 1/m_b$ (the more binding constraint since $m_b < m_a$).
+    \item \emph{Boundary behavior:} As $\alpha \downarrow 1/m_b$: $\ln(\alpha m_b - 1) \to -\infty$ while $\ln(\alpha m_a - 1)$ remains finite, so $\psi(\alpha) \to +\infty$. As $\alpha \to \infty$: $\ln(\alpha m_a - 1) - \ln(\alpha m_b - 1) \to \ln(m_a/m_b)$, a finite constant, while $\alpha(\Delta_b - \Delta_a) \to +\infty$, so $\psi(\alpha) \to -\infty$.
+    \item \emph{Continuity:} $\psi$ is continuous on $(1/m_b, \infty)$.
+\end{itemize}
+By the intermediate value theorem, $\psi$ has at least one root. Moreover, $\psi$ is strictly decreasing: $\psi'(\alpha) = \frac{m_a}{\alpha m_a - 1} - \frac{m_b}{\alpha m_b - 1} - (\Delta_b - \Delta_a)$. The function $m \mapsto \frac{m}{\alpha m - 1}$ is strictly decreasing (its derivative is $\frac{-1}{(\alpha m - 1)^2} < 0$), so $m_a > m_b$ implies $\frac{m_a}{\alpha m_a - 1} < \frac{m_b}{\alpha m_b - 1}$, making the first difference negative; subtracting the positive term $\Delta_b - \Delta_a$ gives $\psi' < 0$.
+
+Therefore the root is unique, identifying $\alpha$.
+
+\medskip\noindent
+\textbf{Recovery of $\lambda$.} Given $\alpha$, substitute into \eqref{eq:id_linear} at any $h$:
+\begin{align}\label{eq:lambda_id}
+    \lambda = \ln\!\big(\alpha\, m(h) - 1\big) + \alpha\, \Delta(h)
+\end{align}
+The fact that this must be constant across all $h$ provides overidentifying restrictions (Section~\ref{sec:overid}).
+\end{proof}
+
+\begin{remark}[Intuition for separate identification]\label{rem:intuition_id}
+Why can $\alpha$ and $\lambda$ be told apart? 
+\begin{itemize}
+    \item \textbf{$\alpha$ governs the slope.} Higher price sensitivity means bank~1's markup responds more steeply to the rate gap $\Delta(h)$. In \eqref{eq:id_linear}, $\alpha$ is the slope of $\ln(\alpha m - 1)$ as a function of $\Delta$.
+    \item \textbf{$\lambda$ governs the level.} Switching costs shift the intercept: higher $\lambda$ raises bank~1's markup for all types uniformly (by reducing the effective competitiveness of bank~2). In \eqref{eq:id_linear}, $\lambda$ is the intercept.
+\end{itemize}
+Identification exploits the fact that $\sigma^*(h)$ varies across types (generating variation in $m$ and $\Delta$), while $\lambda$ does not. Two types suffice to pin down the slope ($\alpha$); the level ($\lambda$) then follows.
+\end{remark}
+
+\begin{remark}[Comparison to Model~4 identification]
+In model~4 (without logit demand), identification of $\lambda$ relied on the clean relationship $\lambda = r_1^{\min} - r_2^{\min}$: the gap between the lowest incumbent and entrant rates. Here the identification logic is different: there is no ``lowest entrant rate'' (bank~2 plays a single rate), and $\lambda$ is not simply a rate gap. Instead, $\lambda$ is identified from the \emph{curvature} of the markup schedule --- how the informed bank's margin varies with the rate gap --- which requires at least two type observations.
+\end{remark}
+
+\textcolor{red}{I checked up to this poiin text}
+
+\newpage
+
+\subsection{Step 4: Identification of $F(h)$}
+
+\begin{prop}\label{prop:F}
+The type distribution $F(h)$ is nonparametrically identified.
+\end{prop}
+
+\begin{proof}
+With $\alpha, \lambda$ known (from Step~3), the market share for each type is:
+\begin{align}\label{eq:s_known}
+    s(h) \equiv s(\sigma^*(h), r_2^*) = \frac{1}{1 + \exp\!\big(\alpha\,\Delta(h) - \lambda\big)}
+\end{align}
+which is a known function of $h$ (since $\sigma^*$ and $r_2^*$ are identified).
+
+Among bank~1 winners, the density of types is the selection-weighted density:
+\begin{align}\label{eq:f1}
+    f_{h|W=1}(h) = \frac{s(h)\, f(h)}{\Pr(W_i = 1)} = \frac{s(h)\, f(h)}{\int s\, dF}
+\end{align}
+The left side is estimable from the data: among bank~1 winners, we recover $h_i = \tau(r_i^{\text{win}})$ (Step~2), and the empirical distribution of these $h_i$ values estimates $f_{h|W=1}$.
+
+Inverting \eqref{eq:f1}:
+\begin{align}\label{eq:f_recovered}
+    f(h) = \frac{f_{h|W=1}(h) \cdot \Pr(W_i = 1)}{s(h)}
+\end{align}
+Since $s(h) > 0$ for all $h$ (logit shares are strictly interior), this is well-defined. The aggregate probability $\Pr(W_i = 1) = \frac{N_1}{N}$ is the sample share of bank~1 winners. Hence $f(h)$ is identified everywhere on $[h_{\min}, h_{\max}]$.
+\end{proof}
+
+\begin{remark}[Support identification]
+The support bounds $h_{\min}$ and $h_{\max}$ are identified from the range of inferred types among bank~1 winners: $h_{\min} = \tau(r_1^{\min})$ and $h_{\max} = \tau(r_1^{\max})$, where $r_1^{\min}$ and $r_1^{\max}$ are the smallest and largest observed rates among bank~1 winners. This uses the fact that $s(h) > 0$ for all $h$, so every type has a positive probability of being observed as a bank~1 winner---unlike model~4, where some types might deterministically switch.
+\end{remark}
+
+
+\section{Overidentification and Testable Restrictions}\label{sec:overid}
+
+The model generates testable predictions beyond what is needed for identification.
+
+\subsection{Internal Consistency of \eqref{eq:id_linear}}
+
+Step~3 uses only \emph{two} types to identify $\alpha$ and $\lambda$, but \eqref{eq:id_linear} must hold for \emph{all} types. This generates a continuum of overidentifying restrictions: for any third type $h_c$,
+\begin{align*}
+    \ln\!\big(\hat\alpha\, m(h_c) - 1\big) \stackrel{?}{=} \hat\lambda - \hat\alpha\, \Delta(h_c)
+\end{align*}
+must hold. Equivalently, a plot of $\ln(\hat\alpha\, m(h) - 1)$ against $\Delta(h)$ should lie on a straight line with slope $-\hat\alpha$ and intercept $\hat\lambda$. Departures from linearity indicate model misspecification (e.g., the logit functional form is wrong, or the equilibrium characterization fails).
+
+\subsection{Adverse Selection Pattern}
+
+The model predicts (Proposition~3 in the model document):
+\begin{align}\label{eq:adverse_test}
+    E[D_i \mid W_i = 1] < E[D_i] < E[D_i \mid W_i = 2]
+\end{align}
+Bank~2 winners should have a strictly higher default rate than bank~1 winners. This is directly testable and, importantly, the \emph{magnitude} of the gap is pinned down by the estimated $(\alpha, \lambda, F)$.
+
+\subsection{Bank~2's First-Order Condition}
+
+The entrant's FOC \eqref{eq:r2} provides an additional restriction. Having identified $\alpha, \lambda, F$ and $\sigma^*(\cdot)$, the model predicts a specific value of $r_2^*$. If the directly-observed $r_2^*$ (from bank~2 winners) matches the FOC-implied value, the model is internally consistent. A discrepancy indicates that bank~2 is not best-responding, i.e., the equilibrium assumption fails.
+
+\subsection{Default Distribution Among Bank~2 Winners}
+
+Among bank~2 winners, the distribution of defaults is a mixture of Bernoulli($h$) with mixing density:
+\begin{align*}
+    f_{h|W=2}(h) = \frac{(1-s(h))\, f(h)}{\Pr(W_i = 2)}
+\end{align*}
+which is fully pinned down by the estimates. The implied moments --- $E[D|W=2]$, $\text{Var}(D|W=2)$, etc.\ --- are testable against the data.
+
+\subsection{Switching Rate}
+
+The model predicts the aggregate switching probability:
+\begin{align*}
+    \Pr(W_i = 2) = \int_{h_{\min}}^{h_{\max}} \big(1-s(h)\big)\, dF(h)
+\end{align*}
+which can be compared to the observed fraction $N_2/N$.
+
+
+\section{Likelihood-Based Estimation}\label{sec:estimation}
+
+\subsection{Likelihood Function}
+
+For each borrower $i$, the likelihood contribution depends on which bank wins.
+
+\paragraph{Bank~1 wins ($W_i = 1$):} The winning rate is $r_i^{\text{win}} = \sigma^*(h_i)$. Since $\sigma^*$ is strictly increasing, observing $r_i^{\text{win}}$ reveals $h_i = \tau(r_i^{\text{win}})$. The likelihood is:
+\begin{align}\label{eq:L1}
+    \mathcal{L}_i^{(1)} &= \underbrace{f\!\big(\tau(r_i^{\text{win}})\big) \cdot |\tau'(r_i^{\text{win}})|}_{\text{density of rate}} \cdot \underbrace{s\!\big(\sigma^*(\tau(r_i^{\text{win}})), r_2^*\big)}_{\text{prob.\ bank~1 chosen}} \cdot \underbrace{h_i^{D_i}(1-h_i)^{1-D_i}}_{\text{default probability}}
+\end{align}
+where $h_i = \tau(r_i^{\text{win}})$ throughout, and $|\tau'(r)| = \frac{1}{(\sigma^*)'(\tau(r))}$ is the Jacobian from the change of variables $h \to r$.
+
+\paragraph{Bank~2 wins ($W_i = 2$):} The winning rate is $r_i^{\text{win}} = r_2^*$ for all such borrowers. The type $h_i$ is unobserved, so we integrate it out:
+\begin{align}\label{eq:L2}
+    \mathcal{L}_i^{(2)} &= \int_{h_{\min}}^{h_{\max}} \underbrace{\big(1-s(\sigma^*(h), r_2^*)\big)}_{\text{prob.\ bank~2 chosen}} \cdot \underbrace{h^{D_i}(1-h)^{1-D_i}}_{\text{default probability}} \cdot f(h)\, dh
+\end{align}
+
+\paragraph{Full likelihood:}
+\begin{align}
+    \mathcal{L}(\theta) = \prod_{i=1}^N \bigg[\mathcal{L}_i^{(1)}\bigg]^{\mathbf{1}(W_i=1)} \bigg[\mathcal{L}_i^{(2)}\bigg]^{\mathbf{1}(W_i=2)}
+\end{align}
+
+\begin{remark}[Computational structure]
+For bank~1 winners, the likelihood is in closed form (no integral) because the winning rate reveals the type. For bank~2 winners, a one-dimensional numerical integral over $h$ is required. This asymmetry mirrors model~4's identification, but here both cases involve smooth (logit) probabilities rather than indicator functions, simplifying computation.
+\end{remark}
+
+\subsection{Estimation Procedure}
+
+\begin{enumerate}
+    \item \textbf{Fix $\theta = (\alpha, \lambda, F\text{-parameters})$.} Solve the equilibrium: compute $\sigma^*(h; \theta)$ and $r_2^*(\theta)$ from the system \eqref{eq:sigma}--\eqref{eq:r2} numerically.\footnote{For each candidate $r_2^*$, the pointwise FOC \eqref{eq:sigma} defines $\sigma^*(h)$ for each $h$ via a scalar fixed-point problem. Then check whether bank~2's FOC \eqref{eq:r2} is satisfied; iterate on $r_2^*$ until it is.}
+    \item \textbf{Evaluate the likelihood} $\mathcal{L}(\theta)$ using \eqref{eq:L1}--\eqref{eq:L2}.
+    \item \textbf{Maximize} $\ell(\theta) = \sum_i \ln \mathcal{L}_i$ over $\theta$ using numerical optimization.
+    \item \textbf{Standard errors} from the inverse Hessian or bootstrap.
+\end{enumerate}
+
+
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Role of Default Outcomes}
+
+The identification strategy relies critically on observing ex-post default outcomes $D_i$. Without defaults, the mapping $r_1 \leftrightarrow h$ (Step~2) cannot be constructed nonparametrically: we would observe the distribution of bank~1 rates but not the underlying types generating them. In that case, identification would require stronger parametric assumptions on $F$ and would rely entirely on the equilibrium restrictions to discipline the type distribution.
+
+\subsection{Why the Logit Helps Identification (Relative to Model~4)}
+
+Compared to model~4 (homogeneous demand, mixed-strategy equilibrium for bank~2), the logit specification offers two advantages for identification:
+
+\begin{enumerate}
+    \item \textbf{Bank~1 winners span the full support.} In model~4, bank~1 wins deterministically when its rate is low enough; in the logit, every type has a positive probability of choosing bank~1 ($s > 0$ for all $h$). This means the empirical distribution of rates among bank~1 winners covers the full type support, so $F$ is identified everywhere without extrapolation.
+    
+    \item \textbf{No mixed-strategy estimation.} In model~4, bank~2's mixed strategy CDF $G(\cdot)$ must be estimated alongside the structural parameters. In the logit, bank~2 plays a single rate $r_2^*$---a scalar---which is directly observed. This eliminates an infinite-dimensional nuisance object.
+\end{enumerate}
+
+\subsection{Exclusion Restriction for $\alpha$ vs.\ $\lambda$}
+
+The formal identification (Proposition~\ref{prop:alpha_lambda}) separates $\alpha$ and $\lambda$ using variation in $h$ across borrowers, exploiting the differential way each parameter enters the markup equation: $\alpha$ scales the rate gap while $\lambda$ shifts the level. In practice, this identification may be strengthened by \emph{exclusion restrictions}:
+\begin{itemize}
+    \item Cross-market variation in switching costs (e.g., portability regulation) identifies $\lambda$ through its effect on market shares, holding $\alpha$ fixed.
+    \item Product-level variation in price sensitivity (e.g., loan size, maturity) can help pin down $\alpha$ separately.
+\end{itemize}
+These are not required for point identification (which holds from the model structure alone) but improve finite-sample precision.
+
+
+\subsection{Summary of Identification Logic}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lll}
+\toprule
+\textbf{Object} & \textbf{Identified from} & \textbf{Step} \\
+\midrule
+$r_2^*$ & Winning rate when $W_i = 2$ (constant) & 1 \\
+$\sigma^*(h)$, $\tau(r)$ & $E[D|r, W=1]$ (defaults reveal types) & 2 \\
+$\alpha$ & Eq.\ \eqref{eq:alpha_id}: markup curvature across types & 3 \\
+$\lambda$ & Eq.\ \eqref{eq:lambda_id}: markup level given $\alpha$ & 3 \\
+$F(h)$ & Selection-corrected type distribution & 4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\end{document}

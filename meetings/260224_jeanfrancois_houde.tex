@@ -1,0 +1,142 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{LastRevised=Sunday, April 28, 2024 18:12:38}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{Language=American English}
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\newtheorem{ass}[thm]{Assumption}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+
+
+
+\addbibresource{../references.bib}
+
+
+\begin{document}
+
+
+%\title{{\Large Cross-selling financial products}}
+%\author{Lucas Schmitz\thanks{Yale University \texttt{lucas.schmitz@yale.edu}}} 
+%\date{}
+%\maketitle
+
+
+{\makeatletter
+\renewcommand{\@maketitle}{%
+  \vspace*{-1cm}% Adjust this value (negative moves up)
+  \begin{center}%
+    {\Large \@title \par}%
+    \vskip 1em%
+    {\normalsize \@author \par}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\title{Cross-selling financial products}
+\author{Lucas Schmitz\thanks{Yale University \texttt{lucas.schmitz@yale.edu}}}
+\date{}
+\maketitle
+}
+
+It's most helpful if you write up one page for each idea answering the following questions:
+\begin{enumerate}
+    \item What is the research question?  Be as precise as possible.
+    \item Why is it hard to answer this question?  Keep it short.
+    \item What is the new idea/angle of the paper?  Think of the best case scenario -- what could be the "best" message.  Just one paragraph.
+    \item What is the methodology?  Imagine you have the best feasible data.  Around 1-3 paragraphs.\item OPTIONAL: Any preliminary results/observations (could be aggregate plots in an appendix)  1 paragraph
+\end{enumerate}
+
+
+\vspace{2cm}
+I am a third year and currently I am looking for research topics, currently I am interested in cross-selling and assymmetric information across banks. 
+
+\section*{Cross-selling}
+
+Most papers at the intersection of IO-Finance consider the pricing decision of a single product, but in practice, banks sell multiple products and the ROE of this products is often very different. For example, the ROE of credit cards is much higher than the ROE of mortgages. 
+One reason behind this is that 1. demand elasticities are different or that 2. 
+
+
+Essentially this topic is about the determinants of being the home bank. One could use the Allen et al. (2018) model to determine the benefits of being the home bank and then see if this benefits are dissipated by the fact that banks compete to be the home bank in a prior period. 
+
+\begin{enumerate}
+    \item a
+    \item Because 1. one needs the accounts of individuals in multiple banks and 2. one needs exogenous policy variation. 
+    \item a
+    \item One could estimate a structural model with asymmetric competition a la Hendrix and Porter (1988) 
+\end{enumerate}
+
+\section*{REDEC policy}
+
+
+\begin{enumerate}
+    \item What is the impact of the REDEC law on the credit market. Specifically what is the impact on switching rates (which are predicted to increase), on markups, default rates and financial inclusion. 
+    \item Because 1. one needs the accounts of individuals in multiple banks and 2. one needs exogenous policy variation. 
+    \item Program evaluation of an interesting policy
+    \item One could estimate a structural model with asymmetric competition a la Hendrix and Porter (1988) 
+\end{enumerate}
+
+We can use the change in the policy to measure the trade-off between financial inclusion and competition. 
+
+
+%\printbibliography
+
+\end{document}
