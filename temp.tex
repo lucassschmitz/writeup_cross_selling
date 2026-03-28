@@ -1,13 +1,15 @@
 \documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsfonts}
 \usepackage{eurosym}
 \usepackage{geometry}
 \usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
 \usepackage{graphicx}
 \usepackage{comment}
+%\usepackage[sort,comma]{natbib}
 \usepackage[utf8]{inputenc}
 \usepackage{setspace}
-%\usepackage[sort,comma]{natbib}
 \usepackage[backend=biber, style = apa]{biblatex}
 \usepackage{placeins} % to separate sections
 
@@ -19,18 +21,14 @@
 \usepackage{pifont}
 \usepackage{amssymb}
 \usepackage{comment}
- 
 \usepackage[hang, flushmargin, bottom]{footmisc}
-\usepackage{hyperref}
-
 \usepackage{footnotebackref}
 \usepackage{xcolor}
+\usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{pifont}
 \usepackage{caption}
 \usepackage{float}
-\setlength{\marginparwidth}{2cm} 
-
 \usepackage{todonotes}
 \setcounter{MaxMatrixCols}{10}
 
@@ -42,50 +40,39 @@
 \newcommand{\cmark}{\ding{51}}
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \renewcommand{\thetable}{\Roman{table}}
-\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=1in,rmargin=.9in,nomarginpar}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
 \makeatletter
-
 \DeclareTextSymbolDefault{\textquotedbl}{T1}
 \theoremstyle{plain}
-\newtheorem{thm}{Theorem}%[section] commented out to avoid numbering by section
-\newtheorem{prop}[thm]{Proposition}
-\newtheorem{ass}[thm]{Assumption}
-\newtheorem{lemma}[thm]{Lemma}
-\newtheorem{theorem}[thm]{Theorem}   % alias for \begin{theorem}
-\newtheorem{definition}{Definition}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\providecommand{\theoremname}{Theorem}
 \makeatother
-
-
-\newcommand{\sepline}{\par\bigskip\noindent\rule{\linewidth}{0.4pt}\par\medskip}
-
+\newtheorem{ass}[thm]{Assumption}
 % \input{tcilatex}
-\usepackage{enumitem} % allows custom labels
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows, positioning}
 
 
-
-
-
 \addbibresource{references.bib}
+
+\newcommand{\lawbox}[1]{\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{#1}}\medskip}
+
 \begin{document}
- 
-% \title{{\Large Centralized annuities marketplace}}
-%\author{Lucas Condeza\thanks{Yale University %\texttt{lucas.schmitz@yale.edu}}} 
-%\date{}
-%\maketitle
+ a
 
 
- 
-
-\begin{abstract}
-
-\end{abstract}
-
-\sepline
 
 
-% many countries have information policies in credit markets that aim to increase or limit the amount of information being shared. 
+
+
+
 
 
 
@@ -96,10 +83,3 @@
 
 
 \end{document}
-
-
-
-are there any efficiency concerns 
-
-
-are there any distributional concerns 

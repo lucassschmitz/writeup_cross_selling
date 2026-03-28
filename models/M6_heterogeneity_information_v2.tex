@@ -65,9 +65,9 @@
 \addbibresource{../references.bib}
 \begin{document}
 
-\section*{Model 5 (v3): Estimation Without Observing Public Covariates}
+\section*{Model 5 (v2): Estimation Without Observing Public Covariates}
 
-This document addresses the identification and estimation of the structural model developed in v2 (\texttt{M5\_convert4intostructural\_v2.tex}) when the econometrician does \emph{not} observe---or only partially observes---the public covariates $\mathbf{x}$. Section~\ref{sec:problem} states the problem. Section~\ref{sec:suffstat} establishes a key theoretical result: the entrant's rate $r_2$ is a sufficient statistic for $\mathbf{x}$ in the stage-2 equilibrium. Section~\ref{sec:estimation} develops the estimation approach. Section~\ref{sec:simulation} validates the identification strategy through Monte Carlo simulation.
+This document addresses the identification and estimation of the structural model developed in M6 (\texttt{M6\_heterogeneity\_information.tex}) when the econometrician does \emph{not} observe---or only partially observes---the public covariates $\mathbf{x}$. Section~\ref{sec:problem} states the problem. Section~\ref{sec:suffstat} establishes a key theoretical result: the entrant's rate $r_2$ is a sufficient statistic for $\mathbf{x}$ in the stage-2 equilibrium. Section~\ref{sec:estimation} develops the estimation approach. Section~\ref{sec:simulation} validates the identification strategy through Monte Carlo simulation.
 
 
 %===========================================================================
@@ -386,20 +386,20 @@ To verify that the identification strategy developed in Section~\ref{sec:estimat
 
 For the baseline simulation, $\mathbf{P}$ is constructed so that higher $x$ corresponds to riskier borrowers (stochastic dominance of $h \mid x$ shifting right as $x$ increases). Any matrix satisfying $\sum_{j,k} P_{jk} = 1$ with $P_{jk} > 0$ can be used.
 
-\textbf{True parameters.}
+\textbf{Parameters.} The simulation parameters are set in \texttt{Code/model6/params.m}, which serves as the single source of truth for both simulation and estimation.
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{llll}
+\begin{tabular}{lll}
 \toprule
-\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Description} \\
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Description} \\
 \midrule
-Price sensitivity & $\alpha$ & 10 & Logit demand coefficient \\
-Switching cost & $\lambda$ & 0.5 & In rate units \\
-Grid sizes & $N_x, N_h$ & 5, 30 & Public covariate and type grids \\
-Support & $[h_{\min}, h_{\max}]$ & $[0.02, 0.40]$ & Default probability range \\
- & $[x_{\min}, x_{\max}]$ & $[0.1, 0.9]$ & Public covariate range \\
-Joint distribution & $\mathbf{P}$ & $N_x \times N_h$ matrix & See code for construction \\
-Sample size & $N$ & 5000 & Number of simulated borrowers \\
+Price sensitivity & $\alpha$ & Logit demand coefficient \\
+Switching cost & $\lambda$ & In rate units \\
+Grid sizes & $N_x, N_h$ & Public covariate and type grids \\
+Support & $[h_{\min}, h_{\max}]$ & Default probability range \\
+ & $[x_{\min}, x_{\max}]$ & Public covariate range \\
+Joint distribution & $\mathbf{P}$ & $N_x \times N_h$ matrix; see code for construction \\
+Sample size & $N$ & Number of simulated borrowers \\
 \bottomrule
 \end{tabular}
 \end{center}

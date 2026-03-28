@@ -1,0 +1,643 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins}
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}
+\newtheorem{definition}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[thm]{Remark}
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{corollary}[thm]{Corollary}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+\addbibresource{../references.bib}
+\begin{document}
+
+\section*{Model 8: Identification with Reversed Information Structure}
+
+\medskip
+
+\noindent\fbox{\parbox{\textwidth}{%
+\textbf{Note on rigor.}  The identification proof in this document is more detailed and formally argued than is standard in the empirical IO literature---most papers in this area assert identification via heuristic counting arguments or brief sketches.  That said, a few elements are not fully nailed down:
+\begin{itemize}
+    \item One footnote was beyond my understanding, I flagged it so that I ask someone else to check it. [footnote 6]
+    \item footnoe 7 about the shape columns is something I could just not check given its complexity
+\end{itemize}
+but both things make intuitive sense. 
+}}
+
+\bigskip
+
+In the baseline model where $\mathbf{x}$ is public information (both banks observe it), bank~1---the incumbent---knows both the borrower's default probability~$h$ and the competitive environment~$r_2^*(\mathbf{x})$ it faces. This creates an identification problem: when $\mathbf{x}$ is unobserved by the econometrician, bank~1's equilibrium rate $r_1 = \sigma^*(h; r_2^*(\mathbf{x}))$ depends on two latent variables, and the mapping from observed rates to borrower types is many-to-one.
+
+This document studies an alternative information structure in which bank~1 observes only~$h$---not the covariates~$\mathbf{x}$---while bank~2 continues to observe~$\mathbf{x}$.  The economic logic: the incumbent's informational advantage is about \emph{credit quality} (learned through the lending relationship), while the entrant's advantage is about the \emph{competitive environment} (what the borrower looks like to outside lenders, what offers they receive, etc.).  Bank~1 knows how risky the borrower is, but not how attractive the borrower is to competitors.
+
+The key result: since bank~1 cannot condition on~$\mathbf{x}$, its equilibrium strategy $\sigma^*(h)$ depends only on~$h$, restoring a \emph{one-to-one} mapping from bank-1 rates to borrower types.  This dramatically simplifies identification.
+
+Section~\ref{sec:model8} sets up the model.  Section~\ref{sec:equil8} derives the equilibrium.  Section~\ref{sec:id8} analyzes identification.  Section~\ref{sec:likelihood8} derives the likelihood.  Section~\ref{sec:comparison8} compares this model with the public-$\mathbf{x}$ baseline.  Appendix~\ref{app:continuous_x} extends the identification analysis to the case of continuous covariates.
+
+
+%===========================================================================
+%  SECTION 1: MODEL
+%===========================================================================
+
+\section{Model}\label{sec:model8}
+
+Two banks compete for a borrower.  The borrower has default probability $h \in [\underline{h}, \bar{h}]$ and covariates $\mathbf{x} \in \mathcal{X}$.  The covariates and default probability are related: $h$ and $\mathbf{x}$ are jointly distributed with conditional density $f(h|\mathbf{x})$, so that knowing~$h$ is informative about~$\mathbf{x}$ and vice versa.
+
+\begin{ass}[Finite covariates]\label{ass:finite_x}
+The covariates take finitely many values: $\mathbf{x} \in \{x_1, \ldots, x_K\}$, with population probabilities $p_j = \Pr(\mathbf{x} = x_j) > 0$, $\sum_{j=1}^K p_j = 1$.  Bank~2's equilibrium strategy assigns a rate $r_{2,j}^* = r_2^*(x_j)$ to each covariate value, so that the distribution of entrant rates~$G$ is discrete on at most~$K$ support points.
+\end{ass}
+
+This assumption is natural in practice: credit scores are grouped into bins, income into brackets, geography into discrete markets.  It is also maintained in the public-$\mathbf{x}$ simulations ($K = 5$).  The key consequence is that $G$ is finite-dimensional---fully described by the $K$ support points $\{r_{2,1}^*, \ldots, r_{2,K}^*\}$ and the $K$ probabilities $\{p_1, \ldots, p_K\}$---eliminating the need for any parametric assumption on the mixing distribution.
+
+\subsection{Information Structure}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+& \textbf{Bank~1 (incumbent)} & \textbf{Bank~2 (entrant)} \\
+\midrule
+Default probability $h$ & Observed & Not observed \\
+Covariates $\mathbf{x}$ & \textbf{Not observed} & Observed \\
+Distribution $F(h|\mathbf{x})$ & Knows $F(h|\mathbf{x})$ and $p_j$ & Knows $F(h|\mathbf{x})$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Bank~1 knows the borrower's true risk from the lending relationship, but does not observe the covariates~$\mathbf{x}$ that determine the competitive environment.  However, since $h$ and $\mathbf{x}$ are correlated, bank~1 can form a posterior belief $\pi_j(h) \equiv \Pr(\mathbf{x} = x_j \mid h)$ about the borrower's covariates using Bayes' rule.  Bank~2 observes~$\mathbf{x}$ and uses it to set its rate, but does not know~$h$.
+
+\subsection{Strategies and Demand}
+
+Bank~1 sets $r_1 = \sigma(h)$, a function of~$h$ alone.  Bank~2 sets $r_2 = \rho(\mathbf{x})$, a function of~$\mathbf{x}$.  The borrower observes both offers and chooses according to a logit:
+\begin{align}\label{eq:share8}
+    s(r_1, r_2) = \frac{1}{1 + \exp\!\big(\alpha(r_1 - r_2) - \lambda\big)}
+\end{align}
+where $\alpha > 0$ is rate sensitivity and $\lambda$ captures switching costs (bank-1 advantage when $\lambda > 0$).
+
+
+\subsection{Payoffs}
+
+Bank~$j$'s expected profit from lending to a borrower with type~$h$ at rate~$r_j$ is $(r_j(1-h) - 1)$, with break-even rate $1/(1-h)$.  Bank~1 knows $h$; bank~2 faces the distribution $F(h|\mathbf{x})$.
+
+\subsection{Data}
+
+For each borrower $i = 1, \ldots, N$, the econometrician observes:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\textbf{Variable} & \textbf{Description} & \textbf{Values} \\
+\midrule
+$r_i^{\text{win}}$ & Interest rate charged by the chosen bank & $\mathbb{R}_+$ \\
+$W_i$ & Identity of the chosen bank & $\{1, 2\}$ \\
+$D_i$ & Default indicator & $\{0, 1\}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+As in the public-$\mathbf{x}$ case, the econometrician does \emph{not} observe~$\mathbf{x}$.  The question is what can be recovered from $(r_i^{\text{win}}, W_i, D_i)$.
+
+
+%===========================================================================
+%  SECTION 2: EQUILIBRIUM
+%===========================================================================
+\newpage
+\section{Equilibrium}\label{sec:equil8}
+
+\subsection{Bank~1's Problem}
+
+Bank~1 knows $h$ but not $\mathbf{x}$.  It does not know which $r_2 = r_2^*(x_j)$ this particular borrower will face.  However, since $h$ and $\mathbf{x}$ are correlated, observing~$h$ is informative about~$\mathbf{x}$.  By Bayes' rule, bank~1's posterior probability that the borrower has covariates~$x_j$ is:
+\begin{align}\label{eq:posterior}
+    \pi_j(h) \equiv \Pr(\mathbf{x} = x_j \mid h) = \frac{p_j\, f(h \mid x_j)}{\sum_{k=1}^K p_k\, f(h \mid x_k)}
+\end{align}
+where $f(h|x_j)$ is the conditional density of~$h$ given $\mathbf{x} = x_j$.
+
+Bank~1 maximizes expected profit using this posterior:
+\begin{align}\label{eq:b1_problem8}
+    \max_{r_1}\; \big(r_1 - \tfrac{1}{1-h}\big) \cdot \bar{S}(r_1;\, h)
+\end{align}
+where
+\begin{align}\label{eq:Sbar}
+    \bar{S}(r_1;\, h) \equiv \sum_{j=1}^K \pi_j(h)\, s(r_1,\, r_{2,j}^*)
+\end{align}
+is the \emph{expected market share}, averaging over the $K$ competitive environments weighted by bank~1's posterior belief about which environment applies.  Note that $\bar{S}$ now depends on~$h$ through two channels: directly through the logit share~$s$ (via the rate~$r_1 = \sigma^*(h)$), and indirectly through the posterior weights~$\pi_j(h)$ (riskier borrowers are more likely to have certain covariates).
+
+The first-order condition is:
+\begin{align}\label{eq:foc_b1_8}
+    \bar{S}(\sigma^*(h);\, h) + \big(\sigma^*(h) - \tfrac{1}{1-h}\big) \cdot \bar{S}_1(\sigma^*(h);\, h) = 0
+\end{align}
+where $\bar{S}_1$ denotes the partial derivative with respect to the first argument.  Since $\bar{S}_1(r_1;\, h) = -\alpha\, \bar{V}(r_1;\, h)$ where $\bar{V}(r_1;\, h) \equiv \sum_{j=1}^K \pi_j(h)\, s(r_1, r_{2,j}^*)(1-s(r_1, r_{2,j}^*))$, this gives:
+\begin{align}\label{eq:sigma8}
+    \boxed{\sigma^*(h) = \frac{1}{1-h} + \frac{1}{\alpha} \cdot \frac{\bar{S}(\sigma^*(h);\, h)}{\bar{V}(\sigma^*(h);\, h)}}
+\end{align}
+The equilibrium rate equals the break-even rate $1/(1-h)$ plus a markup.  The markup is $(1/\alpha)$ times the ratio of expected share to expected share-variance, both evaluated at bank~1's posterior beliefs~$\pi(h)$.
+
+\begin{remark}[Comparison with the public-$\mathbf{x}$ case]\label{rem:markup_comparison}
+When bank~1 observes~$\mathbf{x}$ (and hence knows~$r_2$), the markup is $1/(\alpha(1-s(\sigma^*(h; r_2), r_2)))$---the inverse semi-elasticity evaluated at the specific~$r_2$.  Here, bank~1 optimizes against the \emph{posterior distribution} of~$r_2$ given~$h$, with weights $\pi_j(h)$ that vary across borrower types.  By Jensen's inequality, $\bar{S}/\bar{V} \neq 1/(1 - \bar{S})$ in general: bank~1 cannot replicate the informed strategy by using the ``average'' competitive environment.
+\end{remark}
+
+
+\subsection{Bank~2's Problem}
+
+Bank~2 observes~$\mathbf{x}$ and knows the conditional distribution $F(h|\mathbf{x})$.  It also knows bank~1's equilibrium strategy $\sigma^*(\cdot)$ (which is common knowledge).  Bank~2 maximizes:
+\begin{align}\label{eq:b2_problem8}
+    \max_{r_2}\; \int \big(r_2(1-h) - 1\big) \cdot \big(1 - s(\sigma^*(h), r_2)\big)\, dF(h|\mathbf{x})
+\end{align}
+The first-order condition gives:
+\begin{align}\label{eq:r2_8}
+    \boxed{r_2^*(\mathbf{x}) = \frac{\int (1 - s(\sigma^*(h), r_2^*))(1-h)\, dF(h|\mathbf{x})}{\alpha \int s(\sigma^*(h), r_2^*)(1-s(\sigma^*(h), r_2^*))(1-h)\, dF(h|\mathbf{x})} + \frac{\int s(\sigma^*(h), r_2^*)(1-s(\sigma^*(h), r_2^*))\, dF(h|\mathbf{x})}{\int s(\sigma^*(h), r_2^*)(1-s(\sigma^*(h), r_2^*))(1-h)\, dF(h|\mathbf{x})}}
+\end{align}
+The entrant's rate depends on~$\mathbf{x}$ through the conditional type distribution $F(h|\mathbf{x})$.  Different~$\mathbf{x}$ generate different competitive environments, producing a distribution of~$r_2^*$ values across borrowers.
+
+
+\subsection{The One-to-One Result}
+
+\begin{prop}[One-to-one pricing]\label{prop:one_to_one}
+Under standard regularity conditions (log-concavity of demand), the equilibrium bank-1 strategy $\sigma^*: [\underline{h}, \bar{h}] \to \mathbb{R}_+$ is strictly increasing in~$h$.
+\end{prop}
+
+\begin{proof}
+The bank-1 FOC \eqref{eq:sigma8} defines $\sigma^*(h)$ implicitly as the solution to $\sigma = c(h) + M(\sigma, h)$, where $c(h) = 1/(1-h)$ and $M(\sigma, h) = \bar{S}(\sigma; h)/(\alpha\,\bar{V}(\sigma; h))$ is the markup.  The type~$h$ enters the markup through two channels: (i) the logit shares~$s$ (via the rate~$\sigma$), and (ii)~the posterior weights $\pi_j(h)$.  By the implicit function theorem:
+\[
+    \frac{d\sigma^*}{dh} = \frac{c'(h) + \partial M / \partial h}{1 - \partial M / \partial \sigma}
+\]
+The term $c'(h) = 1/(1-h)^2 > 0$.  For the logit demand, $\partial M/\partial \sigma < 1$ at the equilibrium (this is the second-order condition), so the denominator is positive.  The term $\partial M/\partial h$ captures how the posterior belief $\pi(h)$ shifts toward different competitive environments as~$h$ changes.  Under standard regularity conditions (the shift in posterior weights does not overwhelm the cost channel), the numerator is positive.  Hence $d\sigma^*/dh > 0$.
+\end{proof}
+
+Since $\sigma^*$ is strictly increasing, its inverse $\tau(r_1) \equiv (\sigma^*)^{-1}(r_1)$ is well-defined and strictly increasing.
+
+\begin{definition}[Type-recovery function]\label{def:tau8}
+$\tau: [\sigma^*(\underline{h}),\, \sigma^*(\bar{h})] \to [\underline{h}, \bar{h}]$ is defined by $\tau(\sigma^*(h)) = h$ for all~$h$.
+\end{definition}
+
+\begin{remark}[Why this differs from the public-$\mathbf{x}$ case]\label{rem:key_diff}
+When $\mathbf{x}$ is public information, bank~1 observes~$\mathbf{x}$, so its strategy $\sigma^*(h; \mathbf{x})$ maps the \emph{pair}~$(h, \mathbf{x})$ to~$r_1$.  The same~$r_1$ can arise from different $(h, \mathbf{x})$ combinations, making the mapping many-to-one and breaking type recovery.  Here, $\sigma^*(h)$ depends on~$h$ alone, so each~$r_1$ corresponds to exactly one~$h$.  The inversion is possible regardless of whether~$\mathbf{x}$ is observed.
+\end{remark}
+
+
+%===========================================================================
+%  SECTION 3: IDENTIFICATION
+%===========================================================================
+\newpage
+\section{Identification}\label{sec:id8}
+
+\subsection{Type Recovery}\label{sec:type_recovery8}
+
+The central identification result follows immediately from Proposition~\ref{prop:one_to_one}.
+
+\begin{prop}[Type recovery]\label{prop:type_recovery8}
+Among bank-1 winners, the conditional default rate identifies the borrower's type:
+\begin{align}\label{eq:type_recovery8}
+    E[D_i \mid r_i^{\emph{win}} = r_1,\, W_i = 1] = \tau(r_1)
+\end{align}
+for all~$r_1$ in the support of bank-1 winning rates.
+\end{prop}
+
+\begin{proof}
+Since $\sigma^*$ is one-to-one (Proposition~\ref{prop:one_to_one}), conditioning on $r_1 = \sigma^*(h)$ uniquely determines $h = \tau(r_1)$.  Default is $D_i \sim \text{Bernoulli}(h_i)$, independent of the bank identity $W_i$ conditional on~$h_i$ (default is a borrower characteristic, not a bank characteristic).\footnote{\textcolor{red}{\textbf{Note:} The independence $D_i \perp W_i \mid h_i$ is used here but is not stated as a formal assumption.  It holds by construction in this model because the default probability~$h$ is a primitive of the borrower and the payoff specification $(r_j(1-h) - 1)$ treats~$h$ as the same regardless of which bank lends.  However, this rules out settings where the choice of bank affects default risk---for instance, if banks differ in loan amounts, maturities, or covenants that influence the borrower's ability to repay, or if bank~2 attracts borrowers by offering looser terms that increase default probability.  In Chilean consumer credit markets, standardized consumer loan products may make this less of a concern, but it should be acknowledged as a maintained assumption, particularly since the entire type-recovery result depends on it.  Consider adding it as a formal assumption (e.g., ``$D_i \perp W_i \mid h_i$: default probability depends only on the borrower's type, not on the identity of the chosen bank'').}}  Therefore:
+\[
+    E[D_i \mid r_1, W_i = 1] = E[D_i \mid h_i = \tau(r_1)] = \tau(r_1)
+\]
+Crucially, this holds for \emph{all} bank-1 winners at rate~$r_1$, regardless of their unobserved~$\mathbf{x}$.  Different borrowers at the same~$r_1$ have different~$\mathbf{x}$ (and hence face different~$r_2^*$), but they all have the same~$h = \tau(r_1)$ and therefore the same default probability.
+\end{proof}
+
+\begin{remark}[Testable implication]\label{rem:testable}
+Type recovery implies that among bank-1 winners at rate~$r_1$, defaults are i.i.d.\ Bernoulli($\tau(r_1)$).  Therefore:
+\begin{align}\label{eq:variance_test}
+    \text{Var}(D_i \mid r_1, W_i = 1) = \tau(r_1)\big(1 - \tau(r_1)\big)
+\end{align}
+This is the Bernoulli variance---there is no ``excess variance'' from type heterogeneity.  In the public-$\mathbf{x}$ case (when the econometrician does not observe~$\mathbf{x}$), borrowers at the same~$r_1$ can have different types, so $\text{Var}(D_i \mid r_1, W_i = 1) > h(1-h)$ due to the mixture.  This provides a direct specification test to distinguish the two information structures.
+\end{remark}
+
+
+\subsection{What Is Identified Nonparametrically}\label{sec:nonpar8}
+
+\begin{prop}[Nonparametrically identified objects]\label{prop:nonpar8}
+From the joint distribution of $(r_i^{\emph{win}}, W_i, D_i)$, the following are nonparametrically identified:
+\begin{enumerate}
+    \item[(a)] \textbf{The type-recovery function $\tau(r_1)$.}  Equivalently, the full strategy $\sigma^*(h)$ is traced out by regression of $D_i$ on $r_i^{\emph{win}}$ among bank-1 winners.
+
+    \item[(b)] \textbf{The markup function $m(h) = \sigma^*(h) - 1/(1-h)$.}  Since $\sigma^*(h)$ and $1/(1-h)$ are both known functions of~$h$ (the former from type recovery), the markup---the pure profit bank~1 earns above break-even---is identified for every type.
+
+    \item[(c)] \textbf{The selected distribution of~$r_2^*$ among bank-2 winners.}  Among bank-2 winners, $r_i^{\text{win}} = r_2^*(\mathbf{x}_i)$, so the empirical distribution of winning rates directly reveals the selection-weighted distribution of entrant rates.
+
+    \item[(d)] \textbf{The conditional default rate among bank-2 winners, $E[D_i \mid r_2, W_i = 2]$.}  This is the adverse-selection-weighted mean type among borrowers who switch to the entrant at rate~$r_2$.
+
+    \item[(e)] \textbf{The selected distribution of types $h$ among bank-1 winners.}  From type recovery, $h_i = \tau(r_i^{\text{win}})$ for each bank-1 winner, so the empirical distribution of types among stayers is identified.
+
+    \item[(f)] \textbf{The aggregate switching probability $\Pr(W_i = 2)$.}
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+Items (c), (d), (f) are features of the observable joint distribution, requiring no model structure.  Items (a), (b), (e) follow from Proposition~\ref{prop:type_recovery8} and the known parametric form of the break-even rate $1/(1-h)$.
+\end{proof}
+
+\medskip\noindent
+The critical difference from the public-$\mathbf{x}$ case: items (a), (b), and (e) are \emph{not} identified when $\mathbf{x}$ is public but unobserved by the econometrician, because there, the many-to-one mapping from $(h, \mathbf{x})$ to~$r_1$ prevents type recovery.  Here, they follow directly.
+
+
+\subsection{Full Identification}\label{sec:parametric8}
+
+Proposition~\ref{prop:nonpar8} identifies the bank-1 strategy $\sigma^*(h)$, the markup $m(h)$, and the support of bank-2 rates nonparametrically.  The remaining objects---the demand parameters $(\alpha, \lambda)$, the population probabilities $(p_1, \ldots, p_K)$, and the conditional type distributions $f(h|x_j)$---are identified from the equilibrium first-order conditions together with bank-2 default rates.  For $K = 2$, no parametric assumption on $F(h|\mathbf{x})$ is needed.  For $K \geq 3$, a finite-dimensional parametric family for $f(h|x_j)$ is required.
+
+The full parameter vector is $\theta = (\alpha, \lambda, f(\cdot|x_1), \ldots, f(\cdot|x_K), p_1, \ldots, p_K)$, where the $r_{2,j}^*$ are treated as observed.  For $K \geq 3$ (or for practical estimation when $K = 2$), one parametrizes $f(h|x_j) = f(h;\, \theta_j)$ with a $P$-parameter family, reducing the unknowns to $(\alpha, \lambda, \theta_1, \ldots, \theta_K, p_1, \ldots, p_K)$.
+
+\begin{prop}[Identification]\label{prop:parametric_id8}
+Under Assumption~\ref{ass:finite_x}, the demand parameters $(\alpha, \lambda)$, population probabilities $(p_1, \ldots, p_K)$, and conditional type distributions $f(h|x_j)$ for $j = 1, \ldots, K$ are identified from the joint distribution of $(r_i^{\emph{win}}, W_i, D_i)$ if:
+\begin{enumerate}
+    \item[(C1)] $K \geq 2$ (at least two distinct covariate values) and bank-2 winners are observed at each~$r_{2,j}^*$.
+    \item[(C2)] $\alpha > 0$ and $\Pr(W_i = 2) > 0$.
+    \item[(C3)] When $K \geq 3$: $f(h|x_j) = f(h;\,\theta_j)$ for a $P$-parameter family $\{f(\cdot;\theta) : \theta \in \Theta \subseteq \mathbb{R}^P\}$ satisfying regularity conditions (P1)--(P2) stated in the proof.
+\end{enumerate}
+When $K = 2$, condition (C3) is not needed: $f(h|x_j)$ is nonparametrically identified.
+\end{prop}
+
+\begin{proof}
+The proof proceeds in stages, exploiting the separation between bank-1 and bank-2 data that type recovery makes possible.
+
+\medskip\noindent
+\textbf{Stage 1: Recovery of $\sigma^*(h)$ and $m(h)$ (nonparametric).}
+
+From Proposition~\ref{prop:type_recovery8}, the regression $E[D_i \mid r_1, W_i = 1]$ traces the type-recovery function $\tau(r_1)$, hence $\sigma^*(h) = \tau^{-1}(h)$.  The markup $m(h) = \sigma^*(h) - 1/(1-h)$ follows.  This stage uses only bank-1 data and requires no parametric assumptions.
+
+\medskip\noindent
+\textbf{Stage 2: Recovery of the support points $\{r_{2,j}^*\}$ (nonparametric).}
+
+Among bank-2 winners, $r_i^{\text{win}} = r_{2,j}^*$ for some~$j$.  Since $\mathbf{x}$ takes $K$ distinct values, bank-2 winning rates take at most $K$ distinct values.  These are directly observed from the data.
+
+\medskip\noindent
+\textbf{Stage 3: Identification mechanism.}
+
+At each~$h$, the FOC and the observed density of bank-1 winner types together provide \emph{two} restrictions on the $K$ unknowns $\gamma_j(h) \equiv p_j\, f(h|x_j)$.  When $K = 2$, this exactly pins down $\gamma_1(h)$ and $\gamma_2(h)$ pointwise, giving nonparametric identification.  When $K \geq 3$, the pointwise system is underdetermined and a finite-dimensional restriction on~$f$ is needed.
+
+\medskip\noindent
+\textbf{The two pointwise restrictions.}  Fix candidate values $(\alpha, \lambda)$.  At each~$h$, define $s_j(h) \equiv s(\sigma^*(h), r_{2,j}^*;\, \alpha, \lambda)$ (determined from Stages~1--2 for a given candidate).
+
+\medskip\noindent
+\emph{Restriction 1 (FOC).}  The bank-1 first-order condition requires:
+\begin{align}\tag{R1}
+    \sum_{j=1}^K \gamma_j(h)\, s_j(h)\Big[1 - \alpha\, m(h)\,\big(1\!-\!s_j(h)\big)\Big] = 0
+\end{align}
+This is one linear equation in $(\gamma_1, \ldots, \gamma_K)$ with known, $h$-varying coefficients.
+
+\medskip\noindent
+\emph{Restriction 2 (bank-1 type density).}  Among bank-1 winners, type recovery gives $h_i = \tau(r_i^{\text{win}})$, so the density $f(h \mid W_i = 1)$ is directly observed from data.  Since $\Pr(W_i = 1 \mid h) = \sum_j \gamma_j(h)\, s_j(h) / f(h)$:
+\begin{align}\tag{R2}
+    \sum_{j=1}^K \gamma_j(h)\, s_j(h) = \Pr(W_i = 1) \cdot f(h \mid W_i = 1) \equiv C(h)
+\end{align}
+where $C(h)$ is directly computable from data (the type density among bank-1 winners, rescaled by the bank-1 win probability).
+
+Together, (R1) and (R2) are two equations in the $K$ unknowns $\gamma_1(h), \ldots, \gamma_K(h)$ at each~$h$.
+
+\medskip\noindent
+\textbf{Case $K = 2$: nonparametric identification.}
+
+The system (R1)--(R2) is $2 \times 2$ in $(\gamma_1(h), \gamma_2(h))$.  Since $r_{2,1}^* \neq r_{2,2}^*$ (condition C1), the shares $s_1(h) \neq s_2(h)$ and the coefficient vectors in (R1) and (R2) are linearly independent for generic~$h$.  Solving gives:
+\[
+    \gamma_j(h;\, \alpha, \lambda) = p_j\, f(h|x_j;\, \alpha, \lambda) \quad \text{determined at every } h
+\]
+This is a known, explicit function of the candidate $(\alpha, \lambda)$ and~$h$.
+
+\medskip\noindent
+\emph{Recovering $p_j$.}  The integrability constraints $\int f(h|x_j)\, dh = 1$ give:
+\[
+    p_j = \int \gamma_j(h;\, \alpha, \lambda)\, dh, \quad j = 1, 2
+\]
+This determines $p_1$ (and $p_2 = 1 - p_1$) as a function of $(\alpha, \lambda)$.
+
+\medskip\noindent
+\emph{Pinning down $(\alpha, \lambda)$.}  The bank-2 conditional default rates provide two moment conditions:
+\[
+    E[D_i \mid r_{2,j}^*,\, W_i = 2] = \frac{\int h\,(1 - s_j)\, f(h|x_j)\, dh}{\int (1 - s_j)\, f(h|x_j)\, dh}, \quad j = 1, 2
+\]
+where everything on the right depends on $(\alpha, \lambda)$ through the steps above.  Two equations in two unknowns: identified.  The aggregate switching rate $\Pr(W_i = 2) = \sum_j p_j \int (1-s_j)\, f(h|x_j)\, dh$ provides an additional overidentifying restriction.
+
+\medskip\noindent
+\emph{Restriction count ($K = 2$).}  At each~$h$: 2 equations, 2 unknowns---exactly identified pointwise, \emph{no parametric assumption needed}.  Globally: 2 integrability constraints determine $p_1$ (1 free parameter, 1 overidentifying restriction).  Two bank-2 default rates plus the switching rate give 3 equations for $(\alpha, \lambda)$ (2 unknowns, 1 overidentifying restriction).  Total excess restrictions: \textbf{2}.
+
+\medskip\noindent
+\textbf{Case $K \geq 3$: parametric restriction needed.}
+
+The system (R1)--(R2) provides 2 equations in $K$ unknowns at each~$h$---underdetermined for $K \geq 3$.  The system has $K - 2$ free parameters per~$h$, so infinitely many density profiles $f(h|x_j)$ are consistent with the FOC and the observed type density.  \emph{Nonparametric identification of $f(h|x_j)$ fails when $K \geq 3$.}
+
+\emph{Resolution: parametric identification.}  Impose condition~(C3): let $f(h|x_j) = f(h;\,\theta_j)$ for a $P$-parameter family $\{f(\cdot;\theta) : \theta \in \Theta \subseteq \mathbb{R}^P\}$ satisfying:
+\begin{enumerate}
+    \item[(P1)] \emph{Identifiability}: $f(\cdot;\theta) = f(\cdot;\theta')$ a.e.\ implies $\theta = \theta'$.
+    \item[(P2)] \emph{Distinguishability}: for any $K$ distinct vectors $\theta_1,\ldots,\theta_K \in \Theta$, the densities $f(\cdot;\theta_1), \ldots, f(\cdot;\theta_K)$ are linearly independent on~$[\underline{h},\bar{h}]$.\footnote{Linear independence of densities means there is no set of constants $c_1, \ldots, c_K$, not all zero, such that $\sum_{j=1}^K c_j\, f(h;\theta_j) = 0$ for almost every $h \in [\underline{h}, \bar{h}]$.  This rules out the pathological case where two covariate groups produce \emph{proportional} type distributions (e.g., $f(h;\theta_2) = a\, f(h;\theta_1)$ for some constant~$a$), which would make the groups observationally indistinguishable in the (R1)--(R2) system.  The condition holds generically for standard parametric families: for instance, two Beta densities $\text{Beta}(a_1,b_1)$ and $\text{Beta}(a_2,b_2)$ with $(a_1,b_1) \neq (a_2,b_2)$ are linearly independent because their ratio $f(h;\theta_1)/f(h;\theta_2)$ is a non-constant function of~$h$ (it is a power function $h^{a_1-a_2}(1-h)^{b_1-b_2}$ times a constant).}
+\end{enumerate}
+Both conditions hold for Beta, log-normal, Gamma, and truncated normal families.  The finite-dimensional parameter vector is $\psi = (\alpha,\lambda,\theta_1,\ldots,\theta_K,p_1,\ldots,p_{K-1}) \in \mathbb{R}^{KP+K+1}$, where $p_K = 1 - \sum_{j<K} p_j$.  We establish identification in two steps.\footnote{The full vector $\psi$ includes $\alpha$ and $\lambda$, but they do \emph{not} appear in the Jacobian~$J$ of Step~A because Step~A conditions on a fixed candidate $(\alpha,\lambda)$.  For given $(\alpha,\lambda)$, the logit shares $s_j(h) = s(\sigma^*(h), r_{2,j}^*;\,\alpha,\lambda)$ are known functions of~$h$ (since $\sigma^*(h)$ and $r_{2,j}^*$ come from Stages~1--2).  Therefore, only the density parameters $(\theta_1,\ldots,\theta_K)$ and the mixing weights $(p_1,\ldots,p_{K-1})$ remain as unknowns in~(R2$'$), and the Jacobian~$J$ is taken with respect to these $D = KP + K - 1$ variables alone.  The parameters $(\alpha,\lambda)$ are then identified separately in Step~B, where they enter through both $s_j(h;\alpha,\lambda)$ and the functions $\theta_j(\alpha,\lambda)$, $p_j(\alpha,\lambda)$ recovered in Step~A.}
+
+\medskip\noindent
+\emph{Step A: $(p_j,\theta_j)_{j=1}^K$ are identified given $(\alpha,\lambda)$.}
+
+Fix candidate values $(\alpha,\lambda)$.  The logit shares $s_j(h) = s(\sigma^*(h), r_{2,j}^*;\,\alpha,\lambda)$ are then known, strictly positive functions on the interior of~$[\underline{h},\bar{h}]$.  Under the parametric assumption, $\gamma_j(h) = p_j\,f(h;\theta_j)$, so restriction~(R2) becomes:
+\begin{align}\tag{R2$'$}
+    \sum_{j=1}^K p_j\, f(h;\theta_j)\, s_j(h) \;=\; C(h) \qquad \text{for all } h \in [\underline{h},\,\bar{h}]
+\end{align}
+This is a continuum of equations in the $D \equiv KP + K - 1$ unknowns $(\theta_1,\ldots,\theta_K,\,p_1,\ldots,p_{K-1})$.
+
+\emph{Local identification.}  Select $D$ distinct evaluation points $h_1,\ldots,h_D$ and define $\Phi: \mathbb{R}^D \to \mathbb{R}^D$ by $\Phi_d(\psi_f) = \sum_{j=1}^K p_j\,f(h_d;\theta_j)\,s_j(h_d)$, which is simply the model predicted density value that an individual with default probability $h_d$ chooses the incumbent. \footnote{The map $\Phi$ is constructed by evaluating the left-hand side of (R2$'$) at $D$ specific type values.  The continuum restriction (R2$'$) requires $\sum_j p_j\, f(h;\theta_j)\, s_j(h) = C(h)$ for \emph{every}~$h$, which is an infinite-dimensional condition.  To check whether the finite-dimensional parameter vector $\psi_f = (\theta_1,\ldots,\theta_K, p_1,\ldots,p_{K-1})$ is pinned down, we discretize: pick $D = KP + K - 1$ evaluation points $h_1,\ldots,h_D$ and ask whether the system $\Phi_d(\psi_f) = C(h_d)$ for $d = 1,\ldots,D$ has a locally unique solution.  Each component $\Phi_d$ is simply the model's predicted value of the bank-1 stayer density at~$h_d$ (the left-hand side of (R2$'$) evaluated at $h = h_d$), and the target $C(h_d)$ is the corresponding data object.  If the Jacobian $\partial\Phi/\partial\psi_f$ has full rank at the truth, the implicit function theorem guarantees local uniqueness of this $D \times D$ system.  }  The Jacobian $J \equiv \partial\Phi/\partial\psi_f$ has two blocks of columns:
+\begin{itemize}
+    \item \emph{Weight columns} ($\partial/\partial p_j$, $j = 1,\ldots,K\!-\!1$): entry~$d$ is $f(h_d;\theta_j)\,s_j(h_d) - f(h_d;\theta_K)\,s_K(h_d)$.\footnote{The subtraction arises because $p_K$ depends on~$p_j$: $\partial p_K/\partial p_j = -1$. In the vector of parameters $p_K$ is not explicitly included, is implicitly definded as $p_K = 1- \sum_k p_k$. Intuitively, increasing the population share of group~$j$ by $dp_j$ simultaneously decreases the share of the reference group~$K$, so the net effect is the difference in the two density-times-share products.}
+    \item \emph{Shape columns} ($\partial/\partial\theta_{j\ell}$, $j = 1,\ldots,K$, $\ell = 1,\ldots,P$): entry~$d$ is $p_j\,(\partial f/\partial\theta_{j\ell})(h_d;\theta_j)\,s_j(h_d)$.
+\end{itemize}
+Under (P1)--(P2), the weight columns are spanned by linearly independent functions (since $f(\cdot;\theta_j)\,s_j \neq f(\cdot;\theta_k)\,s_k$ for $j \neq k$ when $r_{2,j}^* \neq r_{2,k}^*$),\footnote{Assumption~(P2) gives linear independence of the \emph{densities} $f(\cdot;\theta_j)$.  The weight columns involve the \emph{products} $f(\cdot;\theta_j)\,s_j - f(\cdot;\theta_K)\,s_K$, so we must verify that multiplying by the logit shares preserves independence.  Suppose for contradiction that $\sum_{j=1}^{K-1} c_j\,[f(h;\theta_j)\,s_j(h) - f(h;\theta_K)\,s_K(h)] = 0$ for all~$h$, with at least one $c_j \neq 0$.  Dividing by $s_K(h) > 0$ gives $\sum_{j<K} c_j\, f(h;\theta_j)\,[s_j(h)/s_K(h)] = (\sum_{j<K} c_j)\, f(h;\theta_K)$.  The ratio $s_j(h)/s_K(h) = B_j(B_K + A(h))/(B_K(B_j + A(h)))$, where $B_j = e^{\alpha r_{2,j}^*}$ and $A(h) = e^{\alpha\sigma^*(h)-\lambda}$, is \emph{not} constant in~$h$ .  So the equation is a linear combination of the densities with $h$-dependent coefficients, and~(P2) cannot be invoked directly.  Two observations close the argument. \textcolor{red}{From now on the footnote is more complicated and would have to ask someone like Louis to check it } \emph{First}, all densities $f(\cdot;\theta_j)$ and shares $s_j(\cdot)$ are real-analytic for standard parametric families and the logit (with analytic~$\sigma^*$), so by the identity theorem for analytic functions, if an analytic function is zero on a set of positive Lebesgue measure then it is zero everywhere---the linear dependence must hold for all~$h$, not just almost all.  \emph{Second}, such an identity would impose a rigid algebraic relationship between the equilibrium pricing schedule $\sigma^*(h)$ (which determines the shares through the logit) and the type densities $f(\cdot;\theta_j)$ (which are governed by the parameters $\theta_1,\ldots,\theta_K$).  But $\sigma^*(h)$ is pinned down by the first-order condition~(R1), a separate structural restriction that derives from bank~1's profit maximization and does not involve the density parameters $(\theta_j)$.  Requiring the FOC-determined pricing $\sigma^*(h)$ and the density family $\{f(\cdot;\theta_j)\}_j$ to jointly satisfy an exact algebraic cancellation $\sum c_j f(\cdot;\theta_j)\,s_j(\cdot;\sigma^*) \equiv 0$ confines the parameter vector to a measure-zero subset of~$\mathbb{R}^{KP+K+1}$.  For generic parameter values, the products $\{f(\cdot;\theta_j)\,s_j\}_j$ are therefore linearly independent, and so are the $K-1$ weight-column differences $f(\cdot;\theta_j)\,s_j - f(\cdot;\theta_K)\,s_K$.  } and the shape columns add linearly independent score directions for each component.\footnote{  Each shape column for parameter $(j,\ell)$ has entry $p_j\,(\partial f/\partial\theta_{j\ell})(h_d;\theta_j)\,s_j(h_d)$.  Note that perturbing $\theta_{j\ell}$ only affects terms involving group~$j$'s density---it has zero effect on $f(\cdot;\theta_k)$ for $k \neq j$.  This gives the Jacobian a block-diagonal structure in the shape parameters: the $P$~columns for group~$j$ live in the `subspace' spanned by $f(\cdot;\theta_j)\,s_j$, while the columns for group~$k$ live in the subspace spanned by $f(\cdot;\theta_k)\,s_k$.  \emph{Within} group~$j$: the $P$~columns are $p_j\,s_j(h)\,\partial_{\theta_{j1}} f,\;\ldots,\; p_j\,s_j(h)\,\partial_{\theta_{jP}} f$.  They share the strictly positive factor $p_j\,s_j(h)$, so they are independent if and only if the $P$~partial derivatives $\partial_{\theta_{j1}} f(h;\theta_j),\;\ldots,\;\partial_{\theta_{jP}} f(h;\theta_j)$ are independent as functions of~$h$.  This is exactly what condition~(P1) guarantees: if the density family is identifiable (i.e., different parameters give different densities), then the gradient $\nabla_\theta f$ must have $P$~linearly independent components---otherwise two distinct parameter values could produce the same density by moving in a null direction.  \emph{Across} groups: columns for group~$j$ are proportional to $f(\cdot;\theta_j)\,s_j$, and columns for group~$k$ are proportional to $f(\cdot;\theta_k)\,s_k$.  A linear combination mixing columns from different groups would require $\sum_j \beta_j(h)\,f(h;\theta_j)\,s_j(h) = 0$ for coefficients $\beta_j(h)$ that are themselves linear combinations of the score functions $\partial_\theta \log f$.  Since the densities $f(\cdot;\theta_j)$ are linearly independent by~(P2) and the scores within each group are independent by~(P1), and different groups' contributions are `modulated' by different density shapes, no cross-group cancellation is possible for generic parameter values.  The intuition: perturbing~$\theta_j$ moves the model prediction through the shape of $f(\cdot;\theta_j)$, while perturbing~$\theta_k$ moves it through the shape of $f(\cdot;\theta_k)$---these are independent directions because the densities themselves are independent.}  For generically chosen evaluation points, $J$ has full rank~$D$, so by the implicit function theorem\footnote{The result used is the \emph{inverse function theorem} (a corollary of the implicit function theorem).  \textbf{Statement:} Let $\Phi: U \subseteq \mathbb{R}^D \to \mathbb{R}^D$ be continuously differentiable on an open set~$U$.  If $\det(\partial\Phi/\partial\psi_f)\big|_{\psi_f^0} \neq 0$, then there exist open neighborhoods $V \ni \psi_f^0$ and $W \ni \Phi(\psi_f^0)$ such that $\Phi\!: V \to W$ is a bijection with $C^1$ inverse.  \textbf{Application:} At the true parameters $\psi_f^0$, (R2$'$) gives $\Phi(\psi_f^0) = (C(h_1),\ldots,C(h_D))^\top$.  Full rank of~$J$ means $\Phi$ is locally injective, so no other $\psi_f \in V$ produces the same data vector---i.e., $\psi_f$ is \emph{locally identified} given $(\alpha,\lambda)$.  This is the Rothenberg (1971) criterion: a model is locally identified at the truth if  the Jacobian of the identifying equations has full rank.  } the solution to $\Phi(\psi_f) = (C(h_1),\ldots,C(h_D))^\top$ is locally unique.
+
+\emph{Global identification.}  Any other candidate $\tilde{\psi}_f$ satisfying (R2$'$) must also match $C(h)$ at the remaining continuum of~$h$ values.  Since both sides of~(R2$'$) are smooth (in fact analytic for standard parametric families), a $D$-dimensional family of functions that agrees with an observed smooth function on an open interval must be the same function.\footnote{Identity theorem for real-analytic functions: if two real-analytic functions agree on  any open interval, they are identical on their entire common domain.  Here the argument is as follows.  The true parameters $\psi_f^0$ and any alternative $\tilde{\psi}_f$ both satisfy $\sum_j p_j\,f(h;\theta_j)\,s_j(h) = C(h)$ for all $h$ in the evaluation set $\{h_1,\ldots,h_D\}$.  But $C(h)$ is observed for \emph{every} $h \in [\underline{h},\bar{h}]$, not just at $D$ points.  Since $\Phi(\psi_f; h) \equiv \sum_j p_j\,f(h;\theta_j)\,s_j(h)$ is analytic in~$h$ for each fixed $\psi_f$ (standard parametric densities and the logit are analytic), and $C(h)$ is also analytic, the difference $\Phi(\psi_f^0;\,h) - \Phi(\tilde{\psi}_f;\,h)$ is analytic and equals zero at the $D$ evaluation points.  If $D$ exceeds the number of zeros that a non-trivial analytic function can have on a compact interval (which for analytic functions is at most finite unless the function is identically zero), then the difference must be identically zero for all~$h$.  That is, $\tilde{\psi}_f$ produces the \emph{same function} of~$h$ as $\psi_f^0$.  Combined with local uniqueness (the Jacobian has full rank), this means $\tilde{\psi}_f = \psi_f^0$.}  Hence the locally unique solution is globally unique.
+
+Write the identified objects as $p_j(\alpha,\lambda)$ and $\theta_j(\alpha,\lambda)$.
+
+\medskip\noindent
+\emph{Step B: $(\alpha,\lambda)$ are identified.}
+
+From Step~A, each candidate $(\alpha,\lambda)$ determines unique $(p_j(\alpha,\lambda),\,\theta_j(\alpha,\lambda))_{j=1}^K$ via~(R2$'$).  Two independent sources of restrictions pin down $(\alpha,\lambda)$.
+
+\emph{Bank-2 default rates.}  Define the observed conditional default rates:
+\begin{align}\tag{$\Delta_k$}
+    \delta_k \;\equiv\; E[D_i \mid r_{2,k}^*,\, W_i = 2] \;=\; \frac{\displaystyle\int h\,(1 - s_k(h;\alpha,\lambda))\, f\big(h;\,\theta_k(\alpha,\lambda)\big)\, dh}{\displaystyle\int (1 - s_k(h;\alpha,\lambda))\, f\big(h;\,\theta_k(\alpha,\lambda)\big)\, dh}, \quad k = 1,\ldots,K
+\end{align}
+The left side is observed.  On the right, $s_k$ enters through the logit $s = 1/(1 + e^{\alpha(r_1 - r_2) - \lambda})$, and both $f(\cdot;\theta_k(\alpha,\lambda))$ and $s_k(\cdot;\alpha,\lambda)$ depend on $(\alpha,\lambda)$.  These are $K$ nonlinear equations in two unknowns.  Since the $K$ support points $r_{2,k}^*$ are distinct, different equations weight $(\alpha,\lambda)$ differently in the integral: the logit share $s_k(h)$ shifts by different amounts across~$k$, ensuring that the $K$ equations are not redundant.  Any two of the $K$ equations generically determine $(\alpha,\lambda)$ uniquely (via the implicit function theorem, since the $2 \times 2$ Jacobian $\partial(\Delta_{k_1},\Delta_{k_2})/\partial(\alpha,\lambda)$ is nonsingular for generic parameter values when $r_{2,k_1}^* \neq r_{2,k_2}^*$).  The remaining $K - 2 \geq 1$ conditions are \emph{overidentifying restrictions}.
+
+\emph{First-order condition.}  Restriction~(R1) must hold for \emph{every}~$h$:
+\[
+    \sum_{j=1}^K p_j(\alpha,\lambda)\, f\big(h;\theta_j(\alpha,\lambda)\big)\, s_j(h;\alpha,\lambda)\big[1 - \alpha\,m(h)\,(1-s_j(h;\alpha,\lambda))\big] = 0
+\]
+Since $p_j(\cdot)$, $\theta_j(\cdot)$, and $s_j(\cdot)$ all depend on the candidate $(\alpha,\lambda)$, this is a continuum of additional restrictions that the correct $(\alpha,\lambda)$ must satisfy identically---providing infinitely many overidentifying restrictions beyond the $K$ default-rate conditions.
+
+\medskip\noindent
+\emph{Restriction count.}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Source} & \textbf{Restrictions} & \textbf{Identifies} \\
+\midrule
+(R2) at continuum of $h$ & $\infty$ (equiv.\ $KP + K - 1$) & $(\theta_j, p_j)$ given $(\alpha,\lambda)$ \\
+$(\Delta_k)$, $k = 1,\ldots,K$ & $K$ & $(\alpha,\lambda)$ + $(K\!-\!2)$ overid. \\
+(R1) at continuum of $h$ & $\infty$ & Overidentification \\
+Switching rate $\Pr(W\!=\!2)$ & $1$ & Overidentification \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+Total unknowns: $KP + K + 1$.  Since the continuum restrictions (R1) and (R2) each hold for every~$h$ but the parametric structure reduces the unknowns to a finite-dimensional vector, the system is \textbf{overidentified} for any $K \geq 3$ and any finite~$P$.  The effective number of independent identifying restrictions equals the $D = KP + K - 1$ evaluation points needed to pin down $(\theta_j, p_j)$ given $(\alpha,\lambda)$, plus the $K$ bank-2 default-rate conditions and one switching-rate condition, for a total of $KP + 2K$ restrictions against $KP + K + 1$ unknowns---yielding $K - 1$ excess restrictions, with the remaining continuum of~$h$ values providing specification tests.
+\end{proof}
+
+ 
+
+
+\subsection{Why Identification Is Easier Than in the Public-$\mathbf{x}$ Case}\label{sec:why_easier8}
+
+The fundamental reason is \emph{sequential separability}:
+
+\begin{enumerate}
+    \item \textbf{Stage 1 (type recovery) is model-free.}  When $\mathbf{x}$ is public information but unobserved by the econometrician, the econometrician cannot recover $\sigma^*(h)$ without already knowing $(\alpha, \lambda)$---a circular dependence that forces simultaneous estimation of everything.  Here, $\sigma^*(h)$ is identified from a simple regression, before any structural estimation begins.
+
+    \item \textbf{The FOC constrains all structural parameters jointly.}  Once $\sigma^*(h)$ and $m(h)$ are known, the FOC constrains $(\alpha, \lambda, f(h|x_j), p_1, \ldots, p_K)$ through the posterior weights $\pi_j(h)$.  At each~$h$, the FOC and the observed bank-1 type density provide two restrictions on the $K$ unknowns $\gamma_j(h) = p_j f(h|x_j)$.  For $K = 2$, this is a $2 \times 2$ system---$f(h|x_j)$ is nonparametrically identified.  For $K \geq 3$, nonparametric identification of $f(h|x_j)$ fails and a parametric family is needed, but the system is then overidentified (with $K - 1$ excess restrictions and a continuum of specification tests).  Combined with the $K$ bank-2 default rate restrictions, the system is far more constrained than in the public-$\mathbf{x}$ case, where \emph{every} restriction involves all parameters simultaneously \emph{and} the unknown strategy $\sigma^*(h; r_2)$.
+
+    \item \textbf{Bank-2 data provide independent restrictions on $f(h|x_j)$.}  In the public-$\mathbf{x}$ case, the bank-2 default rates constrain $(\alpha, \lambda, f(h|x_j))$ jointly (because $\sigma^*(h; r_2)$ is unknown and depends on all parameters).  Here, $\sigma^*(h)$ is already known from bank-1 data, so the bank-2 default rates constrain $f(h|x_j)$ with $(\alpha, \lambda)$ as the only remaining nuisance parameters.
+\end{enumerate}
+
+
+\subsection{Identification Summary}
+
+The table below summarizes the identifying variation for each parameter.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{4cm}p{4.5cm}p{5cm}}
+\toprule
+\textbf{Object} & \textbf{What identifies it} & \textbf{Identifying variation} \\
+\midrule
+$\sigma^*(h)$, $\tau(r_1)$ & $E[D|r_1, W\!=\!1]$ (type recovery) & Defaults reveal types; nonparametric regression \\[4pt]
+$m(h) = \sigma^*(h) - \frac{1}{1-h}$ & Directly from $\sigma^*(h)$ & \\[4pt]
+$r_{2,j}^*$ (support of $G$) & Bank-2 winning rates & Directly observed \\[4pt]
+$\alpha$ & Bank-2 default rates & Two moment conditions pin down $(\alpha, \lambda)$ given the $\gamma_j(h)$ functions  \\[4pt]
+$\lambda$ & Bank-2 default rates + switching rate & Shifts the logit baseline; pinned down jointly with $\alpha$ \\[4pt]
+$p_j$ (covariate prob's) & Integrability of $\gamma_j(h)$ & $p_j = \int \gamma_j(h)\, dh$; cross-checked against observed $\tilde{p}_j$\footnote{\textcolor{red}{\textbf{Note:} The ``observed $\tilde{p}_j$'' are not directly available from the data.  What is observed is the share of bank-2 winners at each rate $r_{2,j}^*$, i.e., $\tilde{q}_j \equiv \Pr(r_i^{\text{win}} = r_{2,j}^* \mid W_i = 2)$.  These are \emph{selection-weighted} shares: $\tilde{q}_j = p_j \Pr(W_i = 2 \mid \mathbf{x} = x_j) / \Pr(W_i = 2)$, which differ from the population probabilities~$p_j$ because borrowers in different covariate groups switch at different rates.  Recovering~$p_j$ from $\tilde{q}_j$ requires the selection probabilities $\Pr(W_i = 2 \mid \mathbf{x} = x_j) = \int (1 - s_j(h))\, f(h|x_j)\, dh$, which depend on the structural parameters.  The integrability constraint $p_j = \int \gamma_j(h)\, dh$ is the correct identifying restriction; the cross-check against ``observed'' shares should reference $\tilde{q}_j$ with the selection correction, not $\tilde{p}_j$ directly.}} \\[4pt]
+$f(h|x_j)$ (type dist'n) & (R1) + (R2) system at each~$h$ & $K = 2$: nonparametric (2 eq, 2 unk pointwise). $K \geq 3$: parametric family needed (2 eq, $K$ unk pointwise) \\[4pt]
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%===========================================================================
+%  SECTION 4: LIKELIHOOD
+%===========================================================================
+\newpage
+\section{Likelihood}\label{sec:likelihood8}
+
+\subsection{Bank-1 Winners ($W_i = 1$)}
+
+For a bank-1 winner, $r_i^{\text{win}} = \sigma^*(h_i)$ and type recovery gives $h_i = \tau(r_i^{\text{win}})$.  The entrant rate $r_2$ is latent (varies across borrowers through~$\mathbf{x}$).  Under the finite-$\mathbf{x}$ assumption, the likelihood contribution sums over the $K$ possible competitive environments:
+\begin{align}\label{eq:L1_8}
+    \boxed{\mathcal{L}_i^{(1)}(\theta) = |\tau'(r_i^{\text{win}})| \cdot h_i^{D_i}(1-h_i)^{1-D_i} \cdot \sum_{j=1}^K p_j\, s(\sigma^*(h_i),\, r_{2,j}^*) \cdot f(h_i \mid x_j)}
+\end{align}
+where $h_i = \tau(r_i^{\text{win}})$.  This is the probability that: a borrower with type~$h_i$ is charged rate $\sigma^*(h_i)$ (captured by the Jacobian~$|\tau'|$), stays with bank~1 (the sum weights each competitive environment by the joint density $p_j \cdot f(h_i|x_j)$, reflecting both the population frequency of~$x_j$ and how likely type~$h_i$ is given~$x_j$), and defaults or not (the Bernoulli term).
+
+\begin{remark}
+Alternatively, the selection sum can be written as $f(h_i) \cdot \sum_j \pi_j(h_i)\, s(\sigma^*(h_i), r_{2,j}^*)$ where $f(h) = \sum_k p_k f(h|x_k)$ is the marginal density.  This form makes explicit that bank~1 weights the competitive environments by the \emph{posterior} $\pi_j(h)$, not the unconditional~$p_j$.
+\end{remark}
+
+\begin{remark}[Simplification relative to the public-$\mathbf{x}$ case]\label{rem:L1_simple}
+When $\mathbf{x}$ is public information, the bank-1 likelihood involves $\tau(r_1; r_2)$---the type recovery depends on the latent~$r_2$, so~$h$ varies across the integration.  Here, $h_i = \tau(r_i^{\text{win}})$ is \emph{known} and constant across the summation.  The sum over~$j$ affects only the selection probability, not the identity of the borrower's type.
+\end{remark}
+
+
+\subsection{Bank-2 Winners ($W_i = 2$)}
+
+For a bank-2 winner, $r_i^{\text{win}} = r_{2,j_i}^*$ for some $j_i \in \{1, \ldots, K\}$, observed directly.  The type~$h_i$ is latent:
+\begin{align}\label{eq:L2_8}
+    \boxed{\mathcal{L}_i^{(2)}(\theta) = p_{j_i} \cdot \int_{\underline{h}}^{\bar{h}} \big(1-s(\sigma^*(h), r_{2,j_i}^*)\big) \cdot h^{D_i}(1-h)^{1-D_i} \cdot f(h \mid x_{j_i})\, dh}
+\end{align}
+This has the same form as in the public-$\mathbf{x}$ case, except that $\sigma^*(h)$ no longer depends on~$r_2$ (it is a function of~$h$ alone).
+
+
+\subsection{Full Log-Likelihood}
+
+\begin{align}\label{eq:L_full8}
+    \ell(\theta) = \sum_{i=1}^N \Big[\mathbf{1}(W_i=1)\ln \mathcal{L}_i^{(1)}(\theta) + \mathbf{1}(W_i=2)\ln \mathcal{L}_i^{(2)}(\theta)\Big]
+\end{align}
+
+
+\subsection{Computational Strategy}
+
+\begin{enumerate}
+    \item Pre-compute $\sigma^*(h)$ on a fine grid of~$h$ by solving the fixed-point equation~\eqref{eq:sigma8}.  This requires summing over the $K$ support points at each iteration---no numerical integration over~$G$ is needed.
+    \item Construct $\tau(r_1)$ by numerical inversion.
+    \item For bank-1 winners: $h_i = \tau(r_i^{\text{win}})$ is computed once; the sum over~$j$ in~\eqref{eq:L1_8} involves $K$ logit evaluations.
+    \item For bank-2 winners: the integral over~$h$ in~\eqref{eq:L2_8} is evaluated by quadrature on the~$h$ grid.
+    \item The equilibrium $\sigma^*(h)$ depends on $(\alpha, \lambda, r_{2,1}^*, \ldots, r_{2,K}^*, p_1, \ldots, p_K, f(\cdot|x_j))$ through the posterior weights $\pi_j(h)$.  Since $r_{2,j}^*$ are observed, the equilibrium effectively depends on $(\alpha, \lambda, p_1, \ldots, p_K, f(\cdot|x_j))$ and must be recomputed at each parameter evaluation.  In practice, one parametrizes $f(h|x_j)$ with a flexible family (e.g., Beta, sieve basis) for computational tractability.
+\end{enumerate}
+
+
+%===========================================================================
+%  SECTION 5: COMPARISON WITH PUBLIC-X CASE
+%===========================================================================
+\newpage
+\section{Comparison with the Public-$\mathbf{x}$ Case}\label{sec:comparison8}
+
+\subsection{Identification Comparison}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{2.8cm}p{4cm}p{4cm}p{3cm}}
+\toprule
+& \textbf{Public~$\mathbf{x}$, observed} \newline (both banks know~$\mathbf{x}$, \newline econometrician sees~$\mathbf{x}$) & \textbf{Public~$\mathbf{x}$, unobserved} \newline (both banks know~$\mathbf{x}$, \newline econometrician doesn't) & \textbf{Private~$\mathbf{x}$} \newline (only bank~2 knows~$\mathbf{x}$) \\
+\midrule
+$\sigma^*$ depends on & $(h, \mathbf{x})$ & $(h, \mathbf{x})$ & $h$ only \\[2pt]
+Type recovery & Exact within~$\mathbf{x}$ & Fails (mixture) & \textbf{Exact} \\[2pt]
+$(\alpha, \lambda)$ & Nonparametric & Parametric $F$, $G$ needed & \textbf{Nonparametric} \\[2pt]
+$F(h|\cdot)$ & Nonparametric & Parametric & \textbf{Nonpar.}\ ($K\!=\!2$); Parametric ($K\!\geq\!3$) \\[2pt]
+$G$ & Observed ($\mathbf{x}$ seen) & Parametric & Finite-dim.~(Assumption~\ref{ass:finite_x}) \\[2pt]
+Key bottleneck & Need~$\mathbf{x}$ observed & Everything coupled & $(\alpha, \lambda, f(h|x_j), p_j)$ coupled but overidentified \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Testable Implications: Distinguishing the Models}
+
+The two information structures generate different testable predictions.
+
+\begin{prop}[Distinguishing test]\label{prop:test8}
+Define $V(r_1) \equiv \emph{Var}(D_i \mid r_i^{\emph{win}} = r_1,\, W_i = 1)$.  Under the private-$\mathbf{x}$ information structure:
+\begin{align*}
+    V(r_1) = \tau(r_1)\big(1 - \tau(r_1)\big) \qquad \text{(pure Bernoulli variance)}
+\end{align*}
+Under the public-$\mathbf{x}$ information structure (econometrician without~$\mathbf{x}$):
+\begin{align*}
+    V(r_1) > E[h|r_1, W\!=\!1]\big(1 - E[h|r_1, W\!=\!1]\big) \qquad \text{(excess variance from type mixture)}
+\end{align*}
+whenever more than one type produces rate~$r_1$.
+\end{prop}
+
+\begin{proof}
+Under the private-$\mathbf{x}$ structure, all bank-1 winners at rate~$r_1$ have the same type $h = \tau(r_1)$, so $D_i \sim$ Bernoulli($h$) and Var$(D_i \mid r_1, W_i\!=\!1) = h(1-h)$.
+
+Under the public-$\mathbf{x}$ structure, bank-1 winners at rate~$r_1$ can have different types (from different~$\mathbf{x}$).  Let $h$ be random conditional on $(r_1, W\!=\!1)$.  By the law of total variance:
+\begin{align*}
+    V(r_1) &= E[\text{Var}(D|h)] + \text{Var}(E[D|h]) \\
+    &= E[h(1-h) \mid r_1, W\!=\!1] + \text{Var}(h \mid r_1, W\!=\!1)
+\end{align*}
+The second term is strictly positive when the conditional distribution of~$h$ given $(r_1, W\!=\!1)$ is non-degenerate.
+\end{proof}
+
+\begin{remark}[Practical implementation]
+To test this, estimate $\hat{h}(r_1) = \hat{E}[D_i \mid r_1, W_i\!=\!1]$ and $\hat{V}(r_1) = \widehat{\text{Var}}(D_i \mid r_1, W_i\!=\!1)$ nonparametrically (e.g., kernel regression).  Under the private-$\mathbf{x}$ structure, pooling borrowers in a narrow bin around~$r_1$ should yield $\hat{V} \approx \hat{h}(1-\hat{h})$.  Under the public-$\mathbf{x}$ structure, $\hat{V}$ should systematically exceed $\hat{h}(1-\hat{h})$.  A formal test can be based on the difference $\hat{V}(r_1) - \hat{h}(r_1)(1-\hat{h}(r_1))$, which should be zero under the private-$\mathbf{x}$ structure.
+\end{remark}
+
+
+\printbibliography
+
+
+%===========================================================================
+%  APPENDIX: CONTINUOUS X
+%===========================================================================
+\newpage
+\appendix
+\section{Identification with Continuous Covariates}\label{app:continuous_x}
+
+This appendix extends the identification analysis to the case where the covariates~$\mathbf{x}$ take a continuum of values.  When $\mathbf{x} \in \mathcal{X} \subseteq \mathbb{R}^d$ with a continuous distribution, bank~2's equilibrium strategy $r_2^*(\mathbf{x})$ induces a continuous distribution~$G$ of entrant rates.  The distribution~$G$ is now infinite-dimensional, which creates an additional identification challenge.
+
+\subsection{The Infinite-Dimensional Problem}
+
+The bank-1 FOC \eqref{eq:foc_b1_8} continues to hold, now with the posterior density $\pi(r_2|h) = g(r_2) f(h|r_2) / f(h)$:
+\[
+    \alpha \cdot m(h) = \frac{\int s(\sigma^*(h), r_2)\, \pi(r_2|h)\, dr_2}{\int s(\sigma^*(h), r_2)(1-s(\sigma^*(h), r_2))\, \pi(r_2|h)\, dr_2} \qquad \text{for all } h
+\]
+This is a continuum of equations (one per~$h$) in the unknowns $(\alpha, \lambda, G, \theta_F)$.  Since both $G$ and $\pi(\cdot|h)$ are infinite-dimensional, the system cannot be solved without restricting~$G$.
+
+If $G$ were known (e.g., degenerate at a single~$r_2$), the system would reduce to the standard identifying restriction:
+\[
+    \ln(\alpha\, m(h) - 1) = \lambda - \alpha\big(\sigma^*(h) - r_2\big)
+\]
+which identifies $(\alpha, \lambda)$ from two values of~$h$.  With a non-degenerate continuous~$G$, this simplification is unavailable.
+
+Nonetheless, the FOC provides a strong restriction.  A continuum of equations (indexed by~$h$) must simultaneously hold, which is far more restrictive than a system with finitely many equations.
+
+\subsection{Parametric Approach}
+
+A parametric assumption on~$G$ restores tractability.
+
+\begin{ass}[Parametric mixing distribution]\label{ass:parametric_continuous}
+\begin{enumerate}
+    \item[(i)] \textbf{Type distribution.} $h \mid r_2 \sim F(h;\, \theta_F(r_2))$, where $F$ belongs to a known parametric family and $\theta_F(r_2)$ varies with~$r_2$ through a finite-dimensional parameterization.
+
+    \textbf{Example:} $h \mid r_2 \sim \text{Beta}(a, b_0 + b_1 r_2)$ on $[\underline{h}, \bar{h}]$, giving $\theta_F = (a, b_0, b_1)$.
+
+    \item[(ii)] \textbf{Mixing distribution.} $r_2 \sim G(r_2; \phi)$ belongs to a known parametric family.
+
+    \textbf{Example:} $r_2 \sim \text{LogNormal}(\mu_r, \sigma_r^2)$, giving $\phi = (\mu_r, \sigma_r)$.
+\end{enumerate}
+\end{ass}
+
+The full parameter vector is $\theta = (\alpha, \lambda, \theta_F, \phi)$.  Identification proceeds as in the main text (Stages~1--4), with two modifications:
+\begin{itemize}
+    \item Stage~2 of the main text (observing support points) is replaced by a parametric assumption on $G(\cdot; \phi)$.  The FOC system~\eqref{eq:foc_system8} now constrains $(\alpha, \lambda, \theta_F, \phi)$ jointly, with the integrals computed under the posterior $\pi(r_2|h;\theta_F,\phi)$.
+    \item Stage~3 (joint identification) identifies $(\alpha, \lambda, \theta_F, \phi)$ from the FOC plus bank-2 default rates, since the total dimension is finite and the FOC holds for a continuum of~$h$.  For the LogNormal example, $\dim(\alpha, \lambda, \theta_F, \mu_r, \sigma_r)$ is small relative to the continuum of FOC restrictions.
+    \item The overidentifying restriction on~$\phi$ from the selected distribution of bank-2 rates (Bayes' rule inversion of $g_{r_2|W=2}$) provides a separate check.
+\end{itemize}
+
+\subsection{Comparison}
+
+The finite-$\mathbf{x}$ assumption (main text) is strictly weaker: no parametric assumption on~$G$ is needed (the support points~$r_{2,j}^*$ are directly observed), and for $K = 2$ the conditional densities $f(h|x_j)$ are nonparametrically identified.  For $K \geq 3$, a parametric family for $f(h|x_j)$ is needed (the pointwise system is underdetermined), but the system remains massively overidentified.  The parametric specifications of Assumption~\ref{ass:parametric_continuous} are needed for the continuous-$\mathbf{x}$ case, where both~$G$ and the posterior become infinite-dimensional.  In practice, since credit covariates are typically reported in discrete categories (credit score bins, income brackets, geographic regions), the finite-$\mathbf{x}$ approach applies naturally.
+
+The likelihood under continuous~$\mathbf{x}$ is:
+\begin{align}
+    \mathcal{L}_i^{(1)}(\theta) &= |\tau'(r_i^{\text{win}})| \cdot h_i^{D_i}(1-h_i)^{1-D_i} \cdot \int s(\sigma^*(h_i), r_2) \cdot f(h_i \mid r_2; \theta_F) \cdot g(r_2; \phi)\, dr_2  \\
+    \mathcal{L}_i^{(2)}(\theta) &= g(r_i^{\text{win}}; \phi) \cdot \int_{\underline{h}}^{\bar{h}} (1-s(\sigma^*(h), r_i^{\text{win}})) \cdot h^{D_i}(1-h)^{1-D_i} \cdot f(h \mid r_i^{\text{win}}; \theta_F)\, dh
+\end{align}
+where the bank-1 likelihood now requires quadrature over~$r_2$ under $g(\cdot; \phi)$, and the bank-2 likelihood uses $g(r_i^{\text{win}}; \phi)$ as the marginal density of the entrant rate.
+
+
+\end{document}

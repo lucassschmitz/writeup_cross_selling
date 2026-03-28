@@ -1,0 +1,686 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsfonts}
+\usepackage{eurosym}
+\usepackage{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{ulem} 
+\usepackage{graphicx}
+\usepackage{comment}
+%\usepackage[sort,comma]{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[backend=biber, style = apa]{biblatex}
+\usepackage{placeins} % to separate sections
+
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{comment}
+\usepackage[hang, flushmargin, bottom]{footmisc}
+\usepackage{footnotebackref}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{todonotes}
+\setcounter{MaxMatrixCols}{10}
+
+
+%\setlength{\bibsep}{0.3pt}
+\setlength{\textfloatsep}{5pt}
+\hypersetup{breaklinks=true,hypertexnames=false,colorlinks=true,citecolor = teal}
+\captionsetup{font=normalsize}
+\newcommand{\cmark}{\ding{51}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\renewcommand{\thetable}{\Roman{table}}
+\geometry{verbose,tmargin=.9in,bmargin=1in,lmargin=.8in,rmargin=.8in,nomarginpar}
+\makeatletter
+\DeclareTextSymbolDefault{\textquotedbl}{T1}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+\theoremstyle{plain}
+\newtheorem{prop}[thm]{\protect\propositionname}
+\theoremstyle{definition}  % Add this line
+\newtheorem{definition}[thm]{Definition}  % Add this line
+\theoremstyle{remark}  % Add this line
+\newtheorem{remark}[thm]{Remark}  % Add this line
+\providecommand{\propositionname}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\providecommand{\theoremname}{Theorem}
+\makeatother
+\newtheorem{ass}[thm]{Assumption}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{corollary}[thm]{Corollary}
+% \input{tcilatex}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+
+\addbibresource{../references.bib}
+\begin{document}
+
+\section*{Model 6 (v3): Identification and Estimation with Heterogeneous Covariates}
+
+This document develops the identification theory for the structural model with observable heterogeneity (Model~6, \texttt{M6\_heterogeneity\_information.tex}) when the econometrician does not observe---or only partially observes---the public covariates~$\mathbf{x}$ that both banks use.
+
+Model~5 (\texttt{M5\_convert4intostructural.tex}) establishes nonparametric identification when there is no observable heterogeneity: bank~2 plays a single rate, and three data objects $(r_2^*, \sigma^*(\cdot), D_i)$ suffice to recover $(\alpha, \lambda, F)$.  Model~6 introduces public covariates~$\mathbf{x}$ observed by both banks, which generates heterogeneity in bank~2's rate across borrowers.  The central question is: \emph{what can the econometrician recover when~$\mathbf{x}$ is partially or fully unobserved?}
+
+Section~\ref{sec:recap} recaps the model. Section~\ref{sec:suffstat} establishes the sufficient statistic result.  Section~\ref{sec:nonpar_id} characterizes precisely what is and is not identified nonparametrically.  Section~\ref{sec:parametric_id} provides formal identification results under parametric assumptions, stating exact conditions.  Section~\ref{sec:likelihood} derives the likelihood.  Section~\ref{sec:simulation} describes the Monte Carlo validation.
+
+
+%===========================================================================
+%  SECTION 1: MODEL RECAP
+%===========================================================================
+
+\section{Model Recap}\label{sec:recap}
+
+Two banks compete for a borrower. Bank~1 (informed/incumbent) observes both public covariates $\mathbf{x}$ and private covariates $\mathbf{x}'$, and therefore knows the borrower's default probability $h = h(\mathbf{x}, \mathbf{x}')$. Bank~2 (uninformed/entrant) observes only $\mathbf{x}$ and faces the conditional distribution $F(h \mid \mathbf{x})$. Demand is logit:
+\begin{align}\label{eq:share}
+    s(r_1, r_2) = \frac{1}{1 + \exp\!\big(\alpha(r_1 - r_2) - \lambda\big)}
+\end{align}
+In equilibrium:
+\begin{align}
+    \sigma^*(h;\mathbf{x}) &= \frac{1}{1-h} + \frac{1}{\alpha\big(1-s(\sigma^*(h;\mathbf{x}), r_2^*(\mathbf{x}))\big)} \label{eq:sigma}\\[4pt]
+    r_2^*(\mathbf{x}) &= \frac{1}{1 - \tilde{h}(\mathbf{x})} + \frac{1}{\alpha}\cdot\frac{\int (1-s)(1-h)\, dF(\cdot|\mathbf{x})}{\int s\,(1-s)(1-h)\, dF(\cdot|\mathbf{x})} \label{eq:r2}
+\end{align}
+The structural parameters are $\theta = (\alpha, \lambda, F(\cdot|\mathbf{x}))$.
+
+\medskip\noindent
+\textbf{Data.} For each borrower $i = 1, \ldots, N$, the econometrician observes:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\textbf{Variable} & \textbf{Description} & \textbf{Values} \\
+\midrule
+$r_i^{\text{win}}$ & Interest rate charged by the chosen bank & $\mathbb{R}_+$ \\
+$W_i$ & Identity of the chosen bank & $\{1, 2\}$ \\
+$D_i$ & Default indicator & $\{0, 1\}$ \\
+$\mathbf{z}_i$ & Observed public covariates (possibly empty) & $\mathbb{R}^{d_z}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+We partition $\mathbf{x} = (\mathbf{z}, \mathbf{w})$, where $\mathbf{z}$ is observed by the econometrician and $\mathbf{w}$ is not. The analysis covers all cases from $\mathbf{z} = \mathbf{x}$ (full observability, nonparametric identification as in M5) to $\mathbf{z} = \emptyset$ (no covariates, most demanding).
+
+\medskip\noindent
+\textbf{Key data asymmetry:}
+\begin{itemize}
+    \item When $W_i = 2$: we observe $r_i^{\text{win}} = r_2^*(\mathbf{x}_i)$, directly revealing the entrant's rate for that borrower.
+    \item When $W_i = 1$: we observe $r_i^{\text{win}} = \sigma^*(h_i; r_2^*(\mathbf{x}_i))$, which depends on two latent variables: the type $h_i$ and the entrant rate $r_2^*(\mathbf{x}_i)$.
+\end{itemize}
+
+
+%===========================================================================
+%  SECTION 2: THE SUFFICIENT STATISTIC
+%===========================================================================
+
+\newpage
+\section{The Sufficient Statistic Result}\label{sec:suffstat}
+
+\begin{prop}[Sufficient statistic]\label{prop:suffstat}
+In the stage-2 equilibrium, the public covariates $\mathbf{x}$ affect bank~1's pricing rule $\sigma^*$ and the market shares $s$ only through the entrant's rate $r_2^*(\mathbf{x})$. Formally, for any two covariate vectors $\mathbf{x}_a, \mathbf{x}_b \in \mathcal{X}$ with $r_2^*(\mathbf{x}_a) = r_2^*(\mathbf{x}_b) = r_2$:
+\begin{align}\label{eq:suffstat}
+    \sigma^*(h; \mathbf{x}_a) = \sigma^*(h; \mathbf{x}_b) = \sigma^*(h; r_2), \qquad s(\sigma^*(h; \mathbf{x}_a), r_2) = s(\sigma^*(h; \mathbf{x}_b), r_2)
+\end{align}
+for all $h$.
+\end{prop}
+
+\begin{proof}
+Immediate from the bank~1 FOC \eqref{eq:sigma}: the right side depends on $\mathbf{x}$ only through $r_2^*(\mathbf{x})$. Since bank~1's best response is the unique solution to this fixed-point equation, and the equation is identical for all $\mathbf{x}$ with the same $r_2^*$, the solution $\sigma^*(h; \mathbf{x})$ is the same.
+\end{proof}
+
+\begin{remark}[What $r_2^*$ does not capture]\label{rem:suffstat_limit}
+The sufficient statistic result applies to bank~1's strategy and market shares, but \emph{not} to the full equilibrium. Bank~2's FOC \eqref{eq:r2} depends on $F(h|\mathbf{x})$, which is not a function of $r_2^*$ alone---two different~$\mathbf{x}$ values can lead to different $F(h|\mathbf{x})$ but the same optimal $r_2^*$.
+\end{remark}
+
+\begin{definition}[Type-recovery function]\label{def:tau}
+For fixed $r_2$, define $\tau(r_1; r_2)$ as the inverse of $\sigma^*(\cdot\,; r_2)$:
+\begin{align}\label{eq:tau_def}
+    \tau\!\big(\sigma^*(h; r_2);\, r_2\big) = h \qquad \text{for all } h
+\end{align}
+Since $\sigma^*(\cdot; r_2)$ is strictly increasing in $h$, $\tau(\cdot; r_2)$ is well-defined and strictly increasing in $r_1$.  The Jacobian is:
+\begin{align}\label{eq:tau_prime}
+    \tau'(r_1; r_2) = \frac{1}{\sigma^*_h\!\big(\tau(r_1;r_2);\, r_2\big)} > 0
+\end{align}
+\end{definition}
+
+
+%===========================================================================
+%  SECTION 3: NONPARAMETRIC IDENTIFICATION
+%===========================================================================
+
+\newpage
+\section{What Is and Is Not Identified Nonparametrically}\label{sec:nonpar_id}
+
+We now characterize precisely what can be recovered from the data without parametric assumptions, and where nonparametric identification breaks down. This makes explicit what the parametric assumptions in Section~\ref{sec:parametric_id} are doing.
+
+\subsection{Benchmark: Full Observability ($\mathbf{z} = \mathbf{x}$)}\label{sec:benchmark}
+
+When the econometrician observes all public covariates, conditioning on $\mathbf{x}$ reduces the model to M5 within each $\mathbf{x}$-stratum. The M5 identification result applies market-by-market:
+
+\begin{enumerate}
+    \item $r_2^*(\mathbf{x})$ is identified as the common winning rate among bank-2 winners with covariates $\mathbf{x}$.
+    \item $\sigma^*(\cdot; \mathbf{x})$ is identified via type recovery: $E[D_i \mid r_i^{\text{win}} = r, W_i = 1, \mathbf{x}_i = \mathbf{x}] = \tau(r; r_2^*(\mathbf{x}))$.
+    \item $(\alpha, \lambda)$ are identified from the linear restriction $\ln(\alpha\,m -1) = \lambda - \alpha\Delta$ within any single $\mathbf{x}$-stratum.  Multiple strata provide overidentification.
+    \item $F(h|\mathbf{x})$ is identified by inverting the selection-weighted density of types among bank-1 winners.
+\end{enumerate}
+
+\noindent This is the nonparametric ideal. We now analyze what survives when $\mathbf{x}$ is partially or fully unobserved.
+
+
+\subsection{What IS Identified Without $\mathbf{x}$}\label{sec:what_is}
+
+Even without observing $\mathbf{x}$, several objects are nonparametrically identified from the data. Understanding these is important because they constrain any parametric model.
+
+\begin{prop}[Identified objects without covariates]\label{prop:identified_objects}
+From the joint distribution of $(r_i^{\text{win}}, W_i, D_i)$ alone, the following are nonparametrically identified:
+\begin{enumerate}
+    \item[(a)] The distribution of $r_2^*(\mathbf{x})$ among bank-2 winners (the selected distribution).
+    \item[(b)] The conditional default rate $E[D_i \mid r_i^{\text{win}}, W_i = 2]$ as a function of the winning rate.
+    \item[(c)] The distribution of $\sigma^*(h_i; r_2^*(\mathbf{x}_i))$ among bank-1 winners.
+    \item[(d)] The conditional default rate $E[D_i \mid r_i^{\text{win}}, W_i = 1]$ as a function of the winning rate.  However, this does \emph{not} recover the borrower's type~$h$.  The reason is that bank~1's rate depends on both the borrower's type and the competitive environment: $r_1 = \sigma^*(h; r_2^*(\mathbf{x}))$.  Two borrowers with the \emph{same} type~$h$ but different covariates~$\mathbf{x}$ face different entrant rates $r_2^*(\mathbf{x})$, so bank~1 charges them different rates~$r_1$.  Conversely, the same~$r_1$ can arise from different $(h, \mathbf{x})$ combinations: a safe borrower whose covariates~$\mathbf{x}$ imply a competitive entrant (low~$r_2^*$), or a riskier borrower whose covariates imply a less competitive entrant (high~$r_2^*$).  Since the econometrician does not observe~$\mathbf{x}$, she cannot determine which competitive environment generated the observed~$r_1$, and therefore cannot back out~$h$.  The conditional default rate $E[D_i \mid r_1, W_i\!=\!1]$ is thus a weighted average over the different types that produce rate~$r_1$, not the type itself.
+    \item[(e)] The aggregate switching probability $\Pr(W_i = 2)$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+These are all features of the observable joint distribution $(r_i^{\text{win}}, W_i, D_i)$ and are identified directly from the data without any model structure.
+\end{proof}
+
+Let us examine each and its informational content.
+
+\medskip\noindent
+\textbf{(a) Distribution of $r_2^*$ among switchers.}  Among bank-2 winners, $r_i^{\text{win}} = r_2^*(\mathbf{x}_i)$, so the empirical distribution of winning rates directly reveals the \emph{selected} distribution.  However, this is \emph{not} the population distribution of $r_2^*$: the density observed is
+\begin{align}\label{eq:g2_selected}
+    g_{r_2 | W=2}(r_2) = \frac{g(r_2) \cdot \Pr(W=2 \mid r_2)}{\Pr(W=2)}
+\end{align}
+where $g(r_2)$ is the population density and $\Pr(W=2 \mid r_2) = \int (1-s(\sigma^*(h; r_2), r_2))\, dF(h|r_2)$ is the aggregate switching probability conditional on $r_2$.  Lower $r_2$ (more competitive entrant) means more switching, so the observed distribution is shifted downward relative to the population.  Recovering $g(r_2)$ from $g_{r_2|W=2}(r_2)$ requires knowing $\Pr(W=2|r_2)$, which depends on $(\alpha, \lambda, F)$.
+
+\medskip\noindent
+\textbf{(b) Default rates among bank-2 winners.}  For each value of the winning rate $r_2$:
+\begin{align}\label{eq:d2_mixture}
+    E[D_i \mid r_i^{\text{win}} = r_2, W_i = 2] = \frac{\int h\,(1-s(\sigma^*(h;r_2),r_2))\, dF(h|r_2)}{\int (1-s(\sigma^*(h;r_2),r_2))\, dF(h|r_2)}
+\end{align}
+This is the \emph{adverse-selection-weighted} mean type: borrowers who switch to bank~2 are disproportionately those with high~$h$ (risky types), because they face a higher $\sigma^*(h)$ that pushes them away from bank~1.  Formally, $1-s(\sigma^*(h),r_2)$ is increasing in~$h$ (since $\sigma^*$ is increasing and $s_1 < 0$), so $E[D|r_2, W\!=\!2] > E[h|r_2]$.  This object is directly estimable by regressing~$D_i$ on~$r_i^{\text{win}}$ among bank-2 winners.
+
+\medskip\noindent
+\textbf{(d) The mixture problem for bank-1 winners.}  Among bank-1 winners, the winning rate $r_1 = \sigma^*(h_i; r_2^*(\mathbf{x}_i))$ confounds two latent variables: $h_i$ and $r_2^*(\mathbf{x}_i)$.  The same $r_1$ can arise from different $(h, r_2)$ combinations:
+\begin{itemize}
+    \item Low $h$ (good type) + low $r_2$ (competitive entrant): bank~1 offers a low rate against tough competition.
+    \item Higher $h$ (riskier) + higher $r_2$ (less competitive entrant): bank~1 charges more due to both higher cost and more market power.
+\end{itemize}
+The conditional default rate is a mixture:
+\begin{align}\label{eq:mixture}
+    E[D_i \mid r_i^{\text{win}} = r_1, W_i = 1] = \frac{\int_{\mathcal{R}_2(r_1)} \tau(r_1; r_2) \cdot s(r_1, r_2) \cdot f(\tau(r_1;r_2)|r_2) \cdot \tau'(r_1;r_2) \cdot g(r_2)\, dr_2}{\int_{\mathcal{R}_2(r_1)} s(r_1, r_2) \cdot f(\tau(r_1;r_2)|r_2) \cdot \tau'(r_1;r_2) \cdot g(r_2)\, dr_2}
+\end{align}
+This \emph{cannot} be inverted to recover $h_i$ for any individual borrower without additional structure.
+
+
+\subsection{What Fails Without $\mathbf{x}$: The Benchmark Argument}\label{sec:what_fails}
+
+Without observing~$\mathbf{x}$, the four-step nonparametric identification argument from the benchmark case (Section~\ref{sec:benchmark}) breaks down:
+\begin{enumerate}
+    \item[(i)] \textbf{Step 1 (Recovery of $r_2^*$):} Bank~2's rate is no longer a single constant. It varies across borrowers through $\mathbf{x}$, generating a distribution rather than a point mass among bank-2 winners.
+    
+    \item[(ii)] \textbf{Step 2 (Type recovery):} The key identity $E[D_i \mid r_1, W_i=1] = h_i$ fails.  The source of the problem is heterogeneity in the competitive environment through~$\mathbf{x}$.  Borrowers with covariates~$\mathbf{x}$ that make the entrant very competitive (low~$r_2^*(\mathbf{x})$) face a very different pricing environment from borrowers whose covariates make the entrant less competitive (high~$r_2^*(\mathbf{x})$).  Bank~1's rate $r_1 = \sigma^*(h; r_2^*(\mathbf{x}))$ depends on both the type and the competitive environment, and $\sigma^*$ is increasing in both arguments.  So the same~$r_1$ can be generated by a low-risk borrower in a competitive market (low~$h$, low~$r_2^*$) or a higher-risk borrower in a less competitive market (high~$h$, high~$r_2^*$).  Without observing~$\mathbf{x}$, the econometrician cannot determine which competitive environment generated the observed rate, so the conditional expectation $E[D_i \mid r_1, W_i\!=\!1]$ averages over these different types rather than recovering a single~$h$.
+    
+    \item[(iii)] \textbf{Step 3 (Identifying restriction):} The linear restriction $\ln(\alpha m - 1) = \lambda - \alpha\Delta$ requires knowing both $m(h) = \sigma^*(h) - 1/(1-h)$ and $\Delta(h) = \sigma^*(h) - r_2^*$ for individual borrowers. Without type recovery, neither $m$ nor $\Delta$ can be computed.
+    
+    \item[(iv)] \textbf{Step 4 (Distribution recovery):} Recovering $F(h)$ from the selection-weighted density $f_{h|W=1}(h)$ requires knowing $s(h)$, which requires $(\alpha, \lambda)$ from Step~3.
+\end{enumerate}
+
+However, showing that a particular identification strategy fails does not establish that the model is unidentified---perhaps a different argument could work.  We now prove that no such argument exists.
+
+
+\subsection{Nonparametric Non-Identification}\label{sec:nonid_formal}
+
+\begin{prop}[Nonparametric non-identification]\label{prop:nonid}
+Without parametric restrictions on $F(h|\mathbf{x})$ and the distribution of~$\mathbf{x}$, the structural parameters $(\alpha, \lambda)$ are not identified.  Specifically: for any parameter vector $(\alpha_0, \lambda_0, F_0, G_0)$ generating observable distribution~$\mathcal{D}$, and for any $(\alpha_1, \lambda_1)$ in a neighborhood of~$(\alpha_0, \lambda_0)$, there exist nonparametric distributions $F_1$ and~$G_1$ such that $(\alpha_1, \lambda_1, F_1, G_1)$ also generates~$\mathcal{D}$.
+\end{prop}
+
+\begin{proof}
+We construct an explicit observationally equivalent model.  Fix $(\alpha_1, \lambda_1) \neq (\alpha_0, \lambda_0)$ with $\alpha_1 > 0$.
+
+\medskip\noindent
+\textbf{Step 1: New equilibrium.}  Under $(\alpha_1, \lambda_1)$, bank~1's FOC defines a new equilibrium strategy $\sigma_1^*(h; r_2)$ and market shares $s_1(r_1, r_2)$ for each~$r_2$.  These are uniquely determined (for given $F$ and $r_2$, the bank-1 FOC has a unique solution under standard regularity).
+
+\medskip\noindent
+\textbf{Step 2: Matching bank-2 winner defaults.}  The data identify $\delta(r_2) \equiv E[D_i \mid r_2, W_i = 2]$ at each~$r_2$.  Under the alternative model:
+\[
+    \delta(r_2) = \frac{\int h\,(1 - s_1(\sigma_1^*(h; r_2), r_2))\, dF_1(h|r_2)}{\int (1 - s_1(\sigma_1^*(h; r_2), r_2))\, dF_1(h|r_2)}
+\]
+This is a single moment restriction on the nonparametric distribution~$F_1(\cdot|r_2)$ at each~$r_2$.  Since $F_1(\cdot|r_2)$ is a probability distribution on $[\underline{h}, \bar{h}]$---an infinite-dimensional object---a single moment does not pin it down.  We can choose $F_1(\cdot|r_2)$ to satisfy $\delta(r_2)$ at each~$r_2$, with many degrees of freedom remaining.
+
+\medskip\noindent
+\textbf{Step 3: Matching the $r_2$ distribution.}  Given $(\alpha_1, \lambda_1, F_1)$, the selection probability $\Pr_1(W\!=\!2|r_2)$ is determined.  Set:
+\[
+    g_1(r_2) \propto \frac{g_{r_2|W=2}(r_2)}{\Pr_1(W\!=\!2|r_2)}
+\]
+where $g_{r_2|W=2}$ is the observed density of $r_2$ among bank-2 winners.  This ensures the alternative model matches the observed distribution of entrant rates among switchers.
+
+\medskip\noindent
+\textbf{Step 4: Matching bank-1 winner density.}  The density of $(r_1, D)$ among bank-1 winners is a mixture:
+\[
+    p(r_1, d) = \int f_1(\tau_1(r_1; r_2) \mid r_2)\, \tau_1'(r_1; r_2)\, s_1(r_1, r_2)\, h^d(1\!-\!h)^{1-d}\, g_1(r_2)\, dr_2
+\]
+Here $\tau_1(\cdot; r_2)$ is the type-recovery function under the alternative equilibrium.  At each~$r_2$, the integrand involves $f_1(\cdot|r_2)$, which has the remaining degrees of freedom from Step~2.  The system of equations (one per $r_1$ value) constrains the marginal contributions at each~$r_2$ through a Fredholm integral equation of the first kind.  Since $f_1(\cdot|r_2)$ is unrestricted (beyond the single moment matched in Step~2), this system generically admits solutions: the operator maps an infinite-dimensional input to a one-dimensional output at each~$r_1$.
+
+\medskip\noindent
+\textbf{Conclusion.}  For any $(\alpha_1, \lambda_1)$ near the truth, we can find nonparametric $(F_1, G_1)$ matching all observable moments:
+\begin{itemize}
+    \item The distribution of $r_2$ among bank-2 winners (Step~3),
+    \item The conditional default rates among bank-2 winners (Step~2),
+    \item The joint density of $(r_1, D)$ among bank-1 winners (Step~4),
+    \item The aggregate switching rate (absorbed by the normalization of $G_1$ in Step~3).
+\end{itemize}
+The fundamental reason is a \emph{dimension mismatch}: the data provide functional restrictions (a continuum indexed by $r_1$ or $r_2$), but the nonparametric unknowns $F_1(h|r_2)$ constitute a family of distributions---one per~$r_2$---which is a higher-dimensional object.  Two scalar parameters $(\alpha, \lambda)$ cannot be pinned down when the nuisance functions absorb all identifying variation.
+\end{proof}
+
+\begin{remark}[Intuition]
+The non-identification has a simple economic interpretation.  Suppose the true $\alpha$ (price sensitivity) is moderate.  An alternative model with higher~$\alpha_1$ would predict stronger adverse selection (riskier borrowers switch more), changing the predicted default rates.  But this can be offset by choosing $F_1(h|r_2)$ with a different shape---for instance, a type distribution with less dispersion, so that even with stronger selection, the default rates among switchers match the data.  With nonparametric $F$, there is always enough flexibility to absorb any change in $(\alpha, \lambda)$.
+\end{remark}
+
+
+\subsection{The Role of Default Data in Narrowing Identification}\label{sec:defaults_nonpar}
+
+Default outcomes $D_i$ provide additional identifying power beyond rates and winner identity. Two mechanisms:
+
+\begin{enumerate}
+    \item \textbf{Among bank-2 winners:} The function $E[D_i \mid r_i^{\text{win}} = r_2, W_i = 2]$ is identified. Since this is a weighted average of types who switch at entrant rate $r_2$, it traces out how the adverse-selection-weighted mean type varies with $r_2$.  A structural model must match this entire curve, not just its level---this is a functional restriction, not a scalar one.
+    
+    \item \textbf{Among bank-1 winners:} Although $E[D_i \mid r_1, W_i = 1]$ is a mixture (not a clean type recovery), its \emph{shape} is informative.  For instance:
+    \begin{itemize}
+      \item If the default rate rises steeply with $r_1$, this is consistent with a narrow range of $r_2^*$ (the mixture is concentrated, close to a clean type recovery).
+      \item If the default rate is flat or non-monotone, this indicates substantial variation in $r_2^*$ (the mixture blurs the $h$--$r_1$ mapping).
+    \end{itemize}
+    The \emph{variance} $\text{Var}(D_i \mid r_1, W_i = 1)$ is also informative: if limited variation in $r_2$ only one type produces each $r_1$, then $\text{Var}(D_i \mid r_1, W_i=1) \approx h(1-h)$ (Bernoulli variance). Excess variance beyond $h(1-h)$ indicates mixture heterogeneity in $h$ at that rate.
+\end{enumerate}
+
+\subsection{Summary: Identification Landscape}\label{sec:landscape}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{4cm}p{3.5cm}p{5.5cm}}
+\toprule
+\textbf{Object} & \textbf{Status} & \textbf{What's missing} \\
+\midrule
+$\alpha, \lambda$ & Not point-identified & Require clean type recovery (Step 2), which fails without $r_2$ \\[2pt]
+$g_{r_2|W=2}(\cdot)$ & Point-identified & Directly from bank-2 winning rates \\[2pt]
+$g(r_2)$ (population) & Not point-identified & Need $\Pr(W\!=\!2|r_2)$, which requires $(\alpha,\lambda,F)$ \\[2pt]
+$E[D|r_2, W\!=\!2]$ & Point-identified & Identified as a function of $r_2$ \\[2pt]
+$F(h|\mathbf{x})$ & Not point-identified & Requires $(\alpha,\lambda)$ and clean type recovery \\[2pt]
+$\Pr(W\!=\!2)$ & Point-identified & Sample proportion \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The upshot: without parametric restrictions, we identify the \emph{marginals} and \emph{conditional moments} of the observable distribution, but cannot disentangle the latent variables $(h_i, r_2^*(\mathbf{x}_i))$ for bank-1 winners.  This motivates the parametric approach in the next section.
+
+
+%===========================================================================
+%  SECTION 4: PARAMETRIC IDENTIFICATION
+%===========================================================================
+
+\newpage
+\section{Parametric Identification}\label{sec:parametric_id}
+
+We now show that imposing parametric structure on two specific objects---the type distribution and the mixing distribution---restores identification, and we characterize the conditions under which this holds.
+
+\subsection{Parametric Specification}\label{sec:spec}
+
+\begin{ass}[Parametric specification]\label{ass:parametric}
+\begin{enumerate}
+    \item[(i)] \textbf{Type distribution.} $h \mid \mathbf{x} \sim F(h;\, \theta_F(\mathbf{x}))$, where $F$ belongs to a known parametric family and $\theta_F(\mathbf{x})$ varies with~$\mathbf{x}$ through a finite-dimensional parameterization.
+    
+    \textbf{Example:} $h \mid x \sim \text{Beta}(a,\, b(x))$ on $[h_{\min}, h_{\max}]$, with $b(x) = b_0 + b_1 x$, giving $\theta_F = (a, b_0, b_1, h_{\min}, h_{\max})$.
+    
+    \item[(ii)] \textbf{Covariate distribution.} $\mathbf{x} \sim P(\mathbf{x};\, \psi)$ belongs to a known parametric family.
+    
+    \textbf{Example:} $x \sim \text{LogNormal}(\mu_x, \sigma_x^2)$, giving $\psi = (\mu_x, \sigma_x)$.
+\end{enumerate}
+When the econometrician observes some covariates $\mathbf{z} \subseteq \mathbf{x}$, the conditioning extends: $\theta_F(\mathbf{x}, \mathbf{z})$ and $P(\mathbf{x} | \mathbf{z}; \psi)$.
+\end{ass}
+
+The full parameter vector is $\theta = (\alpha, \lambda, \theta_F, \psi)$.
+
+\begin{remark}[Reduced-form objects induced by the primitives]\label{rem:induced}
+The primitives $(F(h|\mathbf{x}; \theta_F),\; P(\mathbf{x}; \psi))$ determine the equilibrium objects that enter the likelihood:
+\begin{itemize}
+    \item \textbf{Entrant rate.}  For each $\mathbf{x}$, bank~2's equilibrium rate $r_2^*(\mathbf{x})$ is determined by the FOC~\eqref{eq:r2}, which depends on $(\alpha, \lambda, F(\cdot|\mathbf{x}))$.  This defines a mapping $\mathbf{x} \mapsto r_2^*(\mathbf{x}; \theta)$.
+    \item \textbf{Mixing distribution.} The population distribution of entrant rates $G(r_2; \theta)$ is the pushforward of $P(\mathbf{x}; \psi)$ through $r_2^*(\cdot; \theta)$.  It is \emph{not} a free object but is determined by the primitives through the equilibrium.
+    \item \textbf{Conditional type distribution.}  By the sufficient statistic result (Proposition~\ref{prop:suffstat}), conditionally on $r_2$, the type distribution $F(h|r_2; \theta)$ is determined by averaging $F(h|\mathbf{x}; \theta_F)$ over all~$\mathbf{x}$ that map to the same~$r_2$.
+\end{itemize}
+The likelihood (Section~\ref{sec:likelihood}) is written in terms of these derived objects $G(r_2; \theta)$ and $F(h|r_2; \theta)$, because the sufficient statistic result ensures that~$\mathbf{x}$ enters the likelihood only through~$r_2^*(\mathbf{x})$.
+\end{remark}
+
+\begin{remark}[Why two parametric choices are needed]\label{rem:why_two}
+\begin{itemize}
+    \item \textbf{Assumption (i)} constrains the type distribution.  Proposition~\ref{prop:nonid} shows that without it, for any candidate $(\alpha, \lambda)$, there exist type distributions that rationalize the observed data.  The parametric family restricts the degree of freedom in $F$, enabling the data to discipline $(\alpha, \lambda)$.
+    \item \textbf{Assumption (ii)} characterizes the population distribution of~$\mathbf{x}$, which determines the equilibrium distribution of competitive conditions.  While $r_2$ is observed among bank-2 winners, those observations are \emph{selected} (borrowers who switched), and recovering the population distribution requires knowing $\Pr(W\!=\!2|r_2)$---which depends on all structural parameters.  The parametric family anchors the covariate distribution.
+\end{itemize}
+Importantly, neither assumption alone suffices.  The identification works through the \emph{interaction}: the parametric $F(h|\mathbf{x})$ restricts how defaults relate to rates for each competitive environment, and the parametric $P(\mathbf{x})$ restricts which competitive environments arise and how frequently.
+\end{remark}
+
+\subsection{Restriction Counting: Why Parametric Models Are Generically Identified}\label{sec:formal_id}
+
+Before analyzing the specific Beta specification, we establish a general result: any well-specified finite-dimensional parametric model satisfying Assumption~\ref{ass:parametric} is \emph{generically} identified---meaning that identification fails only on a measure-zero set in the parameter space.  This follows from a restriction-counting argument combined with the structure of the data.
+
+\medskip\noindent
+\textbf{Available restrictions.}  The data provide two families of functional restrictions:
+
+\begin{enumerate}
+    \item \textbf{From bank-2 winners:} For each $r_2$ in the support of bank-2 winners' rates, the model predicts the conditional default rate:
+    \begin{align}\label{eq:d2_restriction}
+        E[D|r_2, W\!=\!2] = \frac{\int h\,(1 - s(\sigma^*(h; r_2), r_2))\, dF(h;\theta_F(r_2))}{\int (1 - s(\sigma^*(h; r_2), r_2))\, dF(h;\theta_F(r_2))}
+    \end{align}
+    The left side is a known function of $r_2$ (estimable from data).  The right side depends on the structural parameters $(\alpha, \lambda, \theta_F)$.  If the support of $r_2$ has non-empty interior, this is a \emph{continuum} of restrictions---infinitely many equations constraining finitely many parameters.
+    
+    \item \textbf{From bank-1 winners:} The density of $(r_1, D)$ among bank-1 winners is:
+    \begin{align}\label{eq:b1_density}
+        p(r_1, d, W\!=\!1 \mid \theta) = \int f(\tau(r_1;r_2) \mid r_2; \theta) \cdot \tau'(r_1;r_2) \cdot s(r_1, r_2) \cdot h^d(1\!-\!h)^{1-d} \cdot g(r_2;\theta)\, dr_2
+    \end{align}
+    where $f(\cdot|r_2;\theta)$ and $g(r_2;\theta)$ are the induced conditional type distribution and mixing density (Remark~\ref{rem:induced}).  This provides additional functional restrictions involving all parameters $(\alpha, \lambda, \theta_F, \psi)$.
+    
+    \item \textbf{Selection-distorted mixing distribution:} The density of $r_2$ among bank-2 winners is:
+    \begin{align}\label{eq:g2_selection}
+        g_{r_2|W=2}(r_2) = \frac{g(r_2;\theta) \cdot \Pr(W\!=\!2|r_2;\, \alpha,\lambda,\theta_F)}{\Pr(W\!=\!2)}
+    \end{align}
+    which constrains $\psi$ jointly with all other parameters.
+    
+    \item \textbf{Aggregate switching rate:} $\Pr(W\!=\!2) = \int\!\int (1-s(\sigma^*(h;r_2),r_2))\, dF(h|r_2;\theta)\, dG(r_2;\theta)$ provides a scalar restriction on $(\alpha,\lambda,\theta_F,\psi)$.
+\end{enumerate}
+
+\medskip\noindent
+\textbf{Dimension count.}  The parameter vector $\theta = (\alpha, \lambda, \theta_F, \psi)$ is finite-dimensional: $\dim(\theta) = 2 + \dim(\theta_F) + \dim(\psi)$.  For the Beta specification in the Monte Carlo ($\theta_F = (a, b_0, b_1)$, $\psi = (\mu_x, \sigma_x)$), $\dim(\theta) = 7$.  The data provide:
+\begin{itemize}
+    \item A continuum of restrictions from $E[D|r_2, W\!=\!2]$ (one per $r_2$ value in the support),
+    \item A continuum from the bank-1 density $p(r_1, d, W\!=\!1)$,
+    \item A functional restriction from $g_{r_2|W=2}(\cdot)$,
+    \item A scalar from $\Pr(W\!=\!2)$.
+\end{itemize}
+The system is massively overdetermined: infinitely many independent restrictions for finitely many parameters.
+
+\begin{thm}[Generic identification]\label{thm:generic_id}
+Suppose the parametric families $F(h|\mathbf{x};\theta_F)$ and $P(\mathbf{x};\psi)$ are smooth in their parameters, and the support of $r_2^*$ among bank-2 winners has non-empty interior.  Then the set of parameter values $\theta = (\alpha, \lambda, \theta_F, \psi)$ at which the model is \emph{not} identified (i.e., there exists $\theta' \neq \theta$ generating the same distribution of observables) has Lebesgue measure zero in the parameter space.
+\end{thm}
+
+\begin{proof}[Proof sketch]
+The functional restrictions above define a system of equations $\mathcal{M}(\theta) = \mathcal{D}$, where $\mathcal{M}(\theta)$ is the model-predicted functional (mapping parameters to the joint distribution of observables) and $\mathcal{D}$ is the data distribution.  This is a map from $\mathbb{R}^{d_\theta}$ to an infinite-dimensional function space.  By a standard transversality argument (cf.\ Rothenberg, 1971, \emph{Econometrica}, Theorem~1), if the Jacobian $\partial \mathcal{M}/\partial \theta$ has full column rank at $\theta_0$ (the ``local identification condition''), then $\theta_0$ is locally identified.  The set where the Jacobian drops rank is defined by the vanishing of a $(d_\theta \times d_\theta)$ minor of an infinite-dimensional Jacobian, which is a polynomial condition in $\theta$.  For a smooth, non-degenerate parametric family, this polynomial is not identically zero, so its zero set has Lebesgue measure zero.
+\end{proof}
+
+\begin{remark}[What generic identification does and does not say]\label{rem:generic}
+Generic identification means: \emph{for almost every true parameter value, MLE is consistent}.  It does \emph{not} guarantee identification at every point---specific parameter configurations (e.g., at the boundary of the parameter space, or at isolated ``observationally equivalent'' points) may fail.  Nor does it speak to \emph{how well-identified} the model is: even if the model is identified, some parameters may be weakly identified if the Jacobian is close to singular, causing large standard errors in finite samples.
+\end{remark}
+
+\medskip\noindent
+Generic identification is reassuring but imprecise.  We now verify identification for the specific parametric specification used in the simulation.
+
+
+\subsection{Identification of the Beta Specification}\label{sec:beta_id}
+
+We verify identification for the specification in the Monte Carlo:
+\begin{align*}
+    h \mid x &\sim \text{Beta}(a, b(x)) \text{ on } [h_{\min}, h_{\max}], \qquad b(x) = b_0 + b_1\, x
+\end{align*}
+with $x \in \{x_1, \ldots, x_{N_x}\}$ drawn from a discrete distribution (or, in the continuous case, from a parametric family $P(x; \psi)$).  In equilibrium, each $x_j$ maps to an entrant rate $r_2^*(x_j)$, inducing the conditional type distribution $F(h|r_2)$ and mixing distribution $G(r_2)$ as described in Remark~\ref{rem:induced}.  The full parameter vector is $\theta = (\alpha, \lambda, a, b_0, b_1, \psi)$, where $\psi$ parameterizes the distribution of~$x$.
+
+\begin{prop}[Identification of the Beta specification]\label{prop:beta_id}
+The parameter vector $\theta = (\alpha, \lambda, a, b_0, b_1, \psi)$ is identified from the joint distribution of $(r_i^{\text{win}}, W_i, D_i)$ if the following conditions hold:
+\begin{enumerate}
+    \item[(C1)] The support of $r_2$ among bank-2 winners contains at least three distinct values.
+    \item[(C2)] $(a, b_0, b_1) \in (0,\infty) \times (0,\infty) \times \mathbb{R} \setminus \{0\}$ (the Beta shape parameter genuinely varies with $x$, and hence with $r_2$).
+    \item[(C3)] $\alpha > 0$ and $\lambda \in \mathbb{R}$.
+    \item[(C4)] $\Pr(W\!=\!2) > 0$ (some borrowers switch).
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We proceed sequentially, using each data feature to pin down a subset of parameters.
+
+\medskip\noindent
+\textbf{Step 1: The functional restriction from $E[D|r_2, W\!=\!2]$.}
+
+Define the function $\delta(r_2) \equiv E[D|r_2, W\!=\!2]$, which is identified from the data.  The model predicts:
+\begin{align}\label{eq:delta}
+    \delta(r_2) = \frac{\int_{h_{\min}}^{h_{\max}} h \cdot (1-s(\sigma^*(h;r_2),r_2)) \cdot f(h \mid r_2; \theta)\, dh}{\int_{h_{\min}}^{h_{\max}} (1-s(\sigma^*(h;r_2),r_2)) \cdot f(h \mid r_2; \theta)\, dh}
+\end{align}
+where $f(h|r_2;\theta)$ is the induced conditional type density at entrant rate~$r_2$ (inheriting the Beta shape from the primitive $F(h|x)$ through the equilibrium mapping), and $\sigma^*(h;r_2)$ depends on $(\alpha, \lambda)$.
+
+This single functional equation in $r_2$ restricts three parameters: $(\alpha, \lambda, a, b_0, b_1)$ jointly.  The key insight is that these five parameters affect $\delta(r_2)$ through distinct channels:
+\begin{itemize}
+    \item $(\alpha, \lambda)$ control the \emph{selection weights} $(1-s)$: how much the adverse-selection reweighting distorts the mean type.  Specifically, $\alpha$ governs the sensitivity of the switching probability to rate differences, while $\lambda$ shifts the level.
+    \item $(a, b_0, b_1)$ control the \emph{base distribution}: the unweighted mean $E[h|r_2]$ and its response to $r_2$.
+\end{itemize}
+
+By (C1), $\delta(r_2)$ is observed at three or more values of $r_2$.  Since $\delta(r_2)$ is not linear in any of the five parameters (due to the nonlinear equilibrium map $\sigma^*$ and the nonlinear Beta density), three or more values generically provide at least three independent nonlinear equations.  
+
+Moreover, the \emph{shape} of $\delta(r_2)$ as a function of $r_2$ is particularly informative.  By (C2), $b_1 \neq 0$, so the Beta distribution genuinely shifts with $r_2$.  The curvature of $\delta(r_2)$ depends jointly on how the Beta distribution changes ($b_1$) and how the selection weights change ($\alpha$).  If $\alpha$ is large, selection is strong and $\delta$ is pulled further below $E[h|r_2]$; if $\alpha$ is small, $\delta \approx E[h|r_2]$ and the curvature is driven by the Beta family alone.
+
+\medskip\noindent
+\textbf{Step 2: The aggregate switching rate.}
+
+The data identify $\Pr(W\!=\!2)$.  The model predicts:
+\begin{align}\label{eq:agg_switch}
+    \Pr(W\!=\!2) = \int \!\int (1 - s(\sigma^*(h;r_2), r_2)) \cdot f(h|r_2;\theta)\, dh\, dG(r_2;\theta)
+\end{align}
+This depends on $(\alpha, \lambda, \theta_F, \psi)$.  Crucially, $\lambda$ enters as an additive shifter in the logit: $s = 1/(1+\exp(\alpha\Delta - \lambda))$.  The aggregate switching rate is therefore monotonically decreasing in $\lambda$ (holding other parameters fixed), which means that once $(\alpha, \theta_F, \psi)$ are pinned down, $\lambda$ is uniquely determined by matching $\Pr(W\!=\!2)$.  This provides the primary direct restriction on $\lambda$.
+
+\medskip\noindent
+\textbf{Step 3: Separation of $(\alpha, \lambda)$ from $\theta_F$.}
+
+The key separating mechanism is that $\alpha$ and $\lambda$ affect both the \emph{level} and the \emph{within-$r_2$ shape} of the default curve $\delta(r_2)$, while $\theta_F$ affects only the \emph{cross-$r_2$ pattern}.  Formally:
+\begin{itemize}
+    \item Fix $r_2$.  The selection weight $(1-s(\sigma^*(h;r_2),r_2))$ is a function of $h$ alone (via $\sigma^*$), parameterized by $(\alpha, \lambda)$.  Higher $\alpha$ makes this weight steeper in $h$ (stronger selection), pulling $\delta(r_2)$ further below $E[h|r_2]$.  The \emph{gap} $E[h|r_2] - \delta(r_2)$ at each $r_2$ disciplines $\alpha$.
+    \item Across $r_2$ values: $\delta(r_2)$ traces a curve whose slope and curvature are governed by $b_1$ (how the type distribution shifts) and $a$ (its shape).  Since $b_1$ enters through the Beta family and $\alpha$ enters through the selection weights---and these are multiplicative in the integrand \eqref{eq:delta}---they generically cannot mimic each other.
+\end{itemize}
+
+\medskip\noindent
+\textbf{Step 4: Identification of $\psi$.}
+
+Given $(\alpha, \lambda, \theta_F)$, the selection probability $\Pr(W\!=\!2|r_2)$ and the equilibrium mapping $x \mapsto r_2^*(x)$ are both determined.  The induced population density of~$r_2$ must satisfy:
+\begin{align*}
+    g_{r_2|W=2}(r_2) = \frac{g(r_2;\theta) \cdot \Pr(W\!=\!2|r_2)}{\Pr(W\!=\!2)}
+\end{align*}
+Since $g_{r_2|W=2}$ is known from data and $\Pr(W\!=\!2|r_2)$ is now determined, $g(r_2;\theta) \propto g_{r_2|W=2}(r_2) / \Pr(W\!=\!2|r_2)$.  This pins down the population distribution of~$r_2$, and since $r_2^*(x)$ is monotone, it pins down the distribution of~$x$ and hence~$\psi$.
+
+\medskip\noindent
+\textbf{Step 5: Overidentification from bank-1 winners.}
+
+Steps~1--4 use only bank-2 winner moments and the aggregate switching rate.  The entire distribution of $(r_1, D)$ among bank-1 winners, given by \eqref{eq:b1_density}, must also be matched by the same $\theta$.  This provides a rich set of overidentifying restrictions.  In particular, the bank-1 data independently constrain $(\alpha, \lambda)$ through the shape of the winning-rate distribution and the conditional default rates $E[D|r_1, W\!=\!1]$.  Any discrepancy between the parameter values implied by bank-1 vs.\ bank-2 moments signals misspecification.
+\end{proof}
+
+\begin{remark}[The role of $b_1 \neq 0$]\label{rem:b1}
+Condition (C2) requires that the type distribution genuinely varies with $r_2$.  If $b_1 = 0$, the Beta distribution is the same at every $r_2$, and the function $\delta(r_2)$ varies only through the selection weights $(\alpha, \lambda)$.  In this case, $\delta(r_2)$ traces the composition of a fixed Beta distribution under varying selection, which restricts $(\alpha, \lambda, a, b_0)$ but reduces the number of independent restrictions.  Identification may still hold (from bank-1 moments), but it is less robust.
+\end{remark}
+
+\begin{remark}[Necessity of three $r_2$ values]\label{rem:three_r2}
+Condition (C1) requires at least three distinct $r_2$ values among bank-2 winners.  With only one $r_2$ value, we are in the M5 setting and identification follows from the nonparametric argument (no parametric $F$ is needed).  With two $r_2$ values, $\delta(r_2)$ provides two restrictions, which combined with $\Pr(W\!=\!2)$ gives three equations for five parameters $(\alpha, \lambda, a, b_0, b_1)$---generically insufficient.  Three values provide the additional curvature information needed to separate the selection effect ($\alpha$) from the distribution shift ($b_1$).
+\end{remark}
+
+\begin{remark}[Practical verification via Monte Carlo]\label{rem:monte_carlo}
+The propositions above are \emph{population} identification results: they state that the true parameter is the unique maximizer of the population log-likelihood.  Whether MLE can recover the parameters in finite samples depends on the strength of identification (the curvature of the likelihood near the optimum).  The Monte Carlo exercise in Section~\ref{sec:simulation} provides the practical verification: if MLE consistently recovers the true parameters across replications and parameter configurations, this confirms both identification and adequate finite-sample performance.
+\end{remark}
+
+\subsection{Intuition: What Each Data Feature Identifies}\label{sec:intuition}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{3.5cm}p{9.5cm}}
+\toprule
+\textbf{Parameter(s)} & \textbf{Primary identifying variation} \\
+\midrule
+$\psi$ \newline (distribution of $\mathbf{x}$) & Distribution of winning rates among bank-2 winners, after correcting for selection.  Since $r_2^*(\mathbf{x})$ maps covariates to entrant rates, the population distribution of $r_2$ (and hence $\psi$) is recovered by inverting the selection distortion: $g(r_2;\theta) \propto g_{r_2|W=2}(r_2)/\Pr(W\!=\!2|r_2)$.  The selection correction depends on $(\alpha, \lambda, \theta_F)$, so $\psi$ is jointly identified with all other parameters. \\[4pt]
+$\theta_F$ \newline (type distribution) & \textbf{How default rates vary with $r_2$ among bank-2 winners.}  If the default rate rises steeply as $r_2$ increases (riskier borrowers face higher entrant rates), this reveals how the type distribution shifts with $r_2$.  The shape of this curve disciplines $\theta_F$ through equation \eqref{eq:d2_restriction}. \\[4pt]
+$\alpha$ \newline (price sensitivity) & \textbf{The severity of adverse selection.} $\alpha$ controls how much the selection function $1-s(h)$ varies with $h$.  High $\alpha$: strong selection, bank-2 winners are much better types than bank-1 winners.  Low $\alpha$: weak selection, default rates are similar across winners.  The \emph{gap} $E[D|W\!=\!2, r_2] - E[D|W\!=\!1, r_1]$ across matched rate levels traces out $\alpha$. \\[4pt]
+$\lambda$ \newline (switching cost) & \textbf{The overall retention rate.}  $\lambda$ shifts bank-1's share uniformly: higher $\lambda$ means $\Pr(W\!=\!1)$ is higher at every rate differential.  The aggregate bank-1 share $\Pr(W\!=\!1)$ provides a direct moment, and conditional shares $\Pr(W\!=\!1|r_2)$ provide a functional restriction. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Conditions for Identification Failure}\label{sec:failure}
+
+Even under Assumption~\ref{ass:parametric}, identification can fail in degenerate cases:
+
+\begin{enumerate}
+    \item \textbf{No bank-2 winners.} If $\lambda$ is very large, $\Pr(W\!=\!2) \approx 0$ and the data contain almost no bank-2 winners.  Without bank-2 winners, we lose the direct observation of $r_2^*$ and the conditional default rates that discipline $\theta_F$ and $\psi$.  In the limit $\Pr(W\!=\!2) = 0$, only bank-1 rates and defaults are observed, and the model collapses to a single-agent pricing problem where $(\alpha, \lambda)$ enter only through a single index $\lambda - \alpha\Delta$---a classic underidentification problem.
+    
+    \item \textbf{No variation in $r_2^*$.} If $\mathbf{x}$ has no effect on $r_2^*$ (or $\mathbf{x}$ is degenerate), the model reduces to M5 where bank~2 plays a single rate.  In this case, identification follows from the M5 argument and the parametric assumptions are unnecessary---but if we \emph{incorrectly} estimate a heterogeneous model, $\psi$ compresses to a point mass and $\theta_F$ effectively loses its $r_2$-dependence, which may cause numerical difficulties.
+    
+    \item \textbf{Overparameterization of $\theta_F$.} If the type distribution $F(h|\mathbf{x};\theta_F)$ has too many free parameters relative to the identifying variation (e.g., allowing flexible higher moments that the data cannot discipline), the model may be locally unidentified even if globally consistent.
+\end{enumerate}
+
+\subsection{Overidentifying Restrictions}\label{sec:overid}
+
+Under the parametric specification, the model is typically \emph{over}identified: the data provide more restrictions than there are free parameters.  Key testable restrictions:
+
+\begin{enumerate}
+    \item \textbf{Consistency of bank-1 and bank-2 moments.}  The parameters $(\alpha, \lambda, \theta_F)$ are disciplined by bank-2 winners (through \eqref{eq:d2_restriction}) and by bank-1 winners (through \eqref{eq:b1_density}).  Any discrepancy between the parameter values implied by each subsample indicates model misspecification.
+    
+    \item \textbf{Adverse selection direction.}  The model predicts $E[D|W\!=\!2, r_2] > E[h|r_2]$ (bank-2 winners are riskier-than-average types, because $1-s$ is increasing in~$h$).  This is testable: if bank-2 winners have \emph{lower} default rates than bank-1 winners with similar rates, the adverse selection story is contradicted.
+    
+    \item \textbf{Linearity of the identifying restriction within strata.}  When conditioning on $r_2$ (observed for bank-2 winners), the M5 identifying restriction $\ln(\alpha m - 1) = \lambda - \alpha\Delta$ should hold.  Bank-2 winners reveal $r_2$, and if we could observe the bank-1 rate that each bank-2 winner \emph{would have} received, we could check this directly.  Instead, the restriction is embedded in the likelihood through $\sigma^*(h;r_2)$.
+    
+    \item \textbf{Bank-2's FOC.}  Having estimated $(\alpha, \lambda, \theta_F)$, the model predicts a specific $r_2^*(r_2)$ at each covariate value---i.e., the bank-2 FOC \eqref{eq:r2} should be satisfied.  The predicted distribution of $r_2^*$ must match the observed distribution among bank-2 winners (after selection correction).
+\end{enumerate}
+
+
+%===========================================================================
+%  SECTION 5: LIKELIHOOD
+%===========================================================================
+
+\newpage
+\section{Likelihood}\label{sec:likelihood}
+
+The likelihood follows from the identification argument.
+
+\subsection{Bank-1 Winners ($W_i = 1$)}
+
+The entrant rate $r_2$ is latent; we marginalize over $G$:
+\begin{align}\label{eq:L1}
+    \boxed{\mathcal{L}_i^{(1)}(\theta) = \int_{\mathcal{R}_2(r_i^{\text{win}})} f\!\big(\tau(r_i^{\text{win}}; r_2) \mid r_2;\theta\big) \cdot \tau'(r_i^{\text{win}}; r_2) \cdot s(r_i^{\text{win}}, r_2) \cdot h^{D_i}(1\!-\!h)^{1-D_i} \cdot g(r_2;\theta)\, dr_2}
+\end{align}
+with $h = \tau(r_i^{\text{win}}; r_2)$.
+
+\subsection{Bank-2 Winners ($W_i = 2$)}
+
+The entrant rate is observed ($r_i^{\text{win}} = r_2$); the type $h$ is latent:
+\begin{align}\label{eq:L2}
+    \boxed{\mathcal{L}_i^{(2)}(\theta) = g(r_i^{\text{win}};\theta) \cdot \int_{\underline{h}}^{\bar{h}} \big(1-s(\sigma^*(h;r_i^{\text{win}}), r_i^{\text{win}})\big) \cdot h^{D_i}(1-h)^{1-D_i} \cdot f(h \mid r_i^{\text{win}};\theta)\, dh}
+\end{align}
+
+\subsection{Full Log-Likelihood}
+
+\begin{align}\label{eq:L_full}
+    \ell(\theta) = \sum_{i=1}^N \Big[\mathbf{1}(W_i=1)\ln \mathcal{L}_i^{(1)}(\theta) + \mathbf{1}(W_i=2)\ln \mathcal{L}_i^{(2)}(\theta)\Big]
+\end{align}
+
+
+\subsection{Computational Strategy}\label{sec:computation}
+
+\begin{enumerate}
+    \item Pre-compute $\sigma^*(h; r_2)$ on a fine grid of $(h, r_2)$ values.
+    \item Construct $\tau(r_1; r_2)$ by numerical inversion on the same grid.
+    \item Evaluate the integrals in \eqref{eq:L1}--\eqref{eq:L2} by quadrature.
+    \item Key efficiency: the equilibrium grid depends only on $(\alpha, \lambda)$, not on $(\theta_F, \psi)$.  When only $\theta_F$ or $\psi$ changes, reuse the pre-computed grid.
+\end{enumerate}
+
+
+%===========================================================================
+%  SECTION 6: MONTE CARLO SIMULATION
+%===========================================================================
+
+\newpage
+\section{Monte Carlo Simulation}\label{sec:simulation}
+
+The identification theory is validated through Monte Carlo simulation. The code is in \texttt{Code/model6/}.
+
+\subsection{Data Generating Process}\label{sec:dgp}
+
+\textbf{Grids.} $x \in \{x_1, \ldots, x_{N_x}\}$ and $h \in \{h_1, \ldots, h_{N_h}\}$ on equally spaced grids.
+
+\textbf{Joint distribution.} $P(x=x_j, h=h_k)$ specified as an $N_x \times N_h$ probability matrix.  The conditional $P(h|x)$ is constructed using a Beta density with shape parameter depending on $x$, so that higher $x$ implies riskier borrowers.  Parameters are set in \texttt{params.m}.
+
+\textbf{Equilibrium.} Solved for each $x_j$ using the nested algorithm (iterate on $r_2^*$ with damped best-response updates; within each iteration, solve bank-1's FOC by Brent's method for each $h_k$).
+
+\textbf{Data generation.} $N$ borrowers drawn from $P(x,h)$; equilibrium rates assigned; winner drawn from logit shares; default drawn from Bernoulli($h$).
+
+\subsection{Identification Checks}\label{sec:id_checks}
+
+\begin{enumerate}
+    \item \textbf{Bank-2 rate constancy within $x$.}  Among bank-2 winners with the same $x$, all winning rates should be identical ($r_i^{\text{win}} = r_2^*(x)$).  Confirms equilibrium is correctly computed.
+    
+    \item \textbf{Type recovery (conditional on $x$).}  Among bank-1 winners, $E[D_i \mid r_i^{\text{win}}, x_i]$ should equal $h_i$ (the M5 argument applies within each $x$-stratum).
+    
+    \item \textbf{Linear identifying restriction.}  $\ln(\alpha m - 1) = \lambda - \alpha\Delta$ should hold across all $(h, x)$ pairs.  Verified on population and simulated data.
+    
+    \item \textbf{Adverse selection.}  $E[D|W\!=\!2, x] > E[D|W\!=\!1, x]$ for each $x$ value.
+\end{enumerate}
+
+\subsection{Estimation Exercise}\label{sec:estimation_exercise}
+
+The identification analysis is tested by:
+\begin{enumerate}
+    \item Simulating data under multiple parameter configurations (varying $\alpha$, $\lambda$, $\theta_F$).
+    \item Estimating the model via MLE for each configuration.
+    \item Comparing estimated to true parameters.
+\end{enumerate}
+The driver script \texttt{run\_identification.m} automates this, saving simulation and estimation results per configuration.  If the model is identified, the MLE should recover the true parameters as $N$ grows.
+
+
+%===========================================================================
+%  SECTION 7: DISCUSSION
+%===========================================================================
+
+\newpage
+\section{Discussion}\label{sec:discussion}
+
+\subsection{Comparison of Identification Across Models}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{2.5cm}p{3.5cm}p{3.5cm}p{3.5cm}}
+\toprule
+& \textbf{M5} \newline (no heterogeneity) & \textbf{M6 with $\mathbf{x}$} \newline (covariates observed) & \textbf{M6 without $\mathbf{x}$} \newline (this document) \\
+\midrule
+$r_2$ observation & Single constant & Constant within $\mathbf{x}$ & Distribution \\[2pt]
+Type recovery & Exact: \newline $E[D|r_1, W\!=\!1] = h$ & Exact within $\mathbf{x}$: \newline $E[D|r_1, W\!=\!1, \mathbf{x}] = h$ & Mixture: \newline $E[D|r_1, W\!=\!1]$ is a weighted avg \\[2pt]
+$(\alpha, \lambda)$ & Nonparametric \newline (linear restriction) & Nonparametric \newline (overidentified) & Parametric \newline (via $F$, $G$ families) \\[2pt]
+$F$ & Nonparametric & Nonparametric within $\mathbf{x}$ & Parametric $F(h|\mathbf{x};\theta_F)$ \\[2pt]
+Key assumption & Logit demand & Logit demand & Logit + parametric $F$, $G$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Sensitivity to Parametric Assumptions}
+
+The parametric assumptions in Assumption~\ref{ass:parametric} are the price of not observing $\mathbf{x}$.  Several strategies can test sensitivity:
+
+\begin{enumerate}
+    \item \textbf{Flexible families.}  Use distributions with enough parameters to nest multiple shapes (e.g., 4-parameter beta, or a mixture of betas for $F$; a mixture of normals for $G$).  If estimates are stable across flexible specifications, the parametric assumption is not driving the results.
+    
+    \item \textbf{Partial observability.} When some covariates $\mathbf{z} \subseteq \mathbf{x}$ are observed, conditioning on $\mathbf{z}$ tightens the mixtures and reduces dependence on parametric assumptions.  Comparing estimates with and without conditioning on $\mathbf{z}$ reveals how much the parametric assumptions matter.
+    
+    \item \textbf{Specification tests.} The overidentifying restrictions in Section~\ref{sec:overid} provide formal tests of the parametric model.  Rejection indicates the parametric family is too restrictive.
+\end{enumerate}
+
+\subsection{Extensions}
+
+\begin{enumerate}
+    \item \textbf{Multi-product data.}  If the same borrower has multiple loan products, the common $(h, \mathbf{x})$ generates correlated rates across products, providing additional identification.
+    
+    \item \textbf{Panel data.}  Within-borrower variation in $r_2^*$ (driven by $\mathbf{x}$ changes over time) can be used to condition on $r_2$, reducing the mixture problem.
+    
+    \item \textbf{Semiparametric approaches.}  Rather than fully parametric $F$ and $G$, one could use sieve estimation or Bayesian nonparametric priors (e.g., Dirichlet process mixtures) to flexibly approximate the distributions while maintaining enough structure for identification.
+\end{enumerate}
+
+
+\end{document}
