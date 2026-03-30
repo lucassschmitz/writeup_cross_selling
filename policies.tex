@@ -506,6 +506,32 @@ Ley fintech and open finance (21,521) is still being implemented, with the open 
 
 \newpage 
 
+\section{Ley REDEC (21130)}
+
+agrega los emisores de tarjetas de credito no bancarios (ETNB) a la nomina de deudores que previo a esta ley solo incluia a bancos y sociedades de apoyo al giro que otorgaban credito ademas de coperativas de ahorro y credito. 
+
+
+
+
+\subsubsection{\textcite{cmf_cmf_2021}}
+
+"Actualmente, la nómina de deudores se construye con la información que remiten los bancos, las sociedades de apoyo al giro colocadoras de créditos y las cooperativas de ahorro y crédito fiscalizadas por la Comisión." a estas se unieron en 2021 las emisores de credito no bancarios, al agregarlas al sistema se les habilita a recibir la nomina para lo cual tambien deben emitir la info sobre sus propios deudores.  [pag 3]
+
+\textcolor{red}{es la nomina de deudores lo que se comparte en R04?} 
+
+
+\subsubsection{\textcite{cmf_msi_2025}: Manual del Sistema de Informacion (MSI) }
+
+Contiene la estructura del archivo RDC10. 
+
+
+
+\subsubsection{\textcite{cmf_informe_2025}: Manual del Sistema de Informacion (MSI) }
+
+El REDEC contendrá información agregada y consolidada de parte relevante de las obligaciones crediticias de las personas, incluyendo monto de deuda, tipo de crédito, plazos de vencimiento y estado del pago.
+
+
+
 \section{Ley REDEC (21680)}
 Ley 21680 on REDEC which incorporates positive information to the previous system. This systme extends information to non-bank lenders  moreover the new system includes positive information (\cite{marcel_proyecto_2022}). 
 
@@ -516,7 +542,31 @@ Ley 21680 on REDEC which incorporates positive information to the previous syste
 
 \subsection{Some documents explain}
 
+\subsubsection{\textcite{berstein_desarrollo_2020}}
 
+
+- Mayor informacion crediticia evitaria restricciones de acceso a credito por prejuicios respecto a determinados sectores en base a origen étnico, género, nivel socio económico u otros. [slide 2]
+
+
+- Menciona que los registros de credito en general recolectan info para uso interno del supervisor [slide 4] y luego dice que en Chile es administrado por la CMF y que cuenta con info posiitva y negativa [slide 6]. Y extender el sistema de informacion permitira acceder a informacion positiva de oferentes de credito no bancarios (OCNB) que son 20\% de la deuda de consumo y 9\% de la hipotecaria [slide 6]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/Screenshots/berstein_2020.png}
+    \caption{The number of indiviudals in DICOM decreases in 2012 with the credit deletion law.}
+    \label{fig:yourlabel}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/Screenshots/berstein_2020(2).png}
+    \caption{No source in the report. Bank commerical debt is 65\% in 2016 and 61\% in 2020. The rest is non-bank debt.}
+    \label{fig:yourlabel}
+\end{figure}
+
+
+ 
 \subsubsection{\textcite{marcel_proyecto_2022}}
 
 - la poblacion chilena tiene altos niveles de endeudamiento, y este sobrendeudamiento es visto como algo malo que hay que regular.
@@ -573,10 +623,14 @@ Previo y con  REDEC [slide 9-11]:
 
 - Previo: acreedores envian informacion al Boletin Comercial y luego este provee informacion a distribuidores de informacion privados. Informacion solo negativa.
     
-- Post: instituciones financieras envian info a la CMF y esta comparte con instituciones financieras y con individuos..
+- Post: instituciones financieras envian info positiva y negativa a la CMF y esta comparte con instituciones financieras y con individuos.
+
+\textcolor{red}{Dice que a partir de 2022 la nomina de deudores comienza a incorporar obligaciones asociadas a emisores no bancarios de tarjetas de credito y se aumenta la frecuencia de mensual a semanal. [slide 11] [entender esto bien porque tal vez para el sector de tarjetas hay un shock informacional en 2022 que ya podriamos utilizar en vez de tener que esperar hasta 2022.]}
     
+Slide 14 explica que REDEC amplía número de entidades reportantes de deuda positiva. Previamente eran solo bancos, cooperativas de mayor tamaño y emisores de tarjeta (retail), mientras que REDEC agrega compañías de seguros y mutuarias, cooperativas no supervisadas por la CMF,  cajas de compensación, securitizadoras y otros, que la CMF establezca mediante  norma. 
 
 Slide 17: Los reportantes deberán contar con el consentimiento del deudor para acceder a información positiva. No así, para información negativa (incumplimiento de obligaciones).
+
 
 \subsubsection{\textcite{cowan_proyecto_2022}}
 
@@ -610,7 +664,6 @@ Este informe es el que genera las figuras \ref{fig:marcel1} y \ref{fig:marcel2} 
 
 \subsubsection{\textcite{banco_central_informe_2018}}
 Similar a \textcite{banco_central_informe_2019} muestra que deudores con hipotecas en ambos sitemas tienen tasas de incumplimiento mas altas.
-
 
 \subsubsection{\textcite{banco_central_informe_2019-1}}
 
@@ -655,6 +708,14 @@ El Boletin de Informaciones Comercial (BIC) es el banco oficial de protestos y m
 Questions: 
 
 \begin{itemize}
+
+    \item \textbf{Que es lo que cambia REDEC respecto a la situacion inicial? }
+    
+    "La principal ganancia de una eventual extensión del sistema de información en Chile sería acceder a información positiva respecto de los oferentes de crédito no  bancarios" (\cite{berstein_desarrollo_2020}) \textcolor{red}{esto implicaria que esta informacion seria compartida para bancos y OCNB? entonces la "ganancia" en terminos de informacion para un no banco es mayor que para un banco, porque este ultimo solo empieza a recibir info de OCNB y ya recibia de banocs, mientras que el no banco empieza a recibir info de bancos y de otros no bancos?} 
+
+    "As a result,  banks may learn a borrower’s total bank debt and bank defaults, but may only observe  reported defaults from non-banks (i.e., cannot access non-bank debt balances). In turn,  non-banks can only learn an individuals’ bank and non-bank defaults from the credit  bureau, but not the level of bank or non-bank consumer credit." (\cite{liberman_equilibrium_2018})
+
+    \textcolor{red}{Que sistema es el que ya distribuia informacion positiva entre bancos? el boletin comercial? o el sistema de informacion de deudores? o ambos? }
 
     \item \textbf{Does REDEC share information prior to its implementation? It is implemented in april of 2026, if I borrowed in 2025, would that be included in the system?}
 
