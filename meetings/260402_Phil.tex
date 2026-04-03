@@ -1,0 +1,176 @@
+%\documentclass[notes,10pt,aspectratio=169]{beamer}
+\documentclass[10pt,aspectratio=169]{beamer}
+
+\usetheme[progressbar=frametitle]{metropolis}
+\usecolortheme{rose}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+\tikzstyle{block} = [rectangle, draw, text width=4cm, align=center, rounded corners, minimum height=1cm]
+\tikzstyle{decision} = [rectangle, draw, text width=5cm, align=center, fill=blue!10, rounded corners, minimum height=1cm]
+\tikzstyle{terminal} = [rectangle, draw, text width=4.5cm, align=center, fill=yellow!30, rounded corners, minimum height=1cm]
+\tikzstyle{end} = [rectangle, draw, text width=5cm, align=center, fill=green!30, rounded corners, minimum height=1cm]
+\tikzstyle{arrow} = [->, thick]
+
+\usepackage{adjustbox}
+\setbeamertemplate{itemize item}[triangle]
+
+\definecolor{accent}{RGB}{78,205,196}
+\setbeamercolor{frametitle}{fg=black,bg=white}
+\setbeamercolor{item}{fg= orange!80}
+\setbeamercolor{button}{bg=orange, fg=white}
+
+%% BibLaTeX disabled (no citations in this presentation)
+% \usepackage[backend=biber, style=apa, citestyle=authoryear]{biblatex}
+% \addbibresource{../references.bib}
+
+\title{Meeting with Phil}
+\author{Lucas Schmitz\inst{1}}
+\institute{\inst{1} Yale University}
+\date{April 2, 2026}
+
+\begin{document}
+
+
+%-------------------------------
+\begin{frame}{Last Meeting (6 February)}
+\textbf{What we discussed:}
+\begin{itemize}
+    \item Talked about cross-selling  
+    \item Presented a model of switching costs with persistence in preferences
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Today's meeting:}
+\begin{itemize}
+    \item Economics of policies that change lenders' information sets
+    \item Data we would have access to
+    \item Structural model for estimation
+\end{itemize}
+\end{frame}
+
+%-------------------------------
+\begin{frame}{Policies that affect the amount of public information for lenders}
+
+
+\textbf{Internationally:}
+\begin{itemize}
+    \item Fair Credit Reporting Act (FCRA) sets  Time limits (e.g. 10 years for bankruptcies)
+    \item Open Banking Policies (e.g. in the UK) require banks to share customer data (including balances and transactions) with third parties  
+\end{itemize}
+
+\textbf{In Chile:}
+\begin{itemize}
+    \item Restrictions to credit bureaus information. They deleted delinquencies for short term unemployed individuals, excluded credit inquiries from credit scores and once they erased default histories for amounts below \$1,500. 
+    \item Expand the reporting entities: incorporated credit cards by retailers (law 21,130) and incorporated other non-bank lenders (law 21,680)
+\end{itemize}
+\end{frame}
+
+
+%-------------------------------
+%-------------------------------
+\begin{frame}{Economics of changing lenders' information sets }
+\begin{itemize}
+    \item \textbf{Setup:} Incumbent bank has private info on borrowers, rival banks do not
+    \item Effects of policies that expand public information:
+    \begin{enumerate}
+        \item \textbf{Reduces adverse selection:} switchers are no longer assumed to be lemons 
+        \item \textbf{Reduces incumbent's information rents:} Incumbent's advantage came from knowing $h$ (default probability) when rivals did not. If rivals can also screen, the ``winner's curse'' weakens $\Rightarrow$ incumbent's market power falls
+        \item \textbf{Affects negatively risky borrowers:} uninformed lenders may raise their rates or deny them credit
+    \end{enumerate}
+\end{itemize}
+\textbf{Predictions:}
+\begin{itemize}
+    \item[P1.] Switching rates increase for good borrowers (rival banks price more aggressively)
+    \item[P2.] Interest rates fall for good borrowers (separating $\to$ competitive pricing)
+    \item[P3.] Default rates of switchers decrease  (reduction of adverse selection) 
+    \item[P4.] Negative effect on risky borrowers: may face higher rates or lose access
+\end{itemize}
+\end{frame}
+
+
+
+
+%-------------------------------
+%-------------------------------
+\begin{frame}{Data: Chilean Administrative Credit Records (CMF)}
+
+\vspace{0.3cm}
+\textbf{Individual-level data on:}
+\begin{itemize}
+    \item \textbf{Credit cards} (bank \& non-bank): usage, payments, delinquency
+    \item \textbf{Loans:} amounts, interest rates, payment plans, maturities, delinquency
+    \item \textbf{Accounts} (checking, savings): balances and transactions
+\end{itemize}
+
+\textbf{Unit of observation:} borrower $\times$ lender $\times$ month.
+\end{frame}
+
+
+%-------------------------------
+%-------------------------------
+\begin{frame}{Structural Model: Two-Period Game}
+ 
+\textbf{Period 1 --- First loan:}
+\begin{itemize}
+    \item Two banks compete on rate $r_{j1}$; neither observes borrower type $h \sim F(h)$
+    \item Winning bank learns $h$ from the relationship; borrower develops switching cost $\lambda$
+\end{itemize}
+
+\vspace{0.2cm}
+\textbf{Period 2 --- Second loan:}
+\begin{itemize}
+    \item Incumbent  sets rate $r_{12} = \sigma^*(h)$ and rival sets $r_{22} = r_2^*$
+    \item Borrower chooses via demand: $\; s(r_{12}, r_{22}) = \dfrac{1}{1 + \exp(\alpha(r_{12} - r_{22}) - \lambda)}$
+\end{itemize}
+
+\vspace{0.2cm}
+\textbf{Backward induction:} Period-2 equilibrium yields continuation values $V^I > V^R > 0$. In Period 1, each bank solves:
+$$\max_{r_{j1}} \;\; s(r_{j1}, r_{-j1}) \cdot \Big[\,E_h[(1-h)\,r_{j1} - 1] + \Delta V\,\Big], \qquad \Delta V = V^I - V^R$$
+Banks price Period-1 loans below break-even to secure the incumbent position in Period 2.
+\end{frame}
+
+
+%-------------------------------
+%-------------------------------
+\begin{frame}{Structural Model: Period-2 Equilibrium}
+
+\textbf{Incumbent (bank 1)} prices each type at break-even $+$ markup:
+$$\sigma^*(h) = \underbrace{\frac{1}{1-h}}_{\text{break-even}} + \underbrace{\frac{1}{\alpha\big(1-s(\sigma^*(h), r_2^*)\big)}}_{\text{markup}}$$
+
+\vspace{0.2cm}
+\textbf{Rival (bank 2)} sets a single rate:
+$$r_2^* = \frac{1}{1 - \tilde{h}} + \frac{1}{\alpha}\cdot\frac{\int (1-s)(1-h)\, dF}{\int s\,(1-s)(1-h)\, dF}$$
+
+\vspace{0.2cm}
+\textbf{Primitives to estimate:} $\alpha$ (price sensitivity), $\lambda$ (switching cost), $F(h)$ (type distribution)
+\end{frame}
+
+
+%-------------------------------
+%-------------------------------
+\begin{frame}{Structural Model: Identification}
+\begin{itemize}
+    \item Observables: winning rate $r_i^{\text{win}}$, winning bank $W_i \in \{1,2\}$, default $D_i \in \{0,1\}$
+    \item Sequential identification:
+    \begin{enumerate}
+        \item \textbf{Rival rate:} $r_2^*$ identified as the common rate among bank-2 winners
+        \item \textbf{Type recovery:} $E[D_i \mid r_i^{\text{win}} = r,\, W_i = 1] = h$ \; $\Rightarrow$ invert $\sigma^*$ to recover each borrower's type    
+        \item \textbf{$\alpha$ and $\lambda$:} From the equilibrium FOC, for any two types $h_a \neq h_b$:
+        $$\ln\!\big(\alpha\, m(h) - 1\big) \;=\; \lambda \;-\; \alpha\,\Delta(h)$$
+        where $m(h) = \sigma^*(h) - \tfrac{1}{1-h}$ is the markup and $\Delta(h) = \sigma^*(h) - r_2^*$ is the rate gap. Slope identifies $\alpha$; intercept identifies $\lambda$.
+    \item \textbf{Type distribution:} $F(h)$ recovered from bank-1 winners, correcting for selection via $s(h)$
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+
+ 
+\end{document}
